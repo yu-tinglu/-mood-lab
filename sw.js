@@ -1,5 +1,5 @@
 // MOOD LAB service worker — offline support. Bump VERSION to force a refresh.
-const VERSION = 'moodlab-v2';
+const VERSION = 'moodlab-v3';
 const CORE = ['./', 'index.html', 'site.webmanifest', 'mood-icon-192.png', 'mood-icon-512.webp', 'apple-touch-icon.png'];
 
 self.addEventListener('install', e => {
