@@ -1,0 +1,433 @@
+
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#f5f0e5">
+<title>MOOD LAB｜個人心情研究室</title>
+<style>
+:root {
+  --paper:#f5f0e5; --card:#fffdf7; --ink:#34382f;
+  --muted:#858577; --yellow:#d6ad43; --green:#899681;
+  --line:#e5dfd1; --red:#bd796c; --shadow:0 5px 22px #453c2510;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);
+font-family:Georgia,"Noto Serif TC","Microsoft JhengHei",serif}
+button,input,textarea,select{font:inherit}
+button{cursor:pointer}
+.app{max-width:1200px;margin:auto;padding:26px 22px 60px}
+header{display:flex;justify-content:space-between;align-items:center;
+border-bottom:1px solid var(--line);padding-bottom:20px;margin-bottom:25px}
+.brand small{letter-spacing:4px;color:var(--green);font:11px Arial}
+.brand h1{font-size:27px;letter-spacing:2px;margin:5px 0}
+.date{font-size:12px;color:var(--muted);text-align:right}
+.layout{display:grid;grid-template-columns:205px 1fr;gap:25px}
+nav{display:flex;flex-direction:column;gap:7px}
+nav button{border:0;background:transparent;text-align:left;padding:13px 14px;
+border-radius:9px;color:#686b5f}
+nav button.active,nav button:hover{background:#e8e1ce;color:var(--ink)}
+nav button span{display:inline-block;width:25px;color:var(--green)}
+main{min-width:0}
+.page{display:none}.page.active{display:block}
+.heading{margin:0 0 5px;font-size:25px;font-weight:normal}
+.sub{color:var(--muted);font-size:13px;margin:0 0 22px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:13px;
+padding:19px;box-shadow:var(--shadow);margin-bottom:15px}
+.card h3{font-size:14px;font-weight:normal;color:var(--muted);margin:0 0 13px}
+.metric{font-size:30px;color:#7d896f}
+.metric small{font-size:12px;color:var(--muted)}
+.wide{grid-column:span 2}
+button.primary{background:var(--yellow);border:0;border-radius:8px;
+padding:11px 18px;color:#302c20}
+button.secondary{background:#eee9dc;border:0;border-radius:8px;padding:10px 15px}
+button.danger{background:#f4e6e1;color:#934f45;border:0;border-radius:8px;padding:10px 15px}
+.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:15px}
+label{display:block;font-size:13px;color:#66695d;margin:15px 0 7px}
+input,textarea,select{width:100%;padding:11px;border:1px solid var(--line);
+border-radius:8px;background:#fffefa;color:var(--ink);outline-color:var(--green)}
+textarea{min-height:100px;resize:vertical}
+.fieldgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.rating{display:flex;gap:8px;flex-wrap:wrap}
+.rating button{border:1px solid var(--line);background:#fffefa;
+border-radius:8px;padding:10px 13px}
+.rating button.selected{background:#e8dfc7;border-color:var(--yellow)}
+.taglist{display:flex;gap:8px;flex-wrap:wrap}
+.taglist label{margin:0}
+.taglist input{width:auto}
+canvas{width:100%;height:190px}
+.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
+.day{min-height:65px;background:#f6f2e9;border-radius:7px;padding:7px;
+font-size:12px;color:var(--muted)}
+.day .dot{display:block;width:10px;height:10px;border-radius:50%;margin-top:9px}
+.day.today{outline:1px solid var(--yellow)}
+.dayhead{text-align:center;font-size:11px;color:var(--muted);padding:7px}
+.record{padding:13px 0;border-bottom:1px solid var(--line);font-size:13px}
+.record:last-child{border:0}
+.record strong{color:#78866f}
+.empty{color:var(--muted);font-size:13px;padding:12px 0}
+footer{text-align:center;color:#aaa28f;font:11px Arial;margin-top:35px;letter-spacing:1px}
+@media(max-width:720px){
+ .app{padding:18px 13px 40px}
+ .layout{grid-template-columns:1fr;gap:12px}
+ nav{display:grid;grid-template-columns:repeat(4,1fr);gap:4px}
+ nav button{font-size:11px;text-align:center;padding:10px 3px}
+ nav button span{display:block;width:auto}
+ .grid{grid-template-columns:1fr 1fr}
+ .wide{grid-column:span 2}
+ .fieldgrid{grid-template-columns:1fr}
+ header{align-items:flex-start}
+}
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+  <div class="brand">
+    <small>PERSONAL OBSERVATION PROJECT</small>
+    <h1>MOOD LAB <span style="color:#d0aa4b">✳</span></h1>
+    <div style="font-size:12px;color:#858577">把感受變成可理解的資料。</div>
+  </div>
+  <div class="date" id="today"></div>
+</header>
+
+<div class="layout">
+<nav id="nav">
+  <button class="active" data-page="home"><span>⌂</span>總覽</button>
+  <button data-page="daily"><span>✎</span>每日紀錄</button>
+  <button data-page="quick"><span>＋</span>即時觀察</button>
+  <button data-page="calendar"><span>▦</span>情緒日曆</button>
+  <button data-page="data"><span>⌁</span>數據中心</button>
+  <button data-page="lab"><span>⌕</span>研究室</button>
+  <button data-page="settings"><span>⚙</span>資料管理</button>
+</nav>
+
+<main>
+<section class="page active" id="home">
+  <h2 class="heading">今日觀察</h2>
+  <p class="sub">先理解自己，再理解數據。沒有標準答案。</p>
+  <div class="grid">
+    <div class="card"><h3>今日心情</h3><div class="metric" id="homeMood">—</div><small>最近一次每日紀錄</small></div>
+    <div class="card"><h3>平均能量</h3><div class="metric" id="homeEnergy">—</div><small>近 7 筆紀錄</small></div>
+    <div class="card"><h3>紀錄天數</h3><div class="metric" id="homeDays">0</div><small>累積每日紀錄</small></div>
+    <div class="card wide"><h3>最近的心情變化</h3><canvas id="homeChart"></canvas></div>
+    <div class="card"><h3>研究筆記</h3><p id="homeNote" style="font-size:13px;color:#858577">每一筆紀錄，都是理解自己的線索。</p>
+      <button class="secondary" onclick="showPage('daily')">開始今天的紀錄 →</button>
+    </div>
+  </div>
+  <div class="card"><h3>最近的即時觀察</h3><div id="recentQuick" class="empty">目前還沒有即時紀錄。</div></div>
+</section>
+
+<section class="page" id="daily">
+  <h2 class="heading">每日紀錄</h2>
+  <p class="sub">用幾分鐘，留下今天的狀態。</p>
+  <div class="card">
+    <label>紀錄日期</label><input type="date" id="dDate">
+    <label>今天的整體心情</label>
+    <div class="rating" id="moodRating">
+      <button data-value="1">1 很低落</button><button data-value="2">2 不太好</button>
+      <button data-value="3">3 普通</button><button data-value="4">4 不錯</button>
+      <button data-value="5">5 很愉快</button>
+    </div>
+    <div class="fieldgrid">
+      <div><label>能量程度（1–10）</label><input type="number" id="dEnergy" min="1" max="10" value="5"></div>
+      <div><label>壓力程度（1–10）</label><input type="number" id="dStress" min="1" max="10" value="5"></div>
+      <div><label>睡眠時數</label><input type="number" id="dSleep" min="0" max="24" step=".5" placeholder="例如 7.5"></div>
+      <div><label>身體狀態</label><select id="dBody"><option>正常</option><option>疲倦</option><option>疼痛</option><option>不舒服</option><option>生病</option><option>其他</option></select></div>
+    </div>
+    <label>今天的情緒標籤</label>
+    <div class="taglist" id="dTags">
+      <label><input type="checkbox" value="平靜"> 平靜</label>
+      <label><input type="checkbox" value="焦慮"> 焦慮</label>
+      <label><input type="checkbox" value="煩躁"> 煩躁</label>
+      <label><input type="checkbox" value="開心"> 開心</label>
+      <label><input type="checkbox" value="疲憊"> 疲憊</label>
+      <label><input type="checkbox" value="失落"> 失落</label>
+      <label><input type="checkbox" value="有成就感"> 有成就感</label>
+      <label><input type="checkbox" value="期待"> 期待</label>
+    </div>
+    <label>今天發生了什麼？</label><textarea id="dEvent" placeholder="記錄事件、情境或觸發因素……"></textarea>
+    <label>我對這件事的想法</label><textarea id="dThought" placeholder="當時怎麼想？後來有沒有改變？"></textarea>
+    <label>其他日記／補充</label><textarea id="dNote" placeholder="任何想留下的內容……"></textarea>
+    <div class="actions"><button class="primary" onclick="saveDaily()">儲存紀錄</button><button class="secondary" onclick="clearDaily()">清空欄位</button></div>
+  </div>
+  <div class="card"><h3>近期每日紀錄</h3><div id="dailyList" class="empty">尚無紀錄。</div></div>
+</section>
+
+<section class="page" id="quick">
+  <h2 class="heading">即時觀察</h2>
+  <p class="sub">情緒突然出現時，不需要等到晚上才記錄。</p>
+  <div class="card">
+    <label>發生時間</label><input type="datetime-local" id="qTime">
+    <label>當下的情緒</label><select id="qMood"><option>焦慮</option><option>生氣</option><option>委屈</option><option>難過</option><option>害怕</option><option>開心</option><option>平靜</option><option>其他</option></select>
+    <label>情緒強度（1–10）</label><input type="range" id="qIntensity" min="1" max="10" value="5" oninput="qIntensityLabel.textContent=this.value">
+    <div style="font-size:12px;color:#858577">強度：<span id="qIntensityLabel">5</span></div>
+    <label>發生了什麼事？</label><textarea id="qEvent" placeholder="盡量描述客觀發生的事情……"></textarea>
+    <label>身體反應</label><input id="qBody" placeholder="例如：心跳加快、肩膀緊繃、胃不舒服">
+    <label>當下腦中的想法</label><textarea id="qThought" placeholder="我當時第一個想到的是……"></textarea>
+    <div class="actions"><button class="primary" onclick="saveQuick()">留下這筆觀察</button></div>
+  </div>
+  <div class="card"><h3>即時觀察紀錄</h3><div id="quickList" class="empty">尚無紀錄。</div></div>
+</section>
+
+<section class="page" id="calendar">
+  <h2 class="heading">情緒日曆</h2>
+  <p class="sub">觀察情緒在時間上的分布，而不是評價好壞。</p>
+  <div class="card">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:15px">
+      <button class="secondary" onclick="changeMonth(-1)">← 上個月</button>
+      <strong id="monthTitle"></strong>
+      <button class="secondary" onclick="changeMonth(1)">下個月 →</button>
+    </div>
+    <div class="calendar" id="calendarGrid"></div>
+    <p style="font-size:11px;color:#858577">● 心情 1–2：低落　● 3：普通　● 4–5：愉快</p>
+  </div>
+  <div class="card"><h3>當月紀錄</h3><div id="monthRecords" class="empty"></div></div>
+</section>
+
+<section class="page" id="data">
+  <h2 class="heading">數據中心</h2>
+  <p class="sub">讓長期變化慢慢浮現。資料不足時，不急著下結論。</p>
+  <div class="grid">
+    <div class="card"><h3>平均心情</h3><div class="metric" id="avgMood">—</div></div>
+    <div class="card"><h3>平均能量</h3><div class="metric" id="avgEnergy">—</div></div>
+    <div class="card"><h3>平均壓力</h3><div class="metric" id="avgStress">—</div></div>
+  </div>
+  <div class="card"><h3>心情趨勢</h3><canvas id="moodChart"></canvas></div>
+  <div class="card"><h3>能量與壓力</h3><canvas id="energyChart"></canvas></div>
+  <div class="card"><h3>情緒標籤出現次數</h3><div id="tagStats" class="empty"></div></div>
+</section>
+
+<section class="page" id="lab">
+  <h2 class="heading">個人研究室</h2>
+  <p class="sub">提出問題、累積觀察，再回頭檢視自己的假設。</p>
+  <div class="card">
+    <h3>我的研究問題</h3>
+    <label>研究主題</label><input id="rTitle" placeholder="例如：睡眠與情緒的關係">
+    <label>想驗證的假設</label><textarea id="rQuestion" placeholder="例如：睡眠不足時，我的壓力評分是否比較高？"></textarea>
+    <button class="primary" onclick="saveResearch()">儲存研究題目</button>
+  </div>
+  <div class="card"><h3>研究清單</h3><div id="researchList" class="empty">尚無研究題目。</div></div>
+  <div class="card">
+    <h3>研究提醒</h3>
+    <p style="font-size:13px;line-height:1.8;color:#77796d">
+    相關不等於因果。單次事件不代表長期模式；紀錄越完整，越有機會觀察到重複出現的情境。
+    這裡是自我觀察工具，不是臨床診斷量表。
+    </p>
+  </div>
+</section>
+
+<section class="page" id="settings">
+  <h2 class="heading">資料管理</h2>
+  <p class="sub">資料預設保存在目前這台裝置的瀏覽器。</p>
+  <div class="card">
+    <h3>匯出資料</h3>
+    <p style="font-size:13px;color:#858577">可下載備份，或整理成文字交給 ChatGPT 分析。</p>
+    <div class="actions">
+      <button class="primary" onclick="exportJSON()">匯出完整 JSON</button>
+      <button class="secondary" onclick="exportCSV()">匯出每日紀錄 CSV</button>
+      <button class="secondary" onclick="exportMarkdown()">匯出分析用 Markdown</button>
+    </div>
+  </div>
+  <div class="card">
+    <h3>匯入備份</h3><label>選擇先前匯出的 JSON 檔</label>
+    <input type="file" id="importFile" accept=".json,application/json">
+    <button class="secondary" style="margin-top:12px" onclick="importJSON()">匯入資料</button>
+  </div>
+  <div class="card">
+    <h3>資料安全</h3>
+    <p style="font-size:13px;line-height:1.8;color:#858577">紀錄存在瀏覽器 localStorage。清除瀏覽器資料、換裝置或更換瀏覽器可能導致資料無法讀取，請定期匯出備份。不要在公用電腦留下私人紀錄。</p>
+    <button class="danger" onclick="deleteAll()">刪除本機全部紀錄</button>
+  </div>
+</section>
+</main>
+</div>
+<footer>MOOD LAB · OBSERVE WITHOUT JUDGMENT · VERSION 1.0</footer>
+</div>
+
+<script>
+const KEY='moodlab_v1';
+let db=JSON.parse(localStorage.getItem(KEY)||'{"daily":[],"quick":[],"research":[]}');
+let selectedMood=0;
+let viewMonth=new Date();
+const $=id=>document.getElementById(id);
+const todayISO=()=>new Date().toISOString().slice(0,10);
+const saveDB=()=>localStorage.setItem(KEY,JSON.stringify(db));
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+$('today').textContent=new Date().toLocaleDateString('zh-TW',{year:'numeric',month:'long',day:'numeric',weekday:'long'});
+$('dDate').value=todayISO();
+
+function showPage(name){
+ document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.id===name));
+ document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===name));
+ render();
+}
+$('nav').addEventListener('click',e=>{
+ const b=e.target.closest('button[data-page]');if(b)showPage(b.dataset.page);
+});
+$('moodRating').addEventListener('click',e=>{
+ const b=e.target.closest('button[data-value]');if(!b)return;
+ selectedMood=Number(b.dataset.value);
+ document.querySelectorAll('#moodRating button').forEach(x=>x.classList.toggle('selected',x===b));
+});
+function dailyForm(){
+ return {date:$('dDate').value,mood:selectedMood,energy:Number($('dEnergy').value),
+ stress:Number($('dStress').value),sleep:$('dSleep').value,body:$('dBody').value,
+ tags:[...document.querySelectorAll('#dTags input:checked')].map(x=>x.value),
+ event:$('dEvent').value,thought:$('dThought').value,note:$('dNote').value};
+}
+function saveDaily(){
+ const d=dailyForm();
+ if(!d.date||!d.mood){alert('請先選擇日期與心情評分。');return;}
+ if([d.energy,d.stress].some(x=>!Number.isFinite(x)||x<1||x>10)){alert('能量與壓力請填 1–10。');return;}
+ const i=db.daily.findIndex(x=>x.date===d.date);
+ if(i>=0)db.daily[i]=d;else db.daily.push(d);
+ db.daily.sort((a,b)=>a.date.localeCompare(b.date));saveDB();render();
+ alert('每日紀錄已儲存！');
+}
+function clearDaily(){
+ ['dEvent','dThought','dNote','dSleep'].forEach(id=>$(id).value='');
+ document.querySelectorAll('#dTags input').forEach(x=>x.checked=false);
+ selectedMood=0;document.querySelectorAll('#moodRating button').forEach(x=>x.classList.remove('selected'));
+}
+function saveQuick(){
+ const q={time:$('qTime').value||new Date().toISOString().slice(0,16),
+ mood:$('qMood').value,intensity:Number($('qIntensity').value),
+ event:$('qEvent').value,body:$('qBody').value,thought:$('qThought').value};
+ if(!q.event.trim()&&!q.thought.trim()){alert('至少寫下一點事件或想法。');return;}
+ db.quick.unshift(q);saveDB();['qEvent','qBody','qThought'].forEach(id=>$(id).value='');
+ render();alert('即時觀察已留下。');
+}
+function saveResearch(){
+ const title=$('rTitle').value.trim(),question=$('rQuestion').value.trim();
+ if(!title){alert('請填寫研究主題。');return;}
+ db.research.push({title,question,date:todayISO()});saveDB();
+ $('rTitle').value='';$('rQuestion').value='';render();
+}
+function removeItem(type,index){
+ if(!confirm('確定刪除這筆紀錄？'))return;
+ db[type].splice(index,1);saveDB();render();
+}
+function average(arr,key){
+ const vals=arr.map(x=>Number(x[key])).filter(Number.isFinite);
+ return vals.length?(vals.reduce((a,b)=>a+b,0)/vals.length).toFixed(1):'—';
+}
+function listDaily(){
+ $('dailyList').innerHTML=db.daily.slice().reverse().map((d,i)=>`
+ <div class="record"><strong>${esc(d.date)}</strong>　心情 ${d.mood}/5　
+ 能量 ${d.energy}/10　壓力 ${d.stress}/10
+ <div style="color:#858577;margin-top:6px">${esc(d.tags.join('、'))} ${esc(d.event)}</div>
+ <button class="secondary" onclick="loadDaily('${d.date}')">編輯</button>
+ <button class="secondary" onclick="removeItem('daily',${db.daily.length-1-i})">刪除</button></div>`).join('')||'<div class="empty">尚無紀錄。</div>';
+}
+function loadDaily(date){
+ const d=db.daily.find(x=>x.date===date);if(!d)return;
+ $('dDate').value=d.date;selectedMood=d.mood;
+ document.querySelectorAll('#moodRating button').forEach(b=>b.classList.toggle('selected',Number(b.dataset.value)===d.mood));
+ ['Energy','Stress','Sleep','Body','Event','Thought','Note'].forEach(k=>{
+ const id='d'+k;if($(id))$(id).value=d[k.toLowerCase()]??'';
+ });
+ document.querySelectorAll('#dTags input').forEach(x=>x.checked=d.tags.includes(x.value));
+ showPage('daily');window.scrollTo(0,0);
+}
+function renderQuick(){
+ $('quickList').innerHTML=db.quick.map((q,i)=>`
+ <div class="record"><strong>${esc(q.time.replace('T',' '))}</strong>　
+ ${esc(q.mood)} · 強度 ${q.intensity}/10
+ <div style="color:#858577;margin-top:6px">${esc(q.event)} ${esc(q.body)} ${esc(q.thought)}</div>
+ <button class="secondary" onclick="removeItem('quick',${i})">刪除</button></div>`).join('')||'<div class="empty">尚無紀錄。</div>';
+ $('recentQuick').innerHTML=db.quick.slice(0,3).map(q=>`<div class="record">${esc(q.time.replace('T',' '))}　<strong>${esc(q.mood)}</strong>　${esc(q.event)}</div>`).join('')||'目前還沒有即時紀錄。';
+}
+function renderResearch(){
+ $('researchList').innerHTML=db.research.map((r,i)=>`
+ <div class="record"><strong>${esc(r.title)}</strong><div>${esc(r.question)}</div>
+ <small>${esc(r.date)}</small> <button class="secondary" onclick="removeItem('research',${i})">刪除</button></div>`).join('')||'<div class="empty">尚無研究題目。</div>';
+}
+function drawChart(id,series){
+ const c=$(id);if(!c)return;
+ const ctx=c.getContext('2d'),w=c.clientWidth,h=190,dpr=window.devicePixelRatio||1;
+ c.width=w*dpr;c.height=h*dpr;ctx.scale(dpr,dpr);ctx.clearRect(0,0,w,h);
+ const pad=25,values=series.map(x=>x.value),max=10,min=0;
+ ctx.strokeStyle='#e5dfd1';ctx.lineWidth=1;
+ for(let i=0;i<=5;i++){let y=pad+(h-pad*2)*i/5;ctx.beginPath();ctx.moveTo(pad,y);ctx.lineTo(w-pad,y);ctx.stroke();}
+ if(!series.length){ctx.fillStyle='#999';ctx.font='12px sans-serif';ctx.fillText('累積紀錄後，趨勢圖會出現在這裡。',pad,h/2);return;}
+ ctx.beginPath();ctx.strokeStyle='#899681';ctx.lineWidth=2;
+ series.forEach((p,i)=>{let x=pad+(w-pad*2)*(series.length===1?.5:i/(series.length-1));let y=h-pad-(p.value-min)/(max-min)*(h-pad*2);if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);});
+ ctx.stroke();
+ series.forEach((p,i)=>{let x=pad+(w-pad*2)*(series.length===1?.5:i/(series.length-1));let y=h-pad-(p.value-min)/(max-min)*(h-pad*2);ctx.beginPath();ctx.arc(x,y,3.5,0,Math.PI*2);ctx.fillStyle='#d0aa4b';ctx.fill();});
+}
+function renderCalendar(){
+ const y=viewMonth.getFullYear(),m=viewMonth.getMonth();
+ $('monthTitle').textContent=`${y} 年 ${m+1} 月`;
+ const first=new Date(y,m,1).getDay(),days=new Date(y,m+1,0).getDate();
+ const names=['日','一','二','三','四','五','六'];
+ let html=names.map(x=>`<div class="dayhead">週${x}</div>`).join('');
+ for(let i=0;i<first;i++)html+='<div></div>';
+ for(let d=1;d<=days;d++){
+ const date=`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+ const item=db.daily.find(x=>x.date===date);
+ const color=item?(item.mood<=2?'#bd796c':item.mood===3?'#d6ad43':'#899681'):'transparent';
+ html+=`<div class="day ${date===todayISO()?'today':''}">${d}<span class="dot" style="background:${color}"></span></div>`;
+ }
+ $('calendarGrid').innerHTML=html;
+ const monthItems=db.daily.filter(x=>x.date.startsWith(`${y}-${String(m+1).padStart(2,'0')}`));
+ $('monthRecords').innerHTML=monthItems.map(x=>`<div class="record">${esc(x.date)}　心情 ${x.mood}/5　${esc(x.tags.join('、'))}</div>`).join('')||'這個月還沒有每日紀錄。';
+}
+function changeMonth(n){viewMonth.setMonth(viewMonth.getMonth()+n);renderCalendar();}
+function render(){
+ const sorted=db.daily.slice().sort((a,b)=>a.date.localeCompare(b.date));
+ const recent=sorted.slice(-7);
+ $('homeMood').textContent=sorted.length?`${sorted.at(-1).mood}/5`:'—';
+ $('homeEnergy').textContent=average(recent,'energy');
+ $('homeDays').textContent=db.daily.length;
+ $('avgMood').textContent=average(sorted,'mood');
+ $('avgEnergy').textContent=average(sorted,'energy');
+ $('avgStress').textContent=average(sorted,'stress');
+ drawChart('homeChart',recent.map(x=>({value:x.mood*2})));
+ drawChart('moodChart',sorted.slice(-30).map(x=>({value:x.mood*2})));
+ drawChart('energyChart',sorted.slice(-30).map(x=>({value:x.energy})));
+ const tags={};sorted.forEach(x=>x.tags.forEach(t=>tags[t]=(tags[t]||0)+1));
+ $('tagStats').innerHTML=Object.entries(tags).sort((a,b)=>b[1]-a[1]).map(([t,n])=>`<div class="record">${esc(t)}　<strong>${n} 次</strong></div>`).join('')||'累積標籤後會顯示統計。';
+ listDaily();renderQuick();renderResearch();renderCalendar();
+}
+function download(name,content,type){
+ const blob=new Blob([content],{type}),url=URL.createObjectURL(blob),a=document.createElement('a');
+ a.href=url;a.download=name;a.click();URL.revokeObjectURL(url);
+}
+function exportJSON(){download('mood-lab-backup.json',JSON.stringify(db,null,2),'application/json');}
+function exportCSV(){
+ const rows=[['日期','心情','能量','壓力','睡眠','身體狀態','標籤','事件','想法','日記'],...db.daily.map(d=>[d.date,d.mood,d.energy,d.stress,d.sleep,d.body,d.tags.join('、'),d.event,d.thought,d.note])];
+ const csv=rows.map(r=>r.map(v=>'"'+String(v??'').replace(/"/g,'""')+'"').join(',')).join('\n');
+ download('mood-lab-daily.csv','\uFEFF'+csv,'text/csv;charset=utf-8');
+}
+function exportMarkdown(){
+ let out='# MOOD LAB 個人觀察紀錄\n\n';
+ out+='> 以下為個人自我觀察資料，並非臨床診斷。\n\n## 每日紀錄\n';
+ db.daily.forEach(d=>{out+=`\n### ${d.date}\n- 心情：${d.mood}/5\n- 能量：${d.energy}/10\n- 壓力：${d.stress}/10\n- 睡眠：${d.sleep||'未填'} 小時\n- 身體：${d.body}\n- 標籤：${d.tags.join('、')}\n- 事件：${d.event}\n- 想法：${d.thought}\n- 日記：${d.note}\n`;});
+ out+='\n## 即時觀察\n';
+ db.quick.forEach(q=>{out+=`\n- ${q.time}｜${q.mood}（${q.intensity}/10）｜事件：${q.event}｜身體：${q.body}｜想法：${q.thought}\n`;});
+ out+='\n## 研究問題\n';db.research.forEach(r=>out+=`\n- ${r.title}：${r.question}\n`);
+ download('mood-lab-analysis.md',out,'text/markdown;charset=utf-8');
+}
+function importJSON(){
+ const f=$('importFile').files[0];if(!f){alert('請先選擇 JSON 檔。');return;}
+ const reader=new FileReader();reader.onload=()=>{
+ try{const data=JSON.parse(reader.result);
+ if(!Array.isArray(data.daily)||!Array.isArray(data.quick)||!Array.isArray(data.research))throw Error();
+ if(!confirm('匯入會以備份內容取代目前資料，確定繼續？'))return;
+ db=data;saveDB();render();alert('匯入成功！');
+ }catch(e){alert('檔案格式不正確，無法匯入。');}
+ };reader.readAsText(f);
+}
+function deleteAll(){
+ if(!confirm('確定刪除這台裝置上的所有 MOOD LAB 紀錄？此操作無法復原。請先確認已備份。'))return;
+ db={daily:[],quick:[],research:[]};saveDB();render();alert('本機紀錄已清除。');
+}
+$('qTime').value=new Date().toISOString().slice(0,16);
+render();
+</script>
+</body>
+</html>
+
