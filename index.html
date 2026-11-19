@@ -1,433 +1,812 @@
-
 <!DOCTYPE html>
+
 <html lang="zh-Hant">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#f5f0e5">
-<title>MOOD LAB｜個人心情研究室</title>
+<meta charset="utf-8"/><meta content="width=device-width,initial-scale=1" name="viewport"/>
+<meta content="#eee7d8" name="theme-color"/>
+<title>MOOD LAB — 私人心情檔案室</title>
 <style>
-:root {
-  --paper:#f5f0e5; --card:#fffdf7; --ink:#34382f;
-  --muted:#858577; --yellow:#d6ad43; --green:#899681;
-  --line:#e5dfd1; --red:#bd796c; --shadow:0 5px 22px #453c2510;
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=IM+Fell+English:ital@0;1&family=Iansui&family=Noto+Serif+TC:wght@400;500;600;700&display=swap');
+:root{--bg:#eae3d5;--paper:#faf6eb;--ink:#3c3b31;--soft:#777669;--line:#d8cdbc;--green:#697965;--gold:#bb933f;--rose:#ad7366}
+*{box-sizing:border-box}body{margin:0;color:var(--ink);background:var(--bg);font:14px/1.8 "Noto Serif TC",serif;background-image:radial-gradient(#73664c14 .7px,transparent .7px);background-size:5px 5px}button,input,textarea,select{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:2px solid var(--gold);outline-offset:2px}.app{max-width:1250px;margin:auto;padding:25px 28px 45px}.top{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #77766c;padding-bottom:18px}.brand small,.micro,.no{font:11px "IM Fell English","Noto Serif TC",serif;letter-spacing:.16em;color:var(--gold)}.brand h1{font-family:"IM Fell English", "Noto Serif TC",serif;font-size:34px;letter-spacing:.1em;margin:0;line-height:1.35;font-weight:600}.brand p{margin:0;font-size:11px;color:var(--soft)}.date{text-align:right;font-size:12px;color:var(--soft)}.layout{display:grid;grid-template-columns:205px 1fr;gap:30px;margin-top:24px}.side{align-self:start;position:sticky;top:20px}.sidequote{font-size:16px;line-height:2;border-bottom:1px solid var(--line);padding:10px 8px 24px;margin-bottom:15px}.sidequote small{display:block;color:var(--gold);font:11px "IM Fell English","Noto Serif TC",serif;letter-spacing:.15em}.nav{display:grid;gap:3px}.nav button{background:transparent;border:0;text-align:left;padding:11px 12px;color:var(--soft);display:flex;gap:12px}.nav button.active,.nav button:hover{background:#dce0d5;color:#465342}.nav button.active{border-left:3px solid var(--green);padding-left:9px}.no{min-width:20px}.asidefoot{border-top:1px solid var(--line);padding-top:14px;margin-top:20px;color:var(--soft);font-size:10px}.page{display:none}.page.active{display:block;animation:enter .25s ease}@keyframes enter{from{opacity:.5;transform:translateY(5px)}to{opacity:1;transform:none}}.pagehead{border-bottom:1px solid var(--line);padding-bottom:15px;margin-bottom:18px}.pagehead h2{font-size:27px;font-weight:500;margin:2px 0}.pagehead p{color:var(--soft);font-size:12px;margin:0}.sheet{background:linear-gradient(135deg,#f6ebd7,#fbf3e3 75%,#eee0c7);border:1px solid #cbb99b;padding:23px;margin-bottom:20px;box-shadow:2px 6px 0 #c9b99c55,0 14px 28px #473f2a16;clip-path:polygon(0 .7%,12% 0,72% .4%,100% 0,99.7% 82%,100% 99.3%,67% 100%,0 99.4%);position:relative}.sheet.accent{border-left:3px solid var(--gold)}.sheet h3{font-size:18px;font-weight:500;margin:5px 0 14px}.hero{background:linear-gradient(120deg,#f4e5c9,#fcf3e2 70%,#e8d6b7);border:1px solid #c9b596;padding:31px;margin-bottom:22px;position:relative;overflow:hidden;transform:rotate(-.25deg);box-shadow:5px 7px 0 #c5b49477;clip-path:polygon(0 0,99.8% .7%,100% 99%,.4% 100%)}.hero:after{content:"✳";position:absolute;right:24px;top:-30px;font-size:135px;color:#d5c59f77;pointer-events:none}.hero h2{font-size:29px;font-weight:500;margin:9px 0}.hero p{color:var(--soft);font-size:13px;max-width:520px;position:relative}.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:18px;position:relative}.btn{border:1px solid #ad9670;background:linear-gradient(#e7d6b6,#e9dbbf);padding:9px 17px;color:var(--ink);font-size:12px;border-radius:3px 8px 4px 7px;box-shadow:2px 3px 0 #b7a68777;transform:rotate(-.4deg)}.btn:hover{background:#e4d6b6}.btn.primary{background:linear-gradient(125deg,#66745d,#4c604a);border-color:#596a50;color:#fff8e7;box-shadow:2px 3px 0 #a08f6e}.btn.primary:hover{background:#54634f}.btn.danger{color:#944e42}.btn.tiny{padding:4px 9px;font-size:11px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:17px}.stat{background:linear-gradient(125deg,#f1e6d0,#f8f1e4);border-top:1px solid #bca988;border-bottom:1px dashed #c8b999;padding:12px 15px;transform:rotate(-.3deg)}.stat small{display:block;font-size:11px;color:var(--soft)}.stat strong{font-size:28px;font-weight:500;color:var(--green)}.stat em{font-size:11px;color:var(--soft);font-style:normal}.two{display:grid;grid-template-columns:1.3fr .9fr;gap:17px}.quote{font-size:17px;line-height:2;color:#596654}.field{margin:14px 0}.field label{display:block;color:#65675a;font-size:12px;margin-bottom:6px}.field input:not([type=checkbox]):not([type=range]),.field select,.field textarea{width:100%;border:1px solid var(--line);background:transparent;padding:11px 5px;color:var(--ink);border-radius:0}.field textarea{min-height:105px;resize:vertical}.fields{display:grid;grid-template-columns:1fr 1fr;gap:0 15px}.moods{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}.moods button{background:#eee1c7;border:1px dashed #bba783;padding:12px 3px;font-size:12px;border-radius:8px 2px 9px 3px;box-shadow:1px 2px 0 #bfae8c88}.moods button span{display:block;font-size:22px}.moods button.selected{background:#eee0bd;border-color:var(--gold)}.tags{display:flex;flex-wrap:wrap;gap:8px}.tags label{background:#efe3cb;border:1px dashed #bfae8e;padding:5px 9px;font-size:12px;border-radius:2px 7px 3px 6px}.tags input{accent-color:var(--green)}.entry{padding:14px 0;border-top:1px dashed var(--line)}.entry:first-child{border:0}.entry strong{color:var(--green);font-weight:500}.entry p{font-size:12px;color:var(--soft);white-space:pre-wrap;margin:4px 0 8px}.empty,.hint{font-size:12px;color:var(--soft)}.chart{height:210px;position:relative}.chart canvas{width:100%;height:100%}.legend{font-size:11px;color:var(--soft)}.legend i{display:inline-block;width:8px;height:8px;border-radius:50%;margin:0 5px 0 12px}.calendarhead{display:flex;align-items:center;justify-content:space-between;margin-bottom:15px}.calendarhead h3{margin:0}.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}.weekday{text-align:center;font-size:11px;color:var(--soft)}.day{min-height:70px;background:#f2e5cb;border:1px solid #e2d1b4;padding:7px;text-align:left;font-size:12px;border-radius:48% 52% 43% 57% / 9% 11% 9% 10%}.day:hover,.day.selected{border-color:var(--green)}.day.today{outline:1px solid var(--gold)}.day.m1,.day.m2{background:#eddbd5}.day.m3{background:#ede3c8}.day.m4,.day.m5{background:#dfe6d9}.day b{display:block;font-weight:400;font-size:17px}.insight{background:#e4e6d9;border-left:3px solid var(--green);padding:15px;font-size:12px;color:#5b6657}.research{border:1px solid var(--line);padding:15px;margin-top:12px}.research h4{font-size:16px;margin:0;font-weight:500}footer{margin-top:32px;text-align:center;border-top:1px solid var(--line);padding-top:20px;font:11px "IM Fell English","Noto Serif TC",serif;letter-spacing:.12em;color:#9b9180}
+@media(max-width:800px){.app{padding:15px}.layout{grid-template-columns:1fr;gap:15px}.side{position:static}.sidequote,.asidefoot{display:none}.nav{grid-template-columns:repeat(4,1fr)}.nav button{display:block;text-align:center;font-size:11px;padding:8px 3px}.no{display:block}.two{grid-template-columns:1fr}}
+@media(max-width:500px){.brand h1{font-size:24px}.date{font-size:10px}.sheet{padding:16px}.hero{padding:23px 17px}.hero h2{font-size:23px}.hero:after{font-size:90px;right:0}.stats{gap:5px}.stat{padding:10px 7px}.stat strong{font-size:22px}.stat small{font-size:10px}.fields{grid-template-columns:1fr}.moods{gap:3px}.moods button{font-size:10px;padding:9px 2px}.moods button span{font-size:19px}.day{min-height:54px;padding:4px}.calendar{gap:3px}}
+
+/* 1900s archive treatment: ruled correspondence paper, paper scraps and engraved typography */
+body{background-color:#d5c3a3;background-image:radial-gradient(#5d49391b .8px,transparent 1px),linear-gradient(110deg,#b7a28433,transparent 25%,#eee0c2 65%,#bda88955);background-size:5px 5px,100% 100%}
+.app{background:linear-gradient(90deg,#4d5946 0,#4d5946 12px,transparent 12px);border-left:1px solid #344232;min-height:100vh}
+.top{border-bottom:3px double #9e8869}.brand h1{color:#4e493a;text-shadow:1px 1px #fff4df}.side{background:linear-gradient(120deg,#48533f,#3f4938);padding:18px 12px 25px;border:3px double #9b977b;box-shadow:4px 6px 0 #675b4788}.sidequote,.asidefoot{color:#e8dcc3;border-color:#8a927c}.sidequote small{color:#dec48d}.nav button{color:#e4dac7;border:1px solid #a6a78a55;background:#f0e2c9;margin:4px 0;transform:rotate(-.4deg);border-radius:3px 10px 4px 7px;box-shadow:2px 2px #1c2c2088}.nav button.active,.nav button:hover{background:#d7b974;color:#453d2c;border-left:5px solid #a87c3b;padding-left:7px}.nav .no{color:#85683e}
+.pagehead{border-bottom:2px double #b29d7d}.pagehead h2,.sheet h3,.hero h2{font-weight:600;letter-spacing:.09em;text-shadow:1px 1px #fff6e9}.sheet:before{content:'✦';position:absolute;right:17px;top:9px;color:#b89c6c55;font-size:19px}.sheet.accent{border-left:0;border-top:3px double #b28c4d}.hero:before{content:'MOOD LAB · FIELD ARCHIVE';font:11px 'IM Fell English',serif;letter-spacing:.16em;color:#aa8858;position:absolute;right:20px;bottom:15px;transform:rotate(-4deg);border:1px solid #b89c75;padding:3px 8px}.hero h2{font-size:31px}.field label{font-weight:600;color:#64543e}.field input:not([type=checkbox]):not([type=range]),.field select{border:0;border-bottom:1px solid #aa9472;background:transparent;padding:9px 5px;box-shadow:none;border-radius:0}.field textarea{border:0;border-left:1px solid #d1b58a;background:repeating-linear-gradient(to bottom,transparent 0,transparent 32px,#bcae9655 33px,#bcae9655 34px);line-height:34px;padding:0 12px;min-height:138px;box-shadow:none;resize:vertical}.field input::placeholder,.field textarea::placeholder{color:#9b8d78;font-style:italic}.field input:focus,.field textarea:focus{background-color:#fff9e852;outline:none;border-color:#8c7454}.research{background:#f1e4c8;border:1px dashed #b6a07a;transform:rotate(-.3deg);box-shadow:2px 3px #a9936b55}.entry{border-top:1px dashed #bba17b}.stat strong{font-family:'IM Fell English','Noto Serif TC',serif}.insight{background:#e5dfc7;border:1px dashed #a5a087;border-left:4px solid #6e7b63}.calendarhead h3{font-family:'IM Fell English','Noto Serif TC',serif}.day:hover{transform:rotate(-2deg)}
+@media(max-width:800px){.app{background:none}.side{padding:8px}.nav{grid-template-columns:repeat(4,1fr)}.nav button{font-size:11px;min-height:55px}.hero h2{font-size:24px}}
+@media(max-width:500px){.sheet{padding:16px}.hero{padding:23px 17px}.nav button{font-size:10px;padding:7px 2px}.day{min-height:54px;padding:4px}}
+
+/* The archival edition: ink, paper and handwriting rather than corporate UI */
+:root{--bg:#cdbb9d;--paper:#f3e4c7;--ink:#392a1b;--soft:#725b43;--line:#a88b67;--green:#404c34;--gold:#92611e;--rose:#874d3b}
+body{font-family:"Iansui","Noto Serif TC",serif;font-size:16px;background:radial-gradient(ellipse at 15% 10%,#e6d4b5,transparent 60%),repeating-linear-gradient(12deg,#bba785 0px,#c5b394 3px,#bda989 5px)}
+.app{max-width:1370px;background:linear-gradient(90deg,#3c442f 0,#4a513a 18%,#b99d75 18.2%,#cbb18b 18.5%,#cdb995 100%);min-height:100vh;box-shadow:0 0 60px #392d2380;border:7px solid #6a5b40;padding:30px 36px}
+.top{background:#ead8b6;border:3px double #8c6f4a;padding:16px 23px;box-shadow:4px 5px 0 #76634460;position:relative}
+.top:before{content:'✣';position:absolute;top:-15px;left:50%;background:#ead8b6;padding:0 12px;color:#805b2e;font-size:20px}
+.brand h1{font-family:"Cormorant Garamond","IM Fell English",serif;font-size:47px;font-weight:700;color:#332719;letter-spacing:.08em}
+.brand small,.micro,.no,.sidequote small{font-family:"IM Fell English",serif;color:#855923;font-size:12px}
+.brand p{font-family:"Iansui",serif;font-size:16px;color:#5a4630}
+.dateplate{background:#f0ddba;border:2px solid #9d7a4a;outline:1px dashed #9d7a4a;outline-offset:-7px;padding:9px 19px;min-width:235px;text-align:center;box-shadow:3px 4px 0 #7e694455;transform:rotate(1.4deg);color:#3e2d1d}
+.date-large{display:block;font:600 34px "Cormorant Garamond",serif;letter-spacing:.06em;line-height:1.2;color:#513521}.date-small{display:block;font:15px "Iansui",serif;color:#795630}.date-ornament{display:block;color:#996d3d;letter-spacing:.35em;font-size:14px}
+.layout{grid-template-columns:205px minmax(0,1fr);gap:25px}.side{background:#404a35;color:#f4e7cb;margin:-1px -5px -20px -5px;padding:20px 12px 30px;box-shadow:inset 0 0 0 2px #7b7558,5px 7px 0 #54462f66;position:sticky}.sidequote{color:#eee0c0;border-bottom:1px solid #a69c79;font-family:"Iansui",serif;font-size:18px}.nav button{background:#ead8b6;color:#473521;border:1px solid #a9926d;margin:4px 0;clip-path:polygon(2% 0,99% 1%,100% 93%,95% 100%,0 98%);font-family:"Iansui",serif;font-size:16px;box-shadow:2px 3px 0 #1d251c}.nav button:hover,.nav button.active{background:#d2b06e;color:#38291b;border-left:4px solid #8a5721}.asidefoot{color:#e7d5ae}
+.lang-toggle{margin:14px 0 20px;padding:11px 6px;border:1px dashed #b5a17b;text-align:center}.lang-toggle .micro{color:#d6b97c}.lang-controls{display:flex;align-items:center;justify-content:center;gap:4px}.lang-controls button{border:0;background:transparent;color:#e8d9ba;padding:5px;font-family:"IM Fell English","Iansui",serif;font-size:14px}.lang-controls button[aria-pressed=true]{color:#f3d18a;text-decoration:underline;text-underline-offset:5px}.lang-controls span{color:#d6b97c}
+.pagehead{background:#e9d6b3;border:1px solid #a88b67;padding:12px 20px;margin-bottom:24px;transform:rotate(-.2deg)}.pagehead h2,.sheet h3,.hero h2{font-family:"Iansui","Noto Serif TC",serif;font-weight:400;color:#45301c}.pagehead h2{font-size:33px}.sheet{background:linear-gradient(140deg,#f1dfbd,#f8ebd2 63%,#e7d1a9);border:1px solid #b49b78;box-shadow:3px 5px 0 #92795655,0 14px 26px #382a1d29;clip-path:polygon(.2% .7%,25% 0,67% .3%,99.5% 0,100% 97.7%,79% 100%,30% 99.6%,0 99%);transform:rotate(-.12deg);padding:27px}.sheet:nth-child(2n){transform:rotate(.23deg)}.sheet h3{font-size:25px}.hero{background:linear-gradient(110deg,#e9d1a7,#f5e5c8 65%,#dfc296);border:2px solid #b29870;transform:rotate(-.55deg);box-shadow:6px 8px 0 #92795688;padding:32px 35px}.hero h2{font-size:39px}.hero p,.pagehead p,.field label,.hint,.empty,.entry p{color:#71563a;font-size:15px}.field label{font-size:17px}.field input:not([type=checkbox]):not([type=range]),.field select,.field textarea{font-family:"Iansui","Noto Serif TC",serif;font-size:18px;border:0;border-bottom:2px solid #b49a75;background:transparent;box-shadow:none;padding:9px 6px}.field textarea{background:repeating-linear-gradient(to bottom,transparent 0,transparent 34px,#bea583 35px,#bea583 36px);line-height:36px;padding:0 8px;min-height:144px}.moods button{background:#e8d4ae;border:1px dashed #9f7d50;clip-path:polygon(0 3%,98% 0,100% 100%,2% 97%);font-family:"Iansui",serif;font-size:16px}.moods button.selected{background:#cba86d;border:2px solid #7b5c2e}.tags label{background:#e9d7b5;border:1px dashed #b59b72;font-size:16px}.btn{background:#ead6b1;border:1px solid #92744c;clip-path:polygon(3% 0,100% 3%,97% 100%,0 97%);box-shadow:2px 3px 0 #88705055;font-family:"Iansui",serif;font-size:17px;padding:9px 17px}.btn.primary{background:#4a593f;border-color:#35462d;color:#f7e8c7}.stat{background:#e6d2ae;border:1px solid #b59b76;transform:rotate(-.4deg)}.stat:nth-child(2){transform:rotate(.5deg)}.stat strong{font-family:"Cormorant Garamond",serif;font-size:38px;color:#48563d}.stat small,.stat em{color:#745737}.quote{font-size:23px;font-family:"Iansui",serif;color:#4a543c}.entry strong{color:#48573f}.research{border:1px dashed #9f7d50}.day{background:#ead8b6;font-family:"Cormorant Garamond","Iansui",serif;font-size:18px;border:1px dashed #b69c76}.day.today{outline:2px solid #9b6e30}.day.m1,.day.m2{background:#d9b6a1}.day.m3{background:#e0cb95}.day.m4,.day.m5{background:#c1c9a5}.weekday{font-family:"Iansui",serif;font-size:15px}.insight{background:#d8d3b6;border-left:4px solid #526043;color:#4b4a34;font-size:16px}footer{color:#675036}
+html[lang=en] body{font-family:"IM Fell English","Cormorant Garamond",serif;font-size:19px}html[lang=en] .pagehead h2,html[lang=en] .sheet h3,html[lang=en] .hero h2,html[lang=en] .field label,html[lang=en] .btn,html[lang=en] .nav button,html[lang=en] .field input,html[lang=en] .field textarea,html[lang=en] .field select{font-family:"IM Fell English","Cormorant Garamond",serif}html[lang=en] .hero h2{font-size:42px}
+@media(max-width:800px){.app{padding:14px;background:#cdb995}.side{margin:0;padding:10px;position:static}.nav{grid-template-columns:repeat(4,1fr)}.nav button{font-size:13px;margin:2px}.lang-toggle{margin:8px 0}.dateplate{min-width:150px;padding:7px}.date-large{font-size:24px}.brand h1{font-size:32px}.layout{grid-template-columns:1fr}}
+@media(max-width:500px){.app{padding:9px;border-width:3px}.top{padding:10px;gap:5px}.dateplate{min-width:115px;padding:5px}.date-large{font-size:20px}.date-small{font-size:11px}.date-ornament{font-size:10px}.brand h1{font-size:28px}.brand p{font-size:12px}.hero{padding:20px}.hero h2{font-size:27px}.sheet{padding:17px}.nav button{font-size:12px}.stat strong{font-size:26px}.field label{font-size:15px}}
+
+/* Heritage Edition II — editorial hierarchy, archival objects, handwritten paper */
+@import url('https://fonts.googleapis.com/css2?family=Iansui&family=IM+Fell+English:ital@0;1&family=Cormorant+Garamond:wght@400;500;600;700&family=Noto+Serif+TC:wght@400;500;600;700&display=swap');
+:root{--bg:#d6c4a5;--paper:#f5ead2;--ink:#403526;--soft:#6c5c47;--line:#bba782;--green:#485846;--gold:#9d733a;--rose:#905d4b;--display:'Iansui','Noto Serif TC',serif;--text:'Noto Serif TC',serif;--latin:'IM Fell English','Cormorant Garamond',serif}
+body{font-family:var(--text);font-size:16px;line-height:1.95;color:var(--ink);background-color:#cdbb9b;background-image:radial-gradient(#57412a15 .7px,transparent 1px),linear-gradient(100deg,#aa967133,#e8dac0 40%,#b8a47c4d);background-size:5px 5px,100% 100%}
+.app{max-width:1360px;padding:28px 40px 60px;background:linear-gradient(90deg,#3e4b3b 0 10px,transparent 10px)}
+.top{padding:7px 0 26px;border-bottom:4px double #9a7e56;gap:24px;align-items:center}
+.brand small,.micro,.no{font-family:var(--latin);font-size:14px;letter-spacing:.11em;color:#8c6334}
+.brand h1{font-family:var(--latin);font-size:clamp(38px,4vw,56px);font-weight:400;letter-spacing:.085em;line-height:1.08;color:#423b2b;text-shadow:none}
+.brand p{font-family:var(--display);font-size:16px;color:#685740;letter-spacing:.07em;margin-top:9px}
+.dateplate{background:#e9d6b3!important;border:5px double #987449!important;outline:1px solid #ad9069;outline-offset:5px;padding:14px 24px!important;min-width:224px;transform:rotate(1deg);box-shadow:4px 6px 0 #8a70433b;color:#5c4028!important}
+.dateplate .micro{display:block;color:#806039;font:13px var(--latin);letter-spacing:.12em}
+.dateplate .date-large{font:500 29px/1.2 'Cormorant Garamond',serif!important;color:#483622!important;letter-spacing:.01em;white-space:nowrap}
+.dateplate .date-small{font:16px var(--display);color:#655039!important}
+.dateplate .date-ornament{color:#8b653d;font-size:15px}
+.layout{grid-template-columns:230px minmax(0,1fr);gap:38px;margin-top:30px}
+.side{background:linear-gradient(125deg,#465440,#303f32);border:5px double #a99c75;padding:20px 15px 30px;box-shadow:6px 8px 0 #51452d55}
+.sidequote{font-family:var(--display);font-size:18px;line-height:1.95;color:#f1e5c9;padding:10px 8px 25px}
+.sidequote small{font:14px var(--latin);color:#dfc38d}
+.nav{gap:7px}.nav button{font-family:var(--display);font-size:16px;color:#423825;background:#eadcc1;border:1px solid #b5a078;border-radius:1px 8px 2px 6px;transform:rotate(-.2deg);padding:11px 12px;box-shadow:2px 3px 0 #2836267d}
+.nav button.active,.nav button:hover{background:#d3b47a;border-color:#9d783e;color:#3c3323}
+.nav .no{font:14px var(--latin);color:#83623b}.asidefoot{font:13px/1.8 var(--latin);color:#dfd1b3}
+.lang-toggle{border:1px solid #a99b76;padding:11px 9px;margin-bottom:14px;background:#efe0c8;color:#473e2f}.lang-toggle .micro{font-size:12px}.lang-controls{display:flex;gap:8px;align-items:center;justify-content:center}.lang-controls button{font-family:var(--latin);font-size:16px;min-height:35px;padding:3px 9px;background:transparent;border:1px solid transparent;color:#5d503e}.lang-controls button[aria-pressed=true]{border-color:#9c7c4d;background:#d8c09b;color:#392c1d}
+.pagehead{border-bottom:3px double #b59a70;padding:8px 0 20px;margin-bottom:27px}.pagehead h2{font:500 34px/1.4 var(--display);color:#473826;letter-spacing:.045em;text-shadow:none}.pagehead p{font-size:15px;color:#6d5b45}
+.sheet{background:#f5e9d0!important;border:1px solid #b8a37e!important;clip-path:none!important;transform:none!important;padding:28px 32px;margin-bottom:28px;box-shadow:5px 7px 0 #ac946b40,0 12px 25px #53432b13;position:relative}
+.sheet:before{content:'✧';position:absolute;right:17px;top:10px;color:#a1844b66;font-size:21px}.sheet.accent{border-top:3px double #98713d!important}
+.sheet h3{font:500 25px/1.45 var(--display);color:#4d402e;letter-spacing:.04em;text-shadow:none;margin:7px 0 17px}
+.hero{background:#f1e0bf!important;border:1px solid #bca47d!important;clip-path:none!important;padding:42px 42px 50px;box-shadow:6px 8px 0 #b49a6c66;transform:rotate(-.15deg);margin-bottom:28px}
+.hero:before{font:14px var(--latin);bottom:14px}.hero:after{content:'❦';color:#99835848;right:28px;top:-30px;font-size:145px}
+.hero h2{font:500 clamp(28px,3.1vw,41px)/1.6 var(--display);color:#4d402d;text-shadow:none;letter-spacing:.02em}.hero p{font-size:16px;color:#64533e;line-height:2}
+.stats{gap:17px;margin-bottom:28px}.stat{transform:none!important;background:#e9dcc1!important;border:1px solid #b8a47f!important;border-bottom:3px double #ad9167!important;padding:16px 20px;box-shadow:2px 3px 0 #bba78155}.stat small{font:14px var(--display);color:#6d5b46}.stat strong{font:500 38px var(--latin);color:#475c46}.stat em{font-size:13px}
+.quote{font:500 21px/2.05 var(--display);color:#58634c}.two{gap:22px}
+.field{margin:22px 0}.field label{font:500 17px/1.7 var(--display);color:#554631;margin-bottom:10px;letter-spacing:.015em}
+.field input:not([type=checkbox]):not([type=range]),.field select{font:16px var(--text);border:0!important;border-bottom:1px solid #a48d68!important;border-radius:0!important;background:transparent!important;padding:10px 7px;color:#44372a;box-shadow:none!important;min-height:48px}
+.field textarea{font:16px/37px var(--text);color:#473b2c;border:0!important;border-left:2px solid #bd8e72!important;background:repeating-linear-gradient(to bottom,transparent 0,transparent 35px,#9d88654d 36px,#9d88654d 37px)!important;padding:0 13px!important;min-height:160px;box-shadow:none!important;letter-spacing:.02em}
+.field input::placeholder,.field textarea::placeholder{font-family:var(--display);color:#8d795c;font-size:15px}
+.moods{gap:9px}.moods button{background:#ead8b5;border:1px solid #ad936b;border-radius:2px 11px 4px 7px;box-shadow:2px 3px 0 #ad9b7c77;font:15px var(--display);padding:13px 5px}.moods button span{font-size:23px;filter:sepia(.65) saturate(.65)}.moods button.selected{background:#d5bc87;border:2px solid #8e713e}
+.tags{gap:10px}.tags label{background:#e9d7b8;border:1px dashed #aa8d61;border-radius:2px 8px 3px 7px;padding:7px 12px;font:15px var(--display)}
+.btn{font:16px var(--display);background:#e4d2ae;border:1px solid #9f835a;border-radius:2px 8px 3px 7px;padding:11px 20px;box-shadow:2px 3px 0 #a9936d70;transform:none!important;min-height:44px}.btn.primary{background:#4a5b47;border-color:#43513d;color:#f8edce}.btn.tiny{font-size:14px;padding:6px 12px;min-height:34px}
+.entry{padding:18px 0}.entry strong{font:500 17px var(--display);color:#4c604b}.entry p{font-size:15px;color:#685840;line-height:1.9}.hint,.empty{font-size:15px;color:#74614a;line-height:1.85}.insight{font:15px/2 var(--display);background:#d9decf;border:1px solid #b0b99f;border-left:4px solid #66785e;padding:18px 22px}
+.research{background:#eadfc7;border:1px solid #b9a47e;transform:rotate(-.2deg);padding:20px}.research h4{font:500 21px var(--display)}
+.calendar{gap:7px}.weekday{font:14px var(--latin);color:#756044}.day{border-radius:1px 5px 2px 5px!important;background:#eee1c8;border:1px solid #d0b992;padding:10px;min-height:76px;font:15px var(--latin)}.day b{font-size:21px;filter:sepia(.55)}
+footer{font:14px var(--latin);letter-spacing:.12em;color:#6b573b}
+html[lang=en] .pagehead h2,html[lang=en] .hero h2,html[lang=en] .sheet h3,html[lang=en] .nav button,html[lang=en] .field label,html[lang=en] .btn,html[lang=en] .quote{font-family:'Cormorant Garamond','IM Fell English',serif;font-size:1.3em}
+html[lang=en] .pagehead h2{font-size:40px}html[lang=en] .hero h2{font-size:43px}html[lang=en] .nav button{font-size:20px}html[lang=en] .field label{font-size:21px}html[lang=en] .btn{font-size:20px}html[lang=en] .sheet h3{font-size:29px}
+@media(max-width:900px){.app{padding:18px}.layout{grid-template-columns:1fr;gap:22px}.side{position:static}.sidequote,.asidefoot{display:none}.nav{grid-template-columns:repeat(4,1fr);gap:5px}.nav button{font-size:14px;display:block;text-align:center;padding:10px 4px}.nav .no{display:block}.lang-toggle{max-width:330px;margin:0 auto 12px}.two{grid-template-columns:1fr}}
+@media(max-width:550px){.app{padding:12px 13px 32px}.top{gap:12px;align-items:flex-start}.brand h1{font-size:34px}.brand p{font-size:12px}.dateplate{min-width:138px!important;padding:8px 7px!important;outline-offset:2px;border-width:3px!important}.dateplate .micro{font-size:9px}.dateplate .date-large{font-size:20px!important;white-space:normal}.dateplate .date-small{font-size:12px}.dateplate .date-ornament{font-size:10px}.sheet{padding:20px 17px}.hero{padding:26px 18px 36px}.hero h2{font-size:29px}.hero p{font-size:15px}.hero:after{font-size:90px;right:0}.stats{gap:6px}.stat{padding:11px 7px}.stat small{font-size:11px}.stat strong{font-size:26px}.fields{grid-template-columns:1fr}.moods{gap:4px}.moods button{font-size:12px;padding:10px 2px}.moods button span{font-size:19px}.day{min-height:52px;padding:4px;font-size:12px}.calendar{gap:3px}.pagehead h2{font-size:29px}.field label{font-size:16px}.nav button{font-size:12px}.nav .no{font-size:11px}html[lang=en] .nav button{font-size:13px}html[lang=en] .hero h2{font-size:32px}}
+
+
+/* Edition III: editorial margins and a daily note, not an office dashboard */
+.app{width:min(100%,1360px);padding-inline:clamp(24px,4vw,56px);overflow-x:clip}
+.top{min-width:0;flex-wrap:wrap;justify-content:space-between;column-gap:32px;row-gap:24px;padding-inline:clamp(12px,2.2vw,30px)}
+.brand{min-width:0;flex:1 1 340px;padding-left:clamp(6px,1vw,16px)}
+.brand small{display:block;overflow-wrap:anywhere;line-height:1.55}
+.brand h1{font-size:clamp(32px,4vw,54px);letter-spacing:.045em;overflow-wrap:normal;white-space:normal}
+.dateplate{flex:0 1 240px;max-width:100%;margin:6px 4px 10px}
+.daily-note{background:linear-gradient(145deg,#f0e2c6,#f5e9d2);border-top:1px solid #b89d70;border-bottom:3px double #b89d70;padding:20px 17px 18px;position:relative;box-shadow:inset 0 0 0 5px #f5e9d2}
+.daily-note:before{content:'❧';position:absolute;right:15px;top:8px;color:#987c50;font-size:23px}
+.note-index,.note-foot{font:14px 'IM Fell English','Noto Serif TC',serif;color:#856943;letter-spacing:.07em}
+.daily-note .quote{margin:15px 0 18px;color:#4d523f;font:500 clamp(20px,2vw,25px)/2.05 'Iansui','Noto Serif TC',serif;overflow-wrap:anywhere}
+.note-foot{font-size:12px;border-top:1px dashed #bba684;padding-top:9px}
+html[lang=en] .daily-note .quote{font:italic 500 clamp(23px,2.2vw,29px)/1.55 'Cormorant Garamond','IM Fell English',serif}
+@media(max-width:700px){.app{padding-inline:18px}.top{padding:12px 10px 22px}.brand{flex-basis:100%;padding-left:8px}.dateplate{margin:0 0 8px 8px;flex-basis:210px}.brand h1{font-size:clamp(30px,9vw,45px)}.brand small{font-size:12px}.brand p{font-size:14px}}
+@media(max-width:390px){.app{padding-inline:12px}.brand h1{font-size:31px;letter-spacing:.025em}.dateplate{min-width:0!important}}
+
+
+/* Archive IV: disciplined typography, materiality and adaptable layout */
+@import url('https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Noto+Serif+TC:wght@400;500;600;700&family=Cormorant+Garamond:wght@400;500;600;700&display=swap');
+body{font-family:'Noto Serif TC','Songti TC','PMingLiU',serif;line-height:1.8}
+button,input,select,textarea{font-family:inherit}
+.brand h1{font-family:'IM Fell English','Cormorant Garamond',serif;letter-spacing:.065em;font-weight:400;line-height:1.05;overflow-wrap:anywhere;font-size:clamp(2.7rem,6.3vw,5.4rem)}
+.brand{min-width:0;padding-inline:clamp(18px,3vw,50px)}
+.top{min-width:0;gap:20px;overflow:hidden}
+.brand small{font-size:clamp(.65rem,1.1vw,.85rem);letter-spacing:.14em}
+.pagehead h2,.hero h2{font-family:'Noto Serif TC','Songti TC',serif;line-height:1.45}
+.field label{font-size:clamp(.91rem,1.3vw,1.05rem)}
+.field input,.field select,.field textarea{font-size:1rem;line-height:1.8}
+.micro{letter-spacing:.12em}
+.dateplate{background:linear-gradient(145deg,#f3e2bb,#e6cda0);border:3px double #76532f;color:#50361f;box-shadow:4px 5px 0 #a98c62}
+.dateplate .date-large{color:#49301b;font-family:'IM Fell English',serif;font-size:clamp(1.4rem,2.2vw,2rem)}
+.dateplate .date-small{color:#65482b}
+.memory-letter{background:linear-gradient(110deg,#efe0bc,#f6ead0 56%,#e7d3a8);border:1px solid #aa8c60;position:relative}
+.memory-letter:before{content:'❦';position:absolute;right:22px;top:14px;font-size:2.5rem;color:#b19b75;opacity:.6}
+.letter-content{font-size:1.05rem;line-height:2;white-space:pre-wrap;max-width:66ch}
+.archive-result{padding:18px 4px;border-bottom:1px dashed #b4a07f}
+.archive-result h4{margin:.2rem 0;font-size:1.05rem}
+.archive-result p{margin:.3rem 0;overflow-wrap:anywhere}
+.research-number{font-family:'IM Fell English',serif;font-size:2.4rem;color:#5c664e;line-height:1.3}
+.research-sub{font-size:.9rem;color:#6f624f}
+.archive-reminder{padding:12px 0;color:#795534}
+.month-edition{font-family:'IM Fell English',serif;letter-spacing:.09em;color:#8b6a3c}
+@media(max-width:780px){.top{display:flex;flex-wrap:wrap}.brand{padding-inline:clamp(22px,6vw,40px);width:100%}.brand h1{font-size:clamp(2.8rem,11vw,4.5rem)}.dateplate{margin-left:clamp(22px,6vw,40px)}.side{min-width:0}.fields{grid-template-columns:1fr}.letter-content{font-size:1rem}}
+
+/* Archive IV.1 — editorial spacing and bilingual chart empty states */
+.two{grid-template-columns:minmax(0,1.16fr) minmax(320px,1fr);align-items:stretch;gap:22px}
+.two>.sheet{min-width:0;height:100%}
+.chart-empty{height:100%;min-height:195px;display:flex;align-items:center;justify-content:center;text-align:center;padding:22px 32px;color:#806c51;font-family:'Iansui','Noto Serif TC',serif;font-size:17px;line-height:1.9;border-top:1px solid #d4c4a6;background:radial-gradient(ellipse at center,#f8ecd7 0%,#f3e5cb 90%)}
+.chart-empty[hidden]{display:none!important}
+.daily-note{padding:17px 20px 18px}
+.daily-note .quote{overflow-wrap:normal;word-break:normal}
+html[lang=en] .daily-note .quote{font-size:clamp(21px,2vw,27px);line-height:1.5;letter-spacing:.005em;hyphens:auto}
+html[lang=en] .note-index{font-size:13px;letter-spacing:.02em;padding-right:22px}
+html[lang=en] .note-foot{font-size:12px;line-height:1.55;letter-spacing:.025em}
+@media(max-width:1050px){.two{grid-template-columns:minmax(0,1fr)}.two>.sheet{height:auto}}
+@media(max-width:550px){.chart-empty{padding:20px;font-size:15px}.daily-note .quote{font-size:21px!important}.sheet{padding:18px}}
+
+/* ARCHIVE IV.2 · tactile antique form controls */
+:root{color-scheme:light}
+.field{min-width:0}
+.field label{line-height:1.65}
+.intensity-heading{display:flex;justify-content:space-between;align-items:baseline;gap:20px;margin-bottom:15px;border-bottom:1px dotted #b9a17b;padding-bottom:9px}
+.intensity-heading label{display:block;margin:0;flex:1;min-width:0}
+.intensity-value{white-space:nowrap;color:#59462e;font-family:'IM Fell English','Noto Serif TC',serif;font-size:19px;letter-spacing:.04em;display:flex;align-items:baseline;gap:4px}
+.intensity-value b{font-size:36px;line-height:1;font-weight:400;color:#526148;min-width:1.1em;text-align:right;font-variant-numeric:lining-nums tabular-nums}
+.intensity-value span{font-size:17px;color:#897455}
+.antique-range{display:flex;align-items:center;gap:12px;padding:2px 1px 0}
+.range-end{font:16px 'IM Fell English',serif;color:#927b57;min-width:15px;text-align:center}
+.antique-range input[type=range]{-webkit-appearance:none;appearance:none;display:block;width:100%;min-width:0;height:36px;margin:0;cursor:pointer;background:transparent;accent-color:#5d6a50;outline:none}
+.antique-range input[type=range]::-webkit-slider-runnable-track{height:7px;border:1px solid #9f8b68;border-radius:2px;background:linear-gradient(90deg,#9eaa8a 0%,#d8c7a4 50%,#b39a72 100%);box-shadow:inset 0 1px 2px #4a3c2c40,0 1px 0 #fff5db}
+.antique-range input[type=range]::-moz-range-track{height:7px;border:1px solid #9f8b68;border-radius:2px;background:linear-gradient(90deg,#9eaa8a,#d8c7a4,#b39a72);box-shadow:inset 0 1px 2px #4a3c2c40}
+.antique-range input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:25px;height:25px;margin-top:-10px;border:3px double #d5bd8c;border-radius:50%;background:radial-gradient(circle at 35% 30%,#8d9a7d,#4b5c46 70%);box-shadow:0 2px 3px #493b2c55,0 0 0 2px #f1e3c5}
+.antique-range input[type=range]::-moz-range-thumb{width:20px;height:20px;border:3px double #d5bd8c;border-radius:50%;background:radial-gradient(circle at 35% 30%,#8d9a7d,#4b5c46 70%);box-shadow:0 2px 3px #493b2c55,0 0 0 2px #f1e3c5}
+.antique-range input[type=range]:focus-visible{outline:2px solid #79633e;outline-offset:3px}
+.range-caption{display:flex;justify-content:space-between;gap:12px;margin-top:1px;color:#806b4f;font-size:12px;letter-spacing:.04em}
+.field select{appearance:none;-webkit-appearance:none;min-height:45px;padding:9px 36px 9px 9px!important;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='m5 9 7 7 7-7' fill='none' stroke='%23725a3a' stroke-width='1.8'/%3E%3C/svg%3E")!important;background-repeat:no-repeat!important;background-size:18px 18px!important;background-position:right 9px center!important;color:#493b2a}
+.field select:focus-visible{outline:2px solid #8c7454;outline-offset:3px}
+.field select option{background:#f3e6ca;color:#493b2a}
+@media(max-width:550px){.intensity-heading{gap:8px}.intensity-heading label{font-size:15px}.intensity-value b{font-size:30px}.range-caption{font-size:11px}}
+
+
+/* Archive IV.3: bespoke archival intake, never show native file picker chrome */
+.archive-upload{position:relative;margin:16px 0 22px;max-width:680px}
+.archive-file-native{position:absolute!important;width:1px!important;height:1px!important;opacity:0!important;overflow:hidden!important;clip-path:inset(50%)!important;padding:0!important;border:0!important}
+.archive-drop{cursor:pointer;display:flex!important;align-items:center;gap:18px;padding:21px 22px!important;background:linear-gradient(112deg,#e8d7b5,#f1e3c8 60%,#e9d9ba);border:1px dashed #9c8059;outline:4px double #b7a17b;outline-offset:-8px;min-height:115px;position:relative;transition:background .2s,box-shadow .2s;letter-spacing:normal!important}
+.archive-drop:hover,.archive-file-native:focus-visible+.archive-drop{background:#e2cfaa;box-shadow:3px 5px 0 #b29c7955}
+.archive-drop-mark{font:38px 'IM Fell English',serif;color:#786440;line-height:1;flex-shrink:0}
+.archive-drop-copy{display:flex;flex-direction:column;gap:5px;min-width:0;flex:1}
+.archive-drop-copy strong{font:500 clamp(17px,2vw,22px)/1.5 'Noto Serif TC',serif;color:#493b2c}
+.archive-drop-copy small{font:14px/1.6 'Noto Serif TC',serif;color:#756144}
+.archive-drop-seal{font:25px 'IM Fell English',serif;color:#776243}
+.archive-file-selected{font:14px/1.6 'Noto Serif TC',serif;color:#715d42;padding:10px 3px 0;overflow-wrap:anywhere}
+.archive-file-selected.has-file{color:#3d614c;font-weight:600}
+.btn:disabled{opacity:.48;cursor:not-allowed;filter:grayscale(.5);box-shadow:none}
+html[lang=en] .archive-drop-copy strong{font:500 27px/1.15 'Cormorant Garamond',serif}
+html[lang=en] .archive-drop-copy small{font:18px/1.3 'Cormorant Garamond',serif}
+@media(max-width:550px){.archive-drop{gap:12px;padding:17px 14px!important;min-height:100px}.archive-drop-mark{font-size:29px}.archive-drop-seal{font-size:19px}}
+
+.archive-unwritten{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;text-align:center;min-height:170px;padding:22px 14px;color:#6d6048;background:repeating-linear-gradient(180deg,transparent 0,transparent 34px,rgba(126,99,63,.10) 35px,transparent 36px);}
+.archive-unwritten em{font-family:Georgia,"Noto Serif TC",serif;font-size:clamp(19px,2vw,26px);font-weight:400;color:#4b4938;line-height:1.7}
+.archive-unwritten span:last-child{font-size:14px;line-height:1.8}
+.archive-flourish{font-size:26px;color:#a88c5b}
+
+/* ARCHIVE IV.5 — coherent typesetting, editorial hierarchy, no UI sans-serif leakage */
+:root{--archive-cn:'Noto Serif TC','Songti TC','PMingLiU',serif;--archive-en:'Cormorant Garamond','IM Fell English',Georgia,serif;--archive-ui:'Noto Serif TC','Songti TC',serif}
+html{font-synthesis:none}body{font-family:var(--archive-cn);font-size:16px;line-height:1.85}
+body,button,input,select,textarea,option{font-family:var(--archive-cn)}
+button,input,select,textarea{font-size:16px;letter-spacing:.012em}
+html[lang=en] body,html[lang=en] button,html[lang=en] input,html[lang=en] select,html[lang=en] textarea,html[lang=en] option{font-family:var(--archive-en);font-size:clamp(18px,1.7vw,21px);line-height:1.5}
+/* Hierarchy: restrained literary display, readable text, smaller archive metadata */
+.pagehead h2,.hero h2,.sheet h3,.research h4{font-family:var(--archive-cn);font-weight:500;letter-spacing:.025em;line-height:1.4}
+html[lang=en] .pagehead h2,html[lang=en] .hero h2,html[lang=en] .sheet h3,html[lang=en] .research h4{font-family:var(--archive-en);font-size:clamp(30px,3vw,39px);font-weight:500;letter-spacing:.015em;line-height:1.15}
+html[lang=en] .research h4{font-size:30px}
+.micro,.no,.research-sub,.archive-result small,.stat small{font-family:var(--archive-cn);font-size:13px;line-height:1.7;letter-spacing:.06em}
+html[lang=en] .micro,html[lang=en] .no{font-family:'IM Fell English',Georgia,serif;font-size:15px;letter-spacing:.12em}
+html[lang=en] .research-sub,html[lang=en] .stat small{font-family:var(--archive-en);font-size:19px;line-height:1.45;letter-spacing:0}
+/* Main prose, including dynamically generated research statistics */
+.sheet p,.insight,.research p,.archive-result,.entry p,.empty,.hint,.archive-unwritten span:last-child{font-family:var(--archive-cn);font-size:16px;line-height:1.85;letter-spacing:.015em}
+html[lang=en] .sheet p,html[lang=en] .insight,html[lang=en] .research p,html[lang=en] .archive-result,html[lang=en] .entry p,html[lang=en] .empty,html[lang=en] .hint,html[lang=en] .archive-unwritten span:last-child{font-family:var(--archive-en);font-size:clamp(19px,1.85vw,23px);line-height:1.4;letter-spacing:0}
+/* Inputs: select text matches freeform text, including placeholders and options */
+.field input:not([type=checkbox]):not([type=range]),.field select,.field textarea{font-family:var(--archive-cn)!important;font-size:17px!important;font-weight:400!important;line-height:1.65;min-height:44px}
+.field input::placeholder,.field textarea::placeholder{font-family:inherit!important;font-size:inherit!important;font-weight:400;font-style:italic;opacity:.8}
+.field select option{font-family:var(--archive-cn)!important;font-size:17px!important}
+html[lang=en] .field input:not([type=checkbox]):not([type=range]),html[lang=en] .field select,html[lang=en] .field textarea{font-family:var(--archive-en)!important;font-size:24px!important;line-height:1.3}
+html[lang=en] .field select option{font-family:var(--archive-en)!important;font-size:22px!important}
+.field label{font-family:var(--archive-cn);font-size:16px;font-weight:500;line-height:1.5}
+html[lang=en] .field label{font-family:var(--archive-en);font-size:clamp(22px,2vw,27px);font-weight:500;line-height:1.25}
+/* Archival notice: no modern sans-serif block; preserve readable width */
+#insights>.sheet:last-child{padding:23px 28px;border-top:2px double #b49a72}
+#insights>.sheet:last-child p{margin:0;max-width:68ch;color:#5d503d}
+html[lang=en] #insights>.sheet:last-child p{font-style:italic;font-size:clamp(20px,2vw,25px);line-height:1.45}
+#tagInsight .research-sub{margin:6px 0 12px}
+#tagInsight>p{margin:14px 0 6px}
+#tagInsight .archive-result{border-bottom:1px dashed #c4af8d;padding:12px 0}
+/* Keep action text consistent and accessible */
+.btn,.nav button,.tags label,.moods button{font-family:var(--archive-cn);font-size:15px;line-height:1.5}
+html[lang=en] .btn,html[lang=en] .nav button,html[lang=en] .tags label,html[lang=en] .moods button{font-family:var(--archive-en);font-size:21px;line-height:1.25}
+@media(max-width:650px){#insights>.sheet:last-child{padding:20px}.field label{font-size:15px}html[lang=en] .field label{font-size:22px}html[lang=en] .sheet p,html[lang=en] .insight{font-size:20px}}
+
+
+/* Archive IV.6 — specimen slips: one consistent tactile selection language */
+#dTags.tags{display:flex;flex-wrap:wrap;align-items:center;gap:11px 12px;margin-top:14px;margin-bottom:13px}
+#dTags.tags label{position:relative;isolation:isolate;display:inline-flex;align-items:center;justify-content:center;min-height:43px;padding:9px 19px 10px 18px;margin:0;border:0!important;border-bottom:1px solid #a18a65!important;border-radius:0!important;background:linear-gradient(172deg,#f5e8cf 0%,#e9d7b6 100%)!important;box-shadow:1px 2px 0 #ad98734d,0 4px 9px #6b4c2914;clip-path:polygon(2% 0,98% 1%,100% 90%,96% 100%,1% 98%,0 13%);transform:rotate(-.45deg);font-family:var(--archive-cn)!important;font-size:16px!important;line-height:1.5!important;letter-spacing:.035em;color:#655037;cursor:pointer;transition:background .18s,transform .18s,box-shadow .18s;user-select:none}
+#dTags.tags label:nth-child(3n+2){transform:rotate(.55deg)}
+#dTags.tags label:nth-child(4n+3){transform:rotate(-.85deg)}
+#dTags.tags label:hover{background:#ead8b5!important;transform:translateY(-2px) rotate(0deg);box-shadow:1px 4px 0 #ad98734d,0 6px 12px #6b4c2920}
+#dTags.tags label input[type=checkbox]{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;margin:0!important;opacity:0!important;cursor:pointer;accent-color:initial}
+#dTags.tags label span{position:relative;pointer-events:none;white-space:nowrap}
+#dTags.tags label:has(input:checked){background:linear-gradient(170deg,#6a785d,#465b46)!important;border-bottom-color:#2e4433!important;color:#f8e9c9;box-shadow:1px 2px 0 #aa9067,0 4px 10px #38442a33}
+#dTags.tags label:has(input:checked) span::before{content:'✦';font-family:serif;font-size:.7em;color:#dfc594;margin-right:8px}
+#dTags.tags label:has(input:focus-visible){outline:2px solid #775a34;outline-offset:4px}
+html[lang=en] #dTags.tags label{font-family:var(--archive-en)!important;font-size:23px!important;line-height:1.15!important;padding:9px 20px 10px}
+@media(max-width:600px){#dTags.tags{gap:9px}#dTags.tags label{min-height:42px;padding:8px 14px 9px;font-size:15px!important}html[lang=en] #dTags.tags label{font-size:21px!important;padding:8px 15px 9px}}
+@media(prefers-reduced-motion:reduce){#dTags.tags label{transition:none}}
+
+/* Archival instrument: tactile, quiet scales rather than browser number spinners */
+.archive-scale-field{min-width:0;padding:8px 0 15px!important}
+.archive-scale-head{display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin-bottom:16px}
+.archive-scale-head label{margin:0!important}
+.archive-scale-head output{white-space:nowrap;font-family:Georgia,"Times New Roman",serif!important;font-size:23px!important;letter-spacing:.04em;color:#51614c;font-variant-numeric:lining-nums tabular-nums}
+.archive-scale-head output small{font-family:inherit;font-size:13px;color:#897c65}
+.archive-scale-field input.archive-scale{display:block;width:100%;height:28px;padding:0!important;margin:0!important;border:0!important;background:transparent!important;appearance:none;-webkit-appearance:none;cursor:pointer;outline-offset:4px;accent-color:#65745e}
+.archive-scale::-webkit-slider-runnable-track{height:5px;border-radius:8px;background:linear-gradient(to right,#76876e 0%,#76876e var(--fill,44.44%),#d3c8b3 var(--fill,44.44%),#d3c8b3 100%);border:1px solid #aaad94}
+.archive-scale::-moz-range-track{height:5px;border-radius:8px;background:#d3c8b3;border:1px solid #aaad94}
+.archive-scale::-moz-range-progress{height:5px;border-radius:8px;background:#76876e}
+.archive-scale::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:19px;height:19px;border-radius:50%;margin-top:-8px;border:3px solid #f1e6cf;background:#52624d;box-shadow:0 0 0 1px #9a9d7d,0 2px 4px #4b4c3720}
+.archive-scale::-moz-range-thumb{width:14px;height:14px;border-radius:50%;border:3px solid #f1e6cf;background:#52624d;box-shadow:0 0 0 1px #9a9d7d}
+.archive-scale:focus-visible{outline:2px solid #6d7a63;outline-offset:5px}
+.archive-scale-foot{display:flex;justify-content:space-between;gap:10px;font-size:13px;color:#857961;margin-top:1px}
+html[lang=en] .archive-scale-head output{font-family:Georgia,"Times New Roman",serif!important;font-size:23px!important}
+@media(max-width:520px){.archive-scale-head output{font-size:21px!important}}
+
+/* Archive V.3 — real cotton-paper grain, restrained printing, breathing room */
+:root{--paper-fiber:url("data:image/webp;base64,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");--quiet-ink:#494439;--quiet-border:#d4c9b6}
+body{background:#dcd7c8!important;background-image:linear-gradient(115deg,#b7b2a522,#f1eadc22 52%,#c1b8a422)!important}
+.app{background:#e9e4d8!important;border:0!important;border-left:9px solid #59624f!important;box-shadow:0 16px 70px #39362920!important}
+.sheet,.hero,.pagehead,.stat,.research,.daily-note,.quiet-hollow,.dateplate{
+ background-image:linear-gradient(110deg,#ffffff16,transparent 45%,#8b71400a),var(--paper-fiber)!important;
+ background-color:#f6efdf!important;background-repeat:no-repeat,repeat!important;
+ background-size:100% 100%,320px 320px!important;
+ border:1px solid #d0c3a8!important;box-shadow:0 2px 10px #443b2911!important;
+ transform:none!important;clip-path:none!important
 }
-*{box-sizing:border-box}
-body{margin:0;background:var(--paper);color:var(--ink);
-font-family:Georgia,"Noto Serif TC","Microsoft JhengHei",serif}
-button,input,textarea,select{font:inherit}
-button{cursor:pointer}
-.app{max-width:1200px;margin:auto;padding:26px 22px 60px}
-header{display:flex;justify-content:space-between;align-items:center;
-border-bottom:1px solid var(--line);padding-bottom:20px;margin-bottom:25px}
-.brand small{letter-spacing:4px;color:var(--green);font:11px Arial}
-.brand h1{font-size:27px;letter-spacing:2px;margin:5px 0}
-.date{font-size:12px;color:var(--muted);text-align:right}
-.layout{display:grid;grid-template-columns:205px 1fr;gap:25px}
-nav{display:flex;flex-direction:column;gap:7px}
-nav button{border:0;background:transparent;text-align:left;padding:13px 14px;
-border-radius:9px;color:#686b5f}
-nav button.active,nav button:hover{background:#e8e1ce;color:var(--ink)}
-nav button span{display:inline-block;width:25px;color:var(--green)}
-main{min-width:0}
-.page{display:none}.page.active{display:block}
-.heading{margin:0 0 5px;font-size:25px;font-weight:normal}
-.sub{color:var(--muted);font-size:13px;margin:0 0 22px}
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:13px;
-padding:19px;box-shadow:var(--shadow);margin-bottom:15px}
-.card h3{font-size:14px;font-weight:normal;color:var(--muted);margin:0 0 13px}
-.metric{font-size:30px;color:#7d896f}
-.metric small{font-size:12px;color:var(--muted)}
-.wide{grid-column:span 2}
-button.primary{background:var(--yellow);border:0;border-radius:8px;
-padding:11px 18px;color:#302c20}
-button.secondary{background:#eee9dc;border:0;border-radius:8px;padding:10px 15px}
-button.danger{background:#f4e6e1;color:#934f45;border:0;border-radius:8px;padding:10px 15px}
-.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:15px}
-label{display:block;font-size:13px;color:#66695d;margin:15px 0 7px}
-input,textarea,select{width:100%;padding:11px;border:1px solid var(--line);
-border-radius:8px;background:#fffefa;color:var(--ink);outline-color:var(--green)}
-textarea{min-height:100px;resize:vertical}
-.fieldgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.rating{display:flex;gap:8px;flex-wrap:wrap}
-.rating button{border:1px solid var(--line);background:#fffefa;
-border-radius:8px;padding:10px 13px}
-.rating button.selected{background:#e8dfc7;border-color:var(--yellow)}
-.taglist{display:flex;gap:8px;flex-wrap:wrap}
-.taglist label{margin:0}
-.taglist input{width:auto}
-canvas{width:100%;height:190px}
-.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
-.day{min-height:65px;background:#f6f2e9;border-radius:7px;padding:7px;
-font-size:12px;color:var(--muted)}
-.day .dot{display:block;width:10px;height:10px;border-radius:50%;margin-top:9px}
-.day.today{outline:1px solid var(--yellow)}
-.dayhead{text-align:center;font-size:11px;color:var(--muted);padding:7px}
-.record{padding:13px 0;border-bottom:1px solid var(--line);font-size:13px}
-.record:last-child{border:0}
-.record strong{color:#78866f}
-.empty{color:var(--muted);font-size:13px;padding:12px 0}
-footer{text-align:center;color:#aaa28f;font:11px Arial;margin-top:35px;letter-spacing:1px}
-@media(max-width:720px){
- .app{padding:18px 13px 40px}
- .layout{grid-template-columns:1fr;gap:12px}
- nav{display:grid;grid-template-columns:repeat(4,1fr);gap:4px}
- nav button{font-size:11px;text-align:center;padding:10px 3px}
- nav button span{display:block;width:auto}
- .grid{grid-template-columns:1fr 1fr}
- .wide{grid-column:span 2}
- .fieldgrid{grid-template-columns:1fr}
- header{align-items:flex-start}
-}
+.sheet{padding:clamp(24px,3.4vw,42px)!important;margin-bottom:26px!important}
+.hero{padding:clamp(30px,4vw,50px)!important}
+.sheet:before,.hero:before,.hero:after,.top:before,.quiet-hollow:before{content:none!important}
+.top{background-image:var(--paper-fiber)!important;background-size:320px 320px!important;background-color:#f2e7d2!important;box-shadow:none!important;border:1px solid #c8b99e!important;padding:24px clamp(20px,3vw,38px)!important}
+.dateplate{outline:none!important;box-shadow:none!important;transform:none!important}
+.stat{min-height:92px!important;padding:17px 22px!important;gap:6px!important}
+.stat.is-empty{background-color:#f6efdf!important}
+.stat strong{font-size:26px!important}.stat .stat-empty{font-size:16px!important}
+.side{background:#505c4c!important;box-shadow:none!important;border:1px solid #707b67!important}
+.nav button{border-radius:2px!important;box-shadow:none!important;transform:none!important}
+.btn,.btn.primary{box-shadow:none!important;transform:none!important;border-radius:4px!important}
+.btn.primary{background:#586a58!important}
+#daily .actions .btn.primary{border-radius:4px!important}
+#daily .field textarea{background-image:repeating-linear-gradient(to bottom,transparent 0,transparent 35px,#a99d8440 36px,#a99d8440 37px),var(--paper-fiber)!important;background-size:auto,320px 320px!important}
+.pagehead h2,.hero h2,.sheet h3{letter-spacing:.015em!important;text-shadow:none!important}
+.sheet h3{margin-bottom:19px!important}
+.field{margin:19px 0!important}.field label{margin-bottom:9px!important}
+.two{gap:24px!important}.layout{gap:32px!important}
+.quote{line-height:1.85!important}
+@media(max-width:800px){.app{border-left:0!important;padding:15px!important}.layout{gap:18px!important}.sheet{padding:22px!important}.top{padding:20px!important}}
+@media(max-width:500px){.stats{grid-template-columns:1fr!important}.hero{padding:26px 21px!important}}
+
+
+/* Archive V.5 — corrected letterpress date and perceptible cotton paper */
+:root{--cotton-paper:url("data:image/webp;base64,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")}
+body{background-color:#e5ddcf!important;background-image:linear-gradient(135deg,#d7cbb9a8,#eee8ddaa),var(--cotton-paper)!important;background-size:100% 100%,640px 640px!important}
+.app{background-color:#eae3d5!important;background-image:var(--cotton-paper)!important;background-size:640px 640px!important}
+.top,.sheet,.hero,.stat,.research,.daily-note,.quiet-hollow,.dateplate{background-image:linear-gradient(110deg,#ffffff22,#b29d7309),var(--cotton-paper)!important;background-size:100% 100%,640px 640px!important;background-repeat:no-repeat,repeat!important;background-color:#f6efdf!important}
+.top{background-color:#f7f0e1!important}
+.dateplate{border-left:1px solid #c6b69c!important;padding-left:26px!important;display:flex!important;flex-direction:column!important;justify-content:center!important;align-items:flex-start!important;gap:9px!important;min-width:0!important}
+.dateplate .micro{font-size:12px!important;line-height:1.4!important;letter-spacing:.11em!important}
+.dateplate .date-large{font-family:'Noto Serif TC','Source Han Serif TC','Songti TC','PMingLiU',serif!important;font-size:clamp(17px,1.55vw,22px)!important;letter-spacing:.025em!important;font-weight:500!important;line-height:1.7!important;overflow-wrap:anywhere!important;white-space:normal!important;font-variant-numeric:lining-nums!important}
+html[lang=en] .dateplate .date-large{font-family:'IM Fell English','Cormorant Garamond',Georgia,serif!important;font-size:clamp(22px,2.1vw,28px)!important;line-height:1.25!important}
+.dateplate .date-small{font-size:13px!important;line-height:1.5!important}
+@media(max-width:600px){.dateplate{border-left:0!important;border-top:1px solid #c6b69c!important;padding:16px 0 0!important}}
+
+/* Archive V.6: consistent local time, clear numerals and quiet controls */
+:root{--archive-digits:Georgia,'Noto Serif TC','Songti TC',serif}
+.arch-time{display:flex;align-items:center;justify-content:space-between;gap:18px;border-bottom:1px solid #b9ab91;padding:9px 0 13px;flex-wrap:wrap}
+.arch-time-display{font-family:var(--archive-digits)!important;font-size:clamp(19px,2vw,25px)!important;color:#514a3b;line-height:1.45;letter-spacing:.015em;font-variant-numeric:lining-nums tabular-nums}
+.arch-time-edit{font-family:inherit;background:none;border:0;border-bottom:1px solid #9a896b;color:#68745f;padding:6px 0;font-size:15px;white-space:nowrap;cursor:pointer}
+.arch-time-edit:hover,.arch-time-edit:focus-visible{color:#394d3c;border-bottom-color:#394d3c}
+.arch-time-controls{padding:18px 0 6px;border-bottom:1px solid #c9bda6}
+.arch-time-controls[hidden]{display:none!important}
+.arch-time-row{display:flex;flex-wrap:wrap;gap:13px;margin-bottom:12px}
+.arch-time-row label{display:flex;flex-direction:column;gap:5px;font-size:14px!important;color:#75654e}
+.arch-time-row select{appearance:none;-webkit-appearance:none;min-width:85px;border:1px solid #c4b49a!important;border-radius:2px!important;background:#f4ecdd!important;color:#4d4739!important;font:17px var(--archive-digits)!important;padding:8px 27px 8px 10px!important;background-image:linear-gradient(45deg,transparent 50%,#796b54 50%),linear-gradient(135deg,#796b54 50%,transparent 50%)!important;background-position:calc(100% - 16px) 52%,calc(100% - 11px) 52%!important;background-size:5px 5px!important;background-repeat:no-repeat!important}
+.arch-time-hint{font-size:14px!important;color:#867a67;margin:0 0 8px}
+#dSleep{appearance:textfield;-moz-appearance:textfield;font-family:var(--archive-digits)!important;font-variant-numeric:lining-nums tabular-nums}
+#dSleep::-webkit-inner-spin-button,#dSleep::-webkit-outer-spin-button{appearance:none;-webkit-appearance:none;margin:0}
+#dDate{font-family:var(--archive-digits)!important;font-variant-numeric:lining-nums tabular-nums;color:#514a3b}
+#dDate::-webkit-calendar-picker-indicator{opacity:.48;filter:sepia(1) saturate(.5)}
+.stat strong,.stat em,.intensity-value,.archive-scale-head output,.research-number{font-family:var(--archive-digits)!important;font-variant-numeric:lining-nums tabular-nums!important;font-feature-settings:'lnum' 1,'tnum' 1}
+@media(max-width:600px){.arch-time{align-items:flex-start;flex-direction:column;gap:7px}.arch-time-display{font-size:20px!important}.arch-time-row{gap:8px}.arch-time-row select{min-width:74px}}
+</style>
+<style>
+
+/* Archive V — The Quiet Hollow: calmer, more intimate editorial system */
+:root{--quiet-ink:#4d493d;--quiet-muted:#79725f;--quiet-olive:#66745f;--quiet-paper:#f5ecd9;--quiet-border:#cfc0a4}
+body{color:var(--quiet-ink);background-color:#e7dcc6;background-image:radial-gradient(ellipse at 30% 8%,#f1e8d5 0%,transparent 65%),radial-gradient(#796f5a0b .55px,transparent .55px);background-size:auto,8px 8px}
+.app{max-width:1280px}.layout{gap:30px}.side{background:linear-gradient(155deg,#53614e,#455344)!important;box-shadow:3px 6px 15px #4b4a3420!important}
+.nav button{background:#eee2ca!important;color:#514b3e!important;box-shadow:none!important;transform:none!important;border:1px solid #c9b997!important;clip-path:none!important;border-radius:2px 7px 3px 5px!important;transition:background .2s ease}
+.nav button:hover,.nav button.active{background:#dfd4b8!important;color:#364b3b!important;border-left:3px solid #697961!important;padding-left:9px!important}
+.sheet,.hero{transform:none!important;clip-path:none!important;background:linear-gradient(140deg,#f5ecd9,#f6eddb 78%,#f0e5d0)!important;border:1px solid var(--quiet-border)!important;box-shadow:0 4px 18px #4d493519!important}
+.sheet:nth-child(2n){transform:none!important}.sheet{padding:clamp(20px,3vw,31px);margin-bottom:22px}
+.sheet:before{opacity:.42}.sheet.accent{border-top:2px solid #a49a7c!important}
+.hero{padding:clamp(28px,4vw,45px)!important;margin-bottom:25px;overflow:hidden}.hero:after{opacity:.28;font-size:105px;right:15px;top:-10px}.hero:before{opacity:.5}
+.hero h2,.pagehead h2,.sheet h3{text-shadow:none!important;letter-spacing:.025em!important}
+.hero h2{line-height:1.45!important}.hero p{max-width:610px;line-height:1.95!important;color:#746b57!important}
+.pagehead{transform:none!important;background:#ede1ca!important;border-color:#cdbb9e!important;box-shadow:none!important}
+.btn{transform:none!important;clip-path:none!important;box-shadow:none!important;border-radius:3px 9px 4px 7px!important;background:#e9dec8!important;border-color:#bca887!important;transition:background .2s ease,transform .2s ease}
+.btn:hover{background:#ded1b7!important;transform:translateY(-1px)!important}.btn.primary{background:#5b6a56!important;border-color:#53624e!important;color:#f9f0dc!important}.btn.primary:hover{background:#4d5e49!important}
+.stats{gap:12px;margin:19px 0 24px}.stat{transform:none!important;background:#f1e7d4!important;border:1px solid #d4c5a9!important;box-shadow:none!important;padding:18px 20px;min-height:106px;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:8px}.stat:nth-child(2){transform:none!important}
+.stat small{color:#796e5a!important;font-size:15px!important;line-height:1.5!important}.stat strong{font-family:'Noto Serif TC','Songti TC',Georgia,serif!important;font-weight:400!important;font-size:clamp(23px,2.3vw,30px)!important;line-height:1.3!important;letter-spacing:0!important;color:#52624e!important;font-variant-numeric:lining-nums tabular-nums}.stat em{font-size:14px!important}.stat .stat-result{display:flex;align-items:baseline;gap:8px;min-height:30px}.stat .stat-empty{font-size:16px!important;line-height:1.5!important;color:#77725e!important;letter-spacing:.015em}.stat.is-empty{background:#f3ead9!important}.stat.is-empty em{display:none}
+html[lang=en] .stat strong{font-family:Georgia,'Cormorant Garamond',serif!important;font-size:29px!important}html[lang=en] .stat .stat-empty{font-family:'Cormorant Garamond',Georgia,serif!important;font-size:22px!important}
+.daily-note{background:#f1e7d3!important;box-shadow:none!important;border-color:#c4b18f!important}.daily-note .quote{color:#53614f!important}
+.field label{color:#5e5c4b!important}.field input:not([type=checkbox]):not([type=range]),.field select,.field textarea{border-bottom-color:#b6a98f!important}.field textarea{background:repeating-linear-gradient(to bottom,transparent 0,transparent 34px,#b9ac9340 35px,#b9ac9340 36px)!important}
+.moods button{clip-path:none!important;box-shadow:none!important;border:1px solid #cbb99c!important;background:#efe4ce!important;border-radius:3px 8px 4px 7px!important}.moods button.selected{background:#dbe2d3!important;border-color:#788c75!important}
+#dTags.tags label{transform:none!important;clip-path:none!important;box-shadow:none!important;border-radius:3px 9px 4px 7px!important;background:#eee2ca!important}#dTags.tags label:has(input:checked){background:#5d705b!important;box-shadow:none!important}
+.chart-empty{background:#f2e8d5!important;border:1px dashed #c9b99e!important;border-radius:3px;min-height:190px}
+.insight{background:#e8e8db!important;border:1px solid #c8cbb7!important;border-left:3px solid #879780!important}.research{transform:none!important;box-shadow:none!important;background:#f3e8d3!important;border:1px solid #d0bfa2!important}
+.quiet-hollow{position:relative;background:linear-gradient(135deg,#e8e9db,#f1ecdc 80%)!important;border-color:#bdc5b4!important;padding:clamp(24px,3vw,34px)!important}.quiet-hollow:before{content:'❧';position:absolute;right:25px;top:15px;font-size:34px;color:#9aa48c;opacity:.55}.quiet-hollow h3{font-size:clamp(23px,2.5vw,30px)!important;margin:9px 0 13px!important;color:#4c5b49!important}.quiet-hollow p{font-size:17px!important;line-height:1.9!important;color:#666c5e!important;max-width:690px}.quiet-hollow .quiet-whisper{font-size:14px!important;letter-spacing:.03em;color:#7c816f!important}.quiet-hollow .actions{margin-top:19px}
+html[lang=en] .quiet-hollow p{font-size:22px!important;line-height:1.45!important}
+@media(max-width:700px){.stats{grid-template-columns:1fr!important}.stat{min-height:0;padding:15px 18px}.stat strong{font-size:26px!important}.hero:after{opacity:.15}.sheet,.hero{padding:20px!important}}
+@media(prefers-reduced-motion:reduce){.page.active{animation:none!important}*,*:before,*:after{scroll-behavior:auto!important;transition:none!important}}
+
+
+/* Archive V.2 — a quieter writing ritual */
+#daily .actions{align-items:center;gap:14px 24px;margin-top:25px}
+#daily .actions .btn.primary{font-size:clamp(16px,1.5vw,19px)!important;padding:12px 23px!important;border-radius:4px 12px 5px 10px!important;letter-spacing:.035em}
+.quiet-reset{border:0;background:transparent;color:#827965;font-family:var(--archive-cn,'Noto Serif TC',serif);font-size:15px;padding:10px 4px;text-decoration:underline;text-decoration-color:#b9ac93;text-underline-offset:6px;cursor:pointer}
+html[lang=en] .quiet-reset{font-family:var(--archive-en,Georgia,serif);font-size:21px}
+.quiet-reset:hover{color:#4e604d;text-decoration-color:#4e604d}
+.quiet-reset:focus-visible{outline:2px solid #65775c;outline-offset:4px;border-radius:3px}
+.quiet-save-note{font-size:14px!important;color:#89806f!important;margin:12px 0 0;line-height:1.9}
+html[lang=en] .quiet-save-note{font-size:18px!important;line-height:1.5}
+#daily .sheet{box-shadow:0 7px 22px #574c3820!important}
+#daily .field textarea:focus,#daily .field input:focus,#daily .field select:focus{outline-offset:3px}
+@media(max-width:600px){#daily .actions{align-items:flex-start;flex-direction:column;gap:7px}#daily .actions .btn.primary{width:100%;min-height:52px}.quiet-reset{align-self:center;min-height:44px}}
+</style>
+<style>
+/* Archive V.4 — Quiet Heritage / editorial composition */
+:root{--archive-cn:'Noto Serif TC','Songti TC','PMingLiU',serif;--archive-en:'Cormorant Garamond','IM Fell English',Georgia,serif}
+html{font-size:16px}body{font-family:var(--archive-cn)!important;color:#484337!important;background:#e7e2d7!important;background-image:radial-gradient(ellipse at 45% 0%,#f2eee4,transparent 70%)!important;font-size:15px!important;line-height:1.85!important}
+html[lang=en] body{font-family:var(--archive-en)!important;font-size:20px!important;line-height:1.5!important}
+.app{max-width:1370px!important;padding:30px clamp(18px,3vw,45px) 55px!important;background:none!important;border:0!important}
+/* The cover: a quiet letterpress imprint instead of an oversized billboard */
+.top{background:#f7f2e6!important;background-image:var(--cotton-paper,none)!important;border:1px solid #c9bba2!important;box-shadow:0 5px 20px #4b433014!important;padding:29px clamp(25px,4vw,56px)!important;min-height:170px;display:grid!important;grid-template-columns:minmax(0,1fr) 225px;gap:32px;align-items:center!important}
+.brand{min-width:0}.brand small{font-family:'IM Fell English',serif!important;font-size:13px!important;letter-spacing:.18em!important;color:#947b56!important}
+.brand h1{font-family:'IM Fell English',Georgia,serif!important;font-size:clamp(42px,5.1vw,68px)!important;font-weight:400!important;letter-spacing:.055em!important;line-height:1.1!important;text-shadow:none!important;color:#3e3a30!important;margin:10px 0 14px!important;white-space:normal}
+.brand p{font-family:var(--archive-cn)!important;font-size:15px!important;color:#776b56!important;letter-spacing:.035em}
+html[lang=en] .brand p{font-family:var(--archive-en)!important;font-size:20px!important}
+.dateplate{min-width:0!important;width:100%;transform:none!important;background:transparent!important;border:0!important;outline:0!important;box-shadow:none!important;padding:6px 0 6px 26px!important;border-left:1px solid #c9b99b!important;text-align:left!important}
+.dateplate .micro{font-family:'IM Fell English',serif!important;font-size:12px!important;letter-spacing:.12em!important;color:#927b58!important}
+.date-large{font-family:var(--archive-cn)!important;font-size:clamp(18px,2vw,25px)!important;letter-spacing:.02em!important;font-weight:500!important;line-height:1.5!important;color:#4a4133!important;white-space:normal}
+html[lang=en] .date-large{font-family:var(--archive-en)!important;font-size:28px!important}
+.date-small{font-family:var(--archive-cn)!important;font-size:14px!important;color:#8a7b66!important}.date-ornament{display:none!important}
+/* Align the entire book on one consistent editorial grid */
+.layout{grid-template-columns:215px minmax(0,1fr)!important;gap:clamp(22px,3vw,40px)!important;margin-top:26px!important;align-items:start}
+.side{position:sticky!important;top:18px!important;margin:0!important;padding:24px 18px!important;background:#53614e!important;border:0!important;box-shadow:none!important;min-width:0}
+.sidequote{font-family:var(--archive-cn)!important;font-size:15px!important;line-height:1.9!important;padding:0 0 19px!important;margin:0 0 17px!important;color:#f1e9d9!important}
+html[lang=en] .sidequote{font-family:var(--archive-en)!important;font-size:20px!important;line-height:1.5!important}
+.sidequote small{font-family:'IM Fell English',serif!important;font-size:12px!important;letter-spacing:.12em!important;margin-bottom:8px}
+.lang-toggle{background:transparent!important;border:0!important;border-bottom:1px solid #82907a!important;margin:0 0 15px!important;padding:0 0 17px!important;text-align:left!important}
+.lang-controls{justify-content:flex-start!important;gap:12px!important;flex-wrap:wrap}.lang-controls button{font-family:var(--archive-cn)!important;color:#e8dfcc!important;font-size:14px!important;padding:4px 0!important;background:transparent!important;border:0!important;white-space:normal}
+.lang-controls #langEn{font-family:'IM Fell English',serif!important;font-size:17px!important}.lang-controls button[aria-pressed=true]{color:#fff6df!important;text-decoration:underline!important;text-decoration-thickness:1px!important;text-underline-offset:5px!important}
+.nav{gap:1px!important}.nav button,.nav button.active,.nav button:hover{font-family:var(--archive-cn)!important;background:transparent!important;transform:none!important;clip-path:none!important;box-shadow:none!important;border:0!important;border-radius:0!important;margin:0!important;color:#eee5d5!important;padding:10px 6px!important;font-size:14px!important;line-height:1.5!important;text-align:left!important}
+html[lang=en] .nav button{font-family:var(--archive-en)!important;font-size:20px!important}
+.nav button.active,.nav button:hover{border-left:2px solid #c6b18c!important;padding-left:13px!important;background:#ffffff12!important}.nav .no{font-family:'IM Fell English',serif!important;color:#d1bc94!important;letter-spacing:0!important}
+.asidefoot{font-family:var(--archive-cn)!important;font-size:12px!important;color:#d7d1bf!important}
+/* Page headers flow into the page, not independent cards */
+.pagehead{background:transparent!important;transform:none!important;border:0!important;border-bottom:1px solid #c8bba5!important;padding:5px 0 20px!important;margin:0 0 0!important;box-shadow:none!important}
+.pagehead .micro{font-family:'IM Fell English',serif!important;font-size:13px!important;letter-spacing:.13em!important;color:#917655!important}
+.pagehead h2{font-family:var(--archive-cn)!important;font-size:clamp(27px,2.9vw,36px)!important;font-weight:500!important;letter-spacing:.04em!important;line-height:1.5!important;margin:5px 0 6px!important;color:#4d4537!important}
+html[lang=en] .pagehead h2{font-family:var(--archive-en)!important;font-size:clamp(34px,3.6vw,47px)!important;line-height:1.15!important}
+.pagehead p{font-family:var(--archive-cn)!important;font-size:14px!important;color:#817560!important;line-height:1.8!important}
+html[lang=en] .pagehead p{font-family:var(--archive-en)!important;font-size:19px!important}
+.pagehead + .sheet,.pagehead + .hero{border-top:0!important;margin-top:0!important}
+.sheet,.hero,.sheet:nth-child(2n){transform:none!important;clip-path:none!important;border:1px solid #d0c3ac!important;background-color:#f8f2e5!important;box-shadow:0 4px 14px #574b3610!important;margin-bottom:20px!important;padding:clamp(23px,3.5vw,39px)!important}
+.sheet:before,.hero:after,.hero:before,.quiet-hollow:before{content:none!important;display:none!important}
+.sheet h3,.hero h2{font-family:var(--archive-cn)!important;font-size:clamp(21px,2.3vw,27px)!important;font-weight:500!important;letter-spacing:.035em!important;line-height:1.5!important;text-shadow:none!important}
+html[lang=en] .sheet h3,html[lang=en] .hero h2{font-family:var(--archive-en)!important;font-size:clamp(28px,3vw,38px)!important;line-height:1.2!important}
+.hero{padding:clamp(26px,3vw,36px)!important}.hero p,.quiet-hollow p{font-family:var(--archive-cn)!important;font-size:16px!important;line-height:1.95!important}
+html[lang=en] .hero p,html[lang=en] .quiet-hollow p{font-family:var(--archive-en)!important;font-size:22px!important;line-height:1.5!important}
+.field label,.field input,.field select,.field textarea,.btn,.entry,.empty,.hint,.insight,.research,.stat small,.stat em{font-family:var(--archive-cn)!important}
+html[lang=en] .field label,html[lang=en] .field input,html[lang=en] .field select,html[lang=en] .field textarea,html[lang=en] .btn,html[lang=en] .entry,html[lang=en] .empty,html[lang=en] .hint,html[lang=en] .insight,html[lang=en] .research,html[lang=en] .stat small,html[lang=en] .stat em{font-family:var(--archive-en)!important}
+.field label{font-size:15px!important;font-weight:400!important}.field input:not([type=checkbox]):not([type=range]),.field select,.field textarea{font-size:17px!important;color:#4e493c!important}html[lang=en] .field input,html[lang=en] .field select,html[lang=en] .field textarea{font-size:22px!important}
+.stat{min-height:90px!important;padding:17px!important;background:#f3ebdc!important;border:0!important;border-top:1px solid #c6b79e!important;gap:5px!important}.stat small{font-size:14px!important}.stat strong{font-size:25px!important}.stat .stat-empty{font-size:15px!important}
+.btn,.btn.primary{border-radius:3px!important;letter-spacing:.02em!important;box-shadow:none!important;transform:none!important}.btn{font-size:15px!important}html[lang=en] .btn{font-size:20px!important}
+/* Avoid texture under text while retaining cotton-fiber character */
+.sheet,.hero,.top{background-blend-mode:normal!important}
+@media(max-width:900px){.layout{grid-template-columns:1fr!important;gap:20px!important}.side{position:static!important;padding:16px!important}.sidequote,.asidefoot{display:none!important}.nav{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:3px!important}.nav button,.nav button.active,.nav button:hover{padding:9px!important;text-align:center!important;border:0!important}.lang-toggle{margin-bottom:8px!important;padding-bottom:10px!important}.top{grid-template-columns:minmax(0,1fr) 190px;gap:15px}}
+@media(max-width:600px){.app{padding:12px!important}.top{grid-template-columns:1fr!important;gap:14px!important;padding:24px!important}.brand h1{font-size:43px!important}.dateplate{border-left:0!important;border-top:1px solid #c9b99b!important;padding:12px 0 0!important}.nav{grid-template-columns:repeat(2,minmax(0,1fr))!important}.nav button{font-size:13px!important}.sheet,.hero{padding:20px!important}.two,.fields{grid-template-columns:1fr!important}.stats{grid-template-columns:1fr!important}.pagehead h2{font-size:29px!important}}
+</style><style>
+/* Archive V.7: quiet, optional observation fields and consistent control typography */
+.journal-mode{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin:1.6rem 0 .35rem;padding:1rem 0;border-top:1px solid rgba(104,94,69,.22)}
+.journal-mode span{font-size:1rem;color:var(--ink,#504a3e)}
+.journal-mode button{appearance:none;background:transparent;color:#586b55;border:0;border-bottom:1px solid #a9a58e;font:inherit;font-size:1rem;padding:.4rem .15rem;cursor:pointer}
+.journal-mode button:hover,.journal-mode button:focus-visible{color:#354e39;border-color:#354e39}
+.journal-mode-hint{font-size:.93rem;opacity:.78;margin:0 0 1.3rem;line-height:1.7}
+.journal-details[hidden]{display:none!important}
+input,select,textarea,button{font-family:inherit}
+input[type=number]{appearance:textfield;-moz-appearance:textfield}
+input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
+button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:2px solid #667b60;outline-offset:3px}
+@media(max-width:650px){.journal-mode{align-items:flex-start}.journal-mode button{max-width:100%;text-align:left}}
+</style><link rel="manifest" href="site.webmanifest"/>
+<link rel="icon" type="image/png" sizes="192x192" href="mood-icon-192.png"/>
+<link rel="apple-touch-icon" sizes="192x192" href="mood-icon-192.png"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="default"/>
+<meta name="apple-mobile-web-app-title" content="MOOD LAB"/>
+<style id="journal-intro-styles">
+/* The cover opens like a clothbound book; skip is always available. */
+#journalIntro{position:fixed;inset:0;z-index:99999;display:grid;place-items:center;overflow:hidden;background:radial-gradient(ellipse at 50% 35%,#e9e0cb 0%,#c9b99b 85%);transition:opacity .65s ease,visibility .65s ease;font-family:"IM Fell English","Noto Serif TC",serif}
+#journalIntro.intro-gone{opacity:0;visibility:hidden;pointer-events:none}
+.intro-scene{width:min(78vw,360px);aspect-ratio:4/5;position:relative;perspective:1300px;filter:drop-shadow(12px 22px 14px #463a2d40)}
+.intro-pages{position:absolute;inset:2% 0 0 5%;background:repeating-linear-gradient(90deg,#e2d2b0 0 2px,#f2e5cb 2px 5px);border-radius:7px 13px 13px 7px;border:2px solid #8b7959;box-shadow:inset -8px 0 12px #79634735}
+.intro-inside{position:absolute;inset:3% 1% 2% 6%;background:#f5eddc;border:1px solid #b6a17e;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px;color:#4e4b3c}
+.intro-inside .intro-inside-title{font-size:clamp(22px,5vw,36px);line-height:1.2;letter-spacing:.04em}
+.intro-inside .intro-inside-sub{font-family:"Noto Serif TC",serif;font-size:13px;margin-top:15px;line-height:2}
+.intro-cover{position:absolute;inset:0;transform-origin:6% center;backface-visibility:hidden;transform-style:preserve-3d;animation:openAntiqueBook 2.5s cubic-bezier(.55,.04,.28,1) .5s both;border-radius:8px 13px 13px 8px;background:#384633 url('mood-icon-512.png') center/cover no-repeat;box-shadow:inset 10px 0 15px #111a12a6,4px 5px 12px #171d1680;border:1px solid #665a3d}
+.intro-cover:after{content:"";position:absolute;inset:0;border-left:14px solid #1e2a1d75;border-radius:inherit;box-shadow:inset 0 0 0 2px #c7a56c35}
+.intro-footnote{position:absolute;bottom:max(28px,5vh);left:16px;right:16px;text-align:center;color:#6b604b;letter-spacing:.07em;font-size:clamp(13px,2.5vw,17px)}
+.intro-skip{position:absolute;top:20px;right:22px;border:1px solid #a89577;border-radius:2px;background:#f4ebd8;color:#4c4a39;padding:8px 15px;font:15px "Noto Serif TC",serif;cursor:pointer;z-index:2}
+.intro-skip:focus-visible{outline:2px solid #52634e;outline-offset:3px}
+@keyframes openAntiqueBook{0%{transform:rotateY(0deg)}75%,100%{transform:rotateY(-148deg)}}
+@media(max-width:560px){.intro-scene{width:min(70vw,290px)}.intro-footnote{bottom:8vh}}
+@media(prefers-reduced-motion:reduce){.intro-cover{animation:none;transform:rotateY(-148deg)}#journalIntro{transition:none}}
 </style>
 </head>
 <body>
+<div id="journalIntro" role="dialog" aria-label="MOOD LAB opening journal" aria-modal="false">
+<button type="button" class="intro-skip" id="introSkip" aria-label="Skip opening animation">略過 / Skip</button>
+<div class="intro-scene" aria-hidden="true"><div class="intro-pages"></div><div class="intro-inside"><div class="intro-inside-title">MOOD LAB</div><div class="intro-inside-sub">留一頁給今天。<br/>A page for today.</div></div><div class="intro-cover"></div></div>
+<div class="intro-footnote">AN ARCHIVE OF BEING · 靜靜翻開一頁</div>
+</div>
 <div class="app">
-<header>
-  <div class="brand">
-    <small>PERSONAL OBSERVATION PROJECT</small>
-    <h1>MOOD LAB <span style="color:#d0aa4b">✳</span></h1>
-    <div style="font-size:12px;color:#858577">把感受變成可理解的資料。</div>
-  </div>
-  <div class="date" id="today"></div>
-</header>
-
+<header class="top"><div class="brand"><small>AN ARCHIVE OF BEING · VOL. 01</small><h1>MOOD LAB</h1><p data-en="A private archive for the things we feel" data-zh="一座收藏感受的私人研究室">一座收藏感受的私人研究室</p></div><div class="date dateplate" id="today"><span class="micro">THE DAY IN THE ARCHIVE</span><span class="date-large" id="dateLarge"></span><span class="date-small" id="dateSmall"></span></div></header>
 <div class="layout">
-<nav id="nav">
-  <button class="active" data-page="home"><span>⌂</span>總覽</button>
-  <button data-page="daily"><span>✎</span>每日紀錄</button>
-  <button data-page="quick"><span>＋</span>即時觀察</button>
-  <button data-page="calendar"><span>▦</span>情緒日曆</button>
-  <button data-page="data"><span>⌁</span>數據中心</button>
-  <button data-page="lab"><span>⌕</span>研究室</button>
-  <button data-page="settings"><span>⚙</span>資料管理</button>
-</nav>
-
+<aside class="side"><div class="sidequote"><small>DEAR OBSERVER</small><span data-en="You need not have it all figured out." data-zh="不必急著整理好自己。">不必急著整理好自己。</span><br/><span data-en="Just leave a little of today here." data-zh="先把今天，輕輕放在這裡。">先把今天，輕輕放在這裡。</span></div><div class="lang-toggle"><span class="micro">LANGUAGE / 語言</span><div class="lang-controls"><button aria-pressed="true" id="langZh" type="button">繁體中文</button><button aria-pressed="false" id="langEn" type="button">ENGLISH</button></div></div><nav class="nav" id="nav">
+<button class="active" data-page="home"><span class="no">01</span><span data-en="Today’s journal" data-zh="今日手札">今日手札</span></button><button data-page="daily"><span class="no">02</span><span data-en="Daily entries" data-zh="每日紀錄">每日紀錄</span></button><button data-page="quick"><span class="no">03</span><span data-en="Passing moments" data-zh="即時片刻">即時片刻</span></button><button data-page="calendar"><span class="no">04</span><span data-en="Mood calendar" data-zh="情緒年曆">情緒年曆</span></button><button data-page="data"><span class="no">05</span><span data-en="Observation charts" data-zh="觀察圖譜">觀察圖譜</span></button><button data-page="lab"><span class="no">06</span><span data-en="Personal inquiries" data-zh="個人研究">個人研究</span></button><button data-page="memories"><span class="no">07</span><span data-en="Memory cabinet" data-zh="記憶索引櫃">記憶索引櫃</span></button><button data-page="insights"><span class="no">08</span><span data-en="Observation studio" data-zh="心理觀察室">心理觀察室</span></button><button data-page="settings"><span class="no">07</span><span data-en="Archive &amp; backup" data-zh="檔案管理">檔案管理</span></button>
+</nav><div class="asidefoot">FIELD NOTES / PRIVATE ARCHIVE<br/>OBSERVE WITHOUT JUDGMENT</div></aside>
 <main>
 <section class="page active" id="home">
-  <h2 class="heading">今日觀察</h2>
-  <p class="sub">先理解自己，再理解數據。沒有標準答案。</p>
-  <div class="grid">
-    <div class="card"><h3>今日心情</h3><div class="metric" id="homeMood">—</div><small>最近一次每日紀錄</small></div>
-    <div class="card"><h3>平均能量</h3><div class="metric" id="homeEnergy">—</div><small>近 7 筆紀錄</small></div>
-    <div class="card"><h3>紀錄天數</h3><div class="metric" id="homeDays">0</div><small>累積每日紀錄</small></div>
-    <div class="card wide"><h3>最近的心情變化</h3><canvas id="homeChart"></canvas></div>
-    <div class="card"><h3>研究筆記</h3><p id="homeNote" style="font-size:13px;color:#858577">每一筆紀錄，都是理解自己的線索。</p>
-      <button class="secondary" onclick="showPage('daily')">開始今天的紀錄 →</button>
-    </div>
-  </div>
-  <div class="card"><h3>最近的即時觀察</h3><div id="recentQuick" class="empty">目前還沒有即時紀錄。</div></div>
+<div class="hero"><span class="micro">A SMALL PAUSE IN YOUR DAY</span><h2 data-en="How has today been treating you?" data-zh="今天的你，過得還好嗎？" id="greeting">今天的你，過得還好嗎？</h2><p data-en="You do not need an answer, or even the right words. There is a place here for you, just as you are." data-zh="不需要有答案，也不需要把感受說得完整。這裡留了一個位置，給此刻的你。" id="welcome">不需要有答案，也不需要把感受說得完整。這裡留了一個位置，給此刻的你。</p><div class="actions"><button class="btn primary" data-en="Write today’s entry" data-zh="寫下今天的手札" onclick="showPage('daily')">寫下今天的手札</button><button class="btn" data-en="Keep a moment" data-zh="收藏一個片刻" onclick="showPage('quick')">收藏一個片刻</button></div></div>
+<div class="stats"><div class="stat"><small data-en="Pages kept" data-zh="收藏的手札">收藏的手札</small><div class="stat-result"><strong id="homeDays">0</strong><em data-en="days" data-zh="天"> 天</em></div></div><div class="stat"><small data-en="Recent mood · 7 entries" data-zh="近七筆平均心情">近七筆平均心情</small><div class="stat-result"><strong id="homeMood">—</strong><em> / 5</em></div></div><div class="stat"><small data-en="Recent energy · 7 entries" data-zh="近七筆平均能量">近七筆平均能量</small><div class="stat-result"><strong id="homeEnergy">—</strong><em> / 10</em></div></div></div>
+<div aria-labelledby="quietTitle" class="sheet quiet-hollow"><span class="micro">THE QUIET HOLLOW · 樹洞來信</span><h3 data-en="You may set your burdens down here." data-zh="這裡，不需要表現得很好。" id="quietTitle">這裡，不需要表現得很好。</h3><p data-en="No need to find the perfect words, or explain why you feel the way you do. You can leave a page here when you wish — or simply stay a while." data-zh="不必把心情整理成漂亮的句子，也不必替每種感受找理由。想說的時候，這裡會替你留一頁；不想說的時候，也可以只是坐一會兒。">不必把心情整理成漂亮的句子，也不必替每種感受找理由。想說的時候，這裡會替你留一頁；不想說的時候，也可以只是坐一會兒。</p><div class="actions"><button class="btn primary" data-en="Write a page for yourself" data-zh="寫一頁給自己" onclick="showPage('daily')" type="button">寫一頁給自己</button><button class="btn" data-en="Leave a small moment" data-zh="留下一個片刻" onclick="showPage('quick')" type="button">留下一個片刻</button></div><p class="quiet-whisper" data-en="No streaks to keep. No progress to prove." data-zh="沒有連續天數的要求，也沒有必須完成的進度。">沒有連續天數的要求，也沒有必須完成的進度。</p></div>
+<div class="two"><div class="sheet accent"><span class="micro">RECENT OBSERVATIONS</span><h3 data-en="Recent traces of feeling" data-zh="最近的心情軌跡">最近的心情軌跡</h3><div class="chart"><canvas id="homeChart"></canvas><div class="chart-empty" hidden=""></div></div></div><div class="sheet"><span class="micro">A NOTE TO YOURSELF</span><h3 data-en="A note to yourself" data-zh="留給自己的話">留給自己的話</h3><div aria-live="polite" class="daily-note"><div class="note-index" id="noteIndex">✦ NOTE No. 001 · 19 NOV</div><p class="quote" id="dailyQuote">有些日子不需要被解釋，只需要被記得。</p><div class="note-foot" id="noteFoot">FROM THE ARCHIVE · 今日的一頁</div></div></div></div>
+<div class="sheet"><span class="micro">RECENT MOMENTS</span><h3 data-en="Moments you have kept" data-zh="最近留下的片刻">最近留下的片刻</h3><div class="empty" id="recentQuick"></div></div>
 </section>
-
-<section class="page" id="daily">
-  <h2 class="heading">每日紀錄</h2>
-  <p class="sub">用幾分鐘，留下今天的狀態。</p>
-  <div class="card">
-    <label>紀錄日期</label><input type="date" id="dDate">
-    <label>今天的整體心情</label>
-    <div class="rating" id="moodRating">
-      <button data-value="1">1 很低落</button><button data-value="2">2 不太好</button>
-      <button data-value="3">3 普通</button><button data-value="4">4 不錯</button>
-      <button data-value="5">5 很愉快</button>
-    </div>
-    <div class="fieldgrid">
-      <div><label>能量程度（1–10）</label><input type="number" id="dEnergy" min="1" max="10" value="5"></div>
-      <div><label>壓力程度（1–10）</label><input type="number" id="dStress" min="1" max="10" value="5"></div>
-      <div><label>睡眠時數</label><input type="number" id="dSleep" min="0" max="24" step=".5" placeholder="例如 7.5"></div>
-      <div><label>身體狀態</label><select id="dBody"><option>正常</option><option>疲倦</option><option>疼痛</option><option>不舒服</option><option>生病</option><option>其他</option></select></div>
-    </div>
-    <label>今天的情緒標籤</label>
-    <div class="taglist" id="dTags">
-      <label><input type="checkbox" value="平靜"> 平靜</label>
-      <label><input type="checkbox" value="焦慮"> 焦慮</label>
-      <label><input type="checkbox" value="煩躁"> 煩躁</label>
-      <label><input type="checkbox" value="開心"> 開心</label>
-      <label><input type="checkbox" value="疲憊"> 疲憊</label>
-      <label><input type="checkbox" value="失落"> 失落</label>
-      <label><input type="checkbox" value="有成就感"> 有成就感</label>
-      <label><input type="checkbox" value="期待"> 期待</label>
-    </div>
-    <label>今天發生了什麼？</label><textarea id="dEvent" placeholder="記錄事件、情境或觸發因素……"></textarea>
-    <label>我對這件事的想法</label><textarea id="dThought" placeholder="當時怎麼想？後來有沒有改變？"></textarea>
-    <label>其他日記／補充</label><textarea id="dNote" placeholder="任何想留下的內容……"></textarea>
-    <div class="actions"><button class="primary" onclick="saveDaily()">儲存紀錄</button><button class="secondary" onclick="clearDaily()">清空欄位</button></div>
-  </div>
-  <div class="card"><h3>近期每日紀錄</h3><div id="dailyList" class="empty">尚無紀錄。</div></div>
-</section>
-
-<section class="page" id="quick">
-  <h2 class="heading">即時觀察</h2>
-  <p class="sub">情緒突然出現時，不需要等到晚上才記錄。</p>
-  <div class="card">
-    <label>發生時間</label><input type="datetime-local" id="qTime">
-    <label>當下的情緒</label><select id="qMood"><option>焦慮</option><option>生氣</option><option>委屈</option><option>難過</option><option>害怕</option><option>開心</option><option>平靜</option><option>其他</option></select>
-    <label>情緒強度（1–10）</label><input type="range" id="qIntensity" min="1" max="10" value="5" oninput="qIntensityLabel.textContent=this.value">
-    <div style="font-size:12px;color:#858577">強度：<span id="qIntensityLabel">5</span></div>
-    <label>發生了什麼事？</label><textarea id="qEvent" placeholder="盡量描述客觀發生的事情……"></textarea>
-    <label>身體反應</label><input id="qBody" placeholder="例如：心跳加快、肩膀緊繃、胃不舒服">
-    <label>當下腦中的想法</label><textarea id="qThought" placeholder="我當時第一個想到的是……"></textarea>
-    <div class="actions"><button class="primary" onclick="saveQuick()">留下這筆觀察</button></div>
-  </div>
-  <div class="card"><h3>即時觀察紀錄</h3><div id="quickList" class="empty">尚無紀錄。</div></div>
-</section>
-
-<section class="page" id="calendar">
-  <h2 class="heading">情緒日曆</h2>
-  <p class="sub">觀察情緒在時間上的分布，而不是評價好壞。</p>
-  <div class="card">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:15px">
-      <button class="secondary" onclick="changeMonth(-1)">← 上個月</button>
-      <strong id="monthTitle"></strong>
-      <button class="secondary" onclick="changeMonth(1)">下個月 →</button>
-    </div>
-    <div class="calendar" id="calendarGrid"></div>
-    <p style="font-size:11px;color:#858577">● 心情 1–2：低落　● 3：普通　● 4–5：愉快</p>
-  </div>
-  <div class="card"><h3>當月紀錄</h3><div id="monthRecords" class="empty"></div></div>
-</section>
-
-<section class="page" id="data">
-  <h2 class="heading">數據中心</h2>
-  <p class="sub">讓長期變化慢慢浮現。資料不足時，不急著下結論。</p>
-  <div class="grid">
-    <div class="card"><h3>平均心情</h3><div class="metric" id="avgMood">—</div></div>
-    <div class="card"><h3>平均能量</h3><div class="metric" id="avgEnergy">—</div></div>
-    <div class="card"><h3>平均壓力</h3><div class="metric" id="avgStress">—</div></div>
-  </div>
-  <div class="card"><h3>心情趨勢</h3><canvas id="moodChart"></canvas></div>
-  <div class="card"><h3>能量與壓力</h3><canvas id="energyChart"></canvas></div>
-  <div class="card"><h3>情緒標籤出現次數</h3><div id="tagStats" class="empty"></div></div>
-</section>
-
-<section class="page" id="lab">
-  <h2 class="heading">個人研究室</h2>
-  <p class="sub">提出問題、累積觀察，再回頭檢視自己的假設。</p>
-  <div class="card">
-    <h3>我的研究問題</h3>
-    <label>研究主題</label><input id="rTitle" placeholder="例如：睡眠與情緒的關係">
-    <label>想驗證的假設</label><textarea id="rQuestion" placeholder="例如：睡眠不足時，我的壓力評分是否比較高？"></textarea>
-    <button class="primary" onclick="saveResearch()">儲存研究題目</button>
-  </div>
-  <div class="card"><h3>研究清單</h3><div id="researchList" class="empty">尚無研究題目。</div></div>
-  <div class="card">
-    <h3>研究提醒</h3>
-    <p style="font-size:13px;line-height:1.8;color:#77796d">
-    相關不等於因果。單次事件不代表長期模式；紀錄越完整，越有機會觀察到重複出現的情境。
-    這裡是自我觀察工具，不是臨床診斷量表。
-    </p>
-  </div>
-</section>
-
-<section class="page" id="settings">
-  <h2 class="heading">資料管理</h2>
-  <p class="sub">資料預設保存在目前這台裝置的瀏覽器。</p>
-  <div class="card">
-    <h3>匯出資料</h3>
-    <p style="font-size:13px;color:#858577">可下載備份，或整理成文字交給 ChatGPT 分析。</p>
-    <div class="actions">
-      <button class="primary" onclick="exportJSON()">匯出完整 JSON</button>
-      <button class="secondary" onclick="exportCSV()">匯出每日紀錄 CSV</button>
-      <button class="secondary" onclick="exportMarkdown()">匯出分析用 Markdown</button>
-    </div>
-  </div>
-  <div class="card">
-    <h3>匯入備份</h3><label>選擇先前匯出的 JSON 檔</label>
-    <input type="file" id="importFile" accept=".json,application/json">
-    <button class="secondary" style="margin-top:12px" onclick="importJSON()">匯入資料</button>
-  </div>
-  <div class="card">
-    <h3>資料安全</h3>
-    <p style="font-size:13px;line-height:1.8;color:#858577">紀錄存在瀏覽器 localStorage。清除瀏覽器資料、換裝置或更換瀏覽器可能導致資料無法讀取，請定期匯出備份。不要在公用電腦留下私人紀錄。</p>
-    <button class="danger" onclick="deleteAll()">刪除本機全部紀錄</button>
-  </div>
-</section>
-</main>
+<section class="page" id="daily"><div class="pagehead"><span class="micro">FIELD NOTE / DAILY</span><h2 data-en="Daily entries" data-zh="每日紀錄">每日紀錄</h2><p data-en="Not a form to complete, but a page to leave behind." data-zh="不是填寫一份表格，而是替今天留下一頁。">不是填寫一份表格，而是替今天留下一頁。</p></div>
+<div class="sheet accent"><span class="micro">01 — HOW ARE YOU, REALLY?</span><div class="field"><label data-en="Which day does this page belong to?" data-zh="這一頁屬於哪一天？">這一頁屬於哪一天？</label><input id="dDate" type="date"/></div><div class="field"><label data-en="How are you feeling? (optional)" data-zh="今天的心情（選填）">今天的心情（選填）</label><div class="moods" id="moodRating"><button data-value="1"><span>🌧</span><span data-en="Stormy" data-zh="很低落">很低落</span></button><button data-value="2"><span>☁</span><span data-en="Cloudy" data-zh="不太好">不太好</span></button><button data-value="3"><span>⛅</span><span data-en="In between" data-zh="普通">普通</span></button><button data-value="4"><span>🌤</span><span data-en="Brightening" data-zh="不錯">不錯</span></button><button data-value="5"><span>☀</span><span data-en="Sunny" data-zh="很愉快">很愉快</span></button></div></div>
+<div class="journal-mode"><span data-en="Writing style" data-zh="書寫方式">書寫方式</span><button aria-expanded="false" data-en="Show detailed observations" data-zh="展開完整觀察欄位" id="journalMode" type="button">展開完整觀察欄位</button></div><p class="journal-mode-hint" data-en="A few words are enough. Open the details whenever you wish." data-zh="只想寫幾句話也可以；想觀察能量、睡眠或感受時，再展開。">只想寫幾句話也可以；想觀察能量、睡眠或感受時，再展開。</p><div class="journal-details" hidden="" id="journalDetails"><div class="fields"><div class="field archive-scale-field"><div class="archive-scale-head"><label data-en="Energy (1–10)" data-zh="能量（1–10）" for="dEnergy">能量（1–10）</label><output aria-live="off" for="dEnergy" id="dEnergyValue">05 <small>/ 10</small></output></div><input aria-label="Energy / 能量" class="archive-scale" id="dEnergy" max="10" min="1" step="1" type="range" value="5"/><div class="archive-scale-foot"><span data-en="Low" data-zh="低落">低落</span><span data-en="Full" data-zh="充沛">充沛</span></div></div><div class="field archive-scale-field"><div class="archive-scale-head"><label data-en="Stress (1–10)" data-zh="壓力（1–10）" for="dStress">壓力（1–10）</label><output aria-live="off" for="dStress" id="dStressValue">05 <small>/ 10</small></output></div><input aria-label="Stress / 壓力" class="archive-scale" id="dStress" max="10" min="1" step="1" type="range" value="5"/><div class="archive-scale-foot"><span data-en="Gentle" data-zh="輕微">輕微</span><span data-en="Intense" data-zh="強烈">強烈</span></div></div><div class="field"><label data-en="Hours of sleep" data-zh="睡眠時數">睡眠時數</label><input data-placeholder-en="e.g. 7.5" data-placeholder-zh="例如 7.5" id="dSleep" max="24" min="0" placeholder="例如 7.5" step=".5" type="number"/></div><div class="field"><label data-en="How is your body?" data-zh="身體狀態">身體狀態</label><select id="dBody"><option data-en="As usual" data-zh="正常">正常</option><option data-en="Tired" data-zh="疲倦">疲倦</option><option data-en="In pain" data-zh="疼痛">疼痛</option><option data-en="Unwell" data-zh="不舒服">不舒服</option><option data-en="Sick" data-zh="生病">生病</option><option data-en="Other" data-zh="其他">其他</option></select></div></div><div class="field"><label data-en="Which feelings visited today?" data-zh="今天有哪些感受來敲門？">今天有哪些感受來敲門？</label><div class="tags" id="dTags"><label><input type="checkbox" value="平靜"/><span data-en="Calm" data-zh="平靜">平靜</span></label><label><input type="checkbox" value="焦慮"/><span data-en="Anxious" data-zh="焦慮">焦慮</span></label><label><input type="checkbox" value="煩躁"/><span data-en="Irritated" data-zh="煩躁">煩躁</span></label><label><input type="checkbox" value="開心"/><span data-en="Happy" data-zh="開心">開心</span></label><label><input type="checkbox" value="疲憊"/><span data-en="Exhausted" data-zh="疲憊">疲憊</span></label><label><input type="checkbox" value="失落"/><span data-en="Downhearted" data-zh="失落">失落</span></label><label><input type="checkbox" value="有成就感"/><span data-en="Accomplished" data-zh="有成就感">有成就感</span></label><label><input type="checkbox" value="期待"/><span data-en="Hopeful" data-zh="期待">期待</span></label></div></div></div>
 </div>
-<footer>MOOD LAB · OBSERVE WITHOUT JUDGMENT · VERSION 1.0</footer>
-</div>
-
+<div class="sheet"><span class="micro">02 — WHAT STAYED WITH YOU?</span><div class="field"><label data-en="What stayed with you today?" data-zh="今天有什麼事情留在心裡？">今天有什麼事情留在心裡？</label><textarea data-placeholder-en="It can be something big, or just a fleeting moment…" data-placeholder-zh="可以是一件大事，也可以只是一個小小的瞬間……" id="dEvent" placeholder="可以是一件大事，也可以只是一個小小的瞬間……"></textarea></div><div class="field"><label data-en="What went through your mind?" data-zh="那時候，你心裡怎麼想？">那時候，你心裡怎麼想？</label><textarea data-placeholder-en="No need to justify or polish it." data-placeholder-zh="不需要合理，也不需要修飾。" id="dThought" placeholder="不需要合理，也不需要修飾。"></textarea></div><div class="field"><label data-en="Anything else you want to keep?" data-zh="還有什麼想替今天留下來？">還有什麼想替今天留下來？</label><textarea data-placeholder-en="A sentence, a thought, or something you do not want to forget." data-placeholder-zh="一段話、一個念頭，或是今天不想忘記的事情。" id="dNote" placeholder="一段話、一個念頭，或是今天不想忘記的事情。"></textarea></div><div class="actions"><button class="btn primary" data-en="Keep this page" data-zh="收進今天的手札" onclick="saveDaily()">收進今天的手札</button><button class="quiet-reset" data-en="Start this page again" data-zh="重新填寫這一頁" onclick="clearDaily()" type="button">重新填寫這一頁</button></div><p class="quiet-save-note" data-en="There is no hurry. Your words stay on this device until you choose to keep them." data-zh="不必急著寫完。準備好了，再把這一頁收藏起來。">不必急著寫完。準備好了，再把這一頁收藏起來。</p></div>
+<div class="sheet"><span class="micro">PREVIOUS ENTRIES</span><h3 data-en="Earlier pages" data-zh="過去的手札">過去的手札</h3><div id="dailyList"></div></div></section>
+<section class="page" id="quick"><div class="pagehead"><span class="micro">FIELD NOTE / MOMENT</span><h2 data-en="Passing moments" data-zh="即時片刻">即時片刻</h2><p data-en="Some feelings deserve a place before the day is over." data-zh="有些感受不必等到一天結束，現在就可以被留下。">有些感受不必等到一天結束，現在就可以被留下。</p></div><div class="sheet accent"><div class="field"><label data-en="When did it happen?" data-zh="這個片刻發生在">這個片刻發生在</label><input id="qTime" type="hidden"/><div aria-label="Moment date and time" class="arch-time"><div aria-live="polite" class="arch-time-display" id="qTimeDisplay"></div><button aria-controls="qTimeControls" aria-expanded="false" class="arch-time-edit" id="qTimeEdit" type="button"><span data-en="Change date &amp; time" data-zh="調整日期與時間">調整日期與時間</span></button></div><div class="arch-time-controls" hidden="" id="qTimeControls"><div class="arch-time-row"><label><span data-en="Year" data-zh="年份">年份</span><select aria-label="Year" id="qtYear"></select></label><label><span data-en="Month" data-zh="月份">月份</span><select aria-label="Month" id="qtMonth"></select></label><label><span data-en="Day" data-zh="日期">日期</span><select aria-label="Day" id="qtDay"></select></label></div><div class="arch-time-row"><label><span data-en="Hour" data-zh="小時">小時</span><select aria-label="Hour" id="qtHour"></select></label><label><span data-en="Minute" data-zh="分鐘">分鐘</span><select aria-label="Minute" id="qtMinute"></select></label></div><p class="arch-time-hint" data-en="Recorded in this device's local time." data-zh="依照此裝置的當地時間記錄。">依照此裝置的當地時間記錄。</p></div></div><div class="fields"><div class="field"><label data-en="Which emotion fits best?" data-zh="此刻最接近哪種情緒？">此刻最接近哪種情緒？</label><select id="qMood"><option data-en="Anxious" data-zh="焦慮">焦慮</option><option data-en="Angry" data-zh="生氣">生氣</option><option data-en="Hurt" data-zh="委屈">委屈</option><option data-en="Sad" data-zh="難過">難過</option><option data-en="Afraid" data-zh="害怕">害怕</option><option data-en="Happy" data-zh="開心">開心</option><option data-en="Calm" data-zh="平靜">平靜</option><option data-en="Other" data-zh="其他">其他</option></select></div><div class="field"><div class="intensity-heading"><label for="qIntensity"><span data-en="How strong is the feeling?" data-zh="感受有多強烈？">感受有多強烈？</span></label><div aria-live="off" class="intensity-value"><b id="qIntensityLabel">5</b><span> / 10</span></div></div><div class="antique-range"><span class="range-end">I</span><input aria-label="Feeling intensity" id="qIntensity" max="10" min="1" type="range" value="5"/><span class="range-end">X</span></div><div class="range-caption"><span data-en="A passing whisper" data-zh="輕輕掠過">輕輕掠過</span><span data-en="Overwhelming" data-zh="強烈翻湧">強烈翻湧</span></div></div></div><div class="field"><label data-en="What just happened?" data-zh="剛才發生了什麼？">剛才發生了什麼？</label><textarea data-placeholder-en="Begin with what happened…" data-placeholder-zh="先寫下客觀發生的事情……" id="qEvent" placeholder="先寫下客觀發生的事情……"></textarea></div><div class="field"><label data-en="What did you notice in your body?" data-zh="身體有什麼反應？">身體有什麼反應？</label><input data-placeholder-en="e.g. racing heart, tense shoulders" data-placeholder-zh="例如：心跳加快、肩膀緊繃" id="qBody" placeholder="例如：心跳加快、肩膀緊繃"/></div><div class="field"><label data-en="The first thought that came to mind" data-zh="腦中第一個浮現的想法">腦中第一個浮現的想法</label><textarea id="qThought"></textarea></div><button class="btn primary" data-en="Keep this moment" data-zh="把這個片刻收好" onclick="saveQuick()">把這個片刻收好</button></div><div class="sheet"><h3 data-en="Collected moments" data-zh="片刻收藏">片刻收藏</h3><div id="quickList"></div></div></section>
+<section class="page" id="calendar"><div class="pagehead"><span class="micro">A YEAR IN FEELINGS</span><h2 data-en="Mood calendar" data-zh="情緒年曆">情緒年曆</h2><p data-en="Days pass. What you felt along the way still matters." data-zh="日子會過去，但曾經的感受值得被好好看見。">日子會過去，但曾經的感受值得被好好看見。</p></div><div class="sheet"><div class="calendarhead"><button class="btn" data-en="← Previous" data-zh="← 上個月" onclick="changeMonth(-1)">← 上個月</button><h3 id="monthTitle"></h3><button class="btn" data-en="Next →" data-zh="下個月 →" onclick="changeMonth(1)">下個月 →</button></div><div class="calendar" id="calendarGrid"></div><p class="hint" data-en="Choose a date to revisit that page." data-zh="點選日期，重新閱讀那一天的手札。">點選日期，重新閱讀那一天的手札。</p></div><div class="sheet"><span class="micro">SELECTED DAY</span><h3 data-en="Choose a date" data-zh="選擇一個日期" id="selectedDateTitle">選擇一個日期</h3><div class="empty" id="monthRecords"></div></div></section>
+<section class="page" id="data"><div class="pagehead"><span class="micro">PATTERNS &amp; OBSERVATIONS</span><h2 data-en="Observation charts" data-zh="觀察圖譜">觀察圖譜</h2><p data-en="Charts are not answers. They help us ask better questions." data-zh="圖表不是答案，而是幫助我們提出更好的問題。">圖表不是答案，而是幫助我們提出更好的問題。</p></div><div class="stats"><div class="stat"><small data-en="Average mood" data-zh="平均心情">平均心情</small><strong id="avgMood">—</strong><em> / 5</em></div><div class="stat"><small data-en="Average energy" data-zh="平均能量">平均能量</small><strong id="avgEnergy">—</strong><em> / 10</em></div><div class="stat"><small data-en="Average stress" data-zh="平均壓力">平均壓力</small><strong id="avgStress">—</strong><em> / 10</em></div></div><div class="sheet"><span class="micro">MOOD / LAST 30 ENTRIES</span><h3 data-en="The rise and fall of moods" data-zh="心情的起伏">心情的起伏</h3><div class="chart"><canvas id="moodChart"></canvas><div class="chart-empty" hidden=""></div></div></div><div class="sheet"><span class="micro">ENERGY &amp; STRESS / LAST 30 ENTRIES</span><h3 data-en="Energy &amp; stress" data-zh="能量與壓力">能量與壓力</h3><div class="chart"><canvas id="energyChart"></canvas><div class="chart-empty" hidden=""></div></div><div class="legend"><i style="background:var(--green)"></i><span data-en="Energy" data-zh="能量">能量</span><i style="background:var(--rose)"></i><span data-en="Stress" data-zh="壓力">壓力</span></div></div><div class="sheet"><h3 data-en="Feelings that return" data-zh="反覆出現的感受">反覆出現的感受</h3><div id="tagStats"></div></div><div class="insight" id="dataInsight"></div></section>
+<section class="page" id="lab"><div class="pagehead"><span class="micro">PERSONAL INQUIRY</span><h2 data-en="Personal inquiry room" data-zh="個人研究室">個人研究室</h2><p data-en="Observe yourself with curiosity, without rushing to prove a theory." data-zh="帶著好奇心觀察自己，不急著證明任何事情。">帶著好奇心觀察自己，不急著證明任何事情。</p></div><div class="sheet accent"><span class="micro">RESEARCH CARD</span><div class="field"><label data-en="What would you like to explore?" data-zh="想研究的主題">想研究的主題</label><input data-placeholder-en="e.g. sleep and mood" data-placeholder-zh="例如：睡眠與情緒的關係" id="rTitle" placeholder="例如：睡眠與情緒的關係"/></div><div class="field"><label data-en="What is your working hypothesis?" data-zh="目前有什麼猜想？">目前有什麼猜想？</label><textarea data-placeholder-en="e.g. Does poor sleep coincide with higher stress?" data-placeholder-zh="例如：睡眠不足時，我的壓力評分是否比較高？" id="rQuestion" placeholder="例如：睡眠不足時，我的壓力評分是否比較高？"></textarea></div><button class="btn primary" data-en="Add inquiry card +" data-zh="建立研究卡片 ＋" onclick="saveResearch()">建立研究卡片 ＋</button></div><div class="sheet"><h3 data-en="Questions in progress" data-zh="正在思考的問題">正在思考的問題</h3><div id="researchList"></div></div><div class="insight" data-en="Correlation is not causation. One event is not a lasting pattern. This is a self-reflection tool, not a clinical assessment." data-zh="相關不等於因果。單次事件不代表長期模式。這裡是個人觀察工具，不是臨床診斷量表。">相關不等於因果。單次事件不代表長期模式。這裡是個人觀察工具，不是臨床診斷量表。</div></section>
+<section class="page" id="memories"><div class="pagehead"><span class="micro">CABINET / OF REMEMBERED DAYS</span><h2 data-en="The memory cabinet" data-zh="記憶索引櫃">記憶索引櫃</h2><p data-en="A place where earlier versions of you may be found." data-zh="讓從前的自己，還有機會被重新遇見。">讓從前的自己，還有機會被重新遇見。</p></div>
+<div class="sheet memory-letter"><span class="micro">A LETTER THROUGH TIME · 時光回信</span><h3 data-en="A page from another day" data-zh="來自另一個日子的信">來自另一個日子的信</h3><div aria-live="polite" class="letter-content" id="memoryLetter"></div><div class="actions"><button class="btn" data-en="Turn another page" data-zh="再翻一頁" id="anotherMemory" type="button">再翻一頁</button></div></div>
+<div class="sheet"><span class="micro">INDEX / CATALOGUE</span><h3 data-en="Search the archive" data-zh="搜尋自己的故事">搜尋自己的故事</h3><div class="fields"><div class="field"><label data-en="A word or phrase" data-zh="想找的字句">想找的字句</label><input data-placeholder-en="Search entries, thoughts, tags…" data-placeholder-zh="搜尋事件、想法、標籤……" id="archiveSearch" placeholder="搜尋事件、想法、標籤……" type="search"/></div><div class="field"><label data-en="A feeling" data-zh="情緒分類">情緒分類</label><select id="archiveMood"><option data-en="All feelings" data-zh="全部心情" value="">全部心情</option><option value="1">1 / 🌧</option><option value="2">2 / ☁</option><option value="3">3 / ⛅</option><option value="4">4 / 🌤</option><option value="5">5 / ☀</option></select></div></div><div aria-live="polite" id="archiveResults"></div></div></section>
+<section class="page" id="insights"><div class="pagehead"><span class="micro">PERSONAL FIELD RESEARCH / VOL. I</span><h2 data-en="The observation studio" data-zh="心理觀察室">心理觀察室</h2><p data-en="Patterns to consider, not labels to live by." data-zh="看見可能的模式，而不是替自己貼上標籤。">看見可能的模式，而不是替自己貼上標籤。</p></div><div class="sheet"><span class="micro">RESEARCH NOTE / 01</span><h3 data-en="Sleep and the next day's mood" data-zh="睡眠與隔日心情">睡眠與隔日心情</h3><div id="sleepInsight"></div></div><div class="sheet"><span class="micro">RESEARCH NOTE / 02</span><h3 data-en="Stress and energy" data-zh="壓力與能量">壓力與能量</h3><div id="stressInsight"></div></div><div class="sheet"><span class="micro">RESEARCH NOTE / 03</span><h3 data-en="Recurring feelings" data-zh="經常來訪的感受">經常來訪的感受</h3><div id="tagInsight"></div></div><div class="sheet"><p data-en="These are descriptive associations, not diagnoses or proof of causation. Small or incomplete samples can mislead." data-zh="以上為描述性觀察，不是診斷，也無法證明因果；樣本少或資料不完整時尤其需要謹慎。">以上為描述性觀察，不是診斷，也無法證明因果；樣本少或資料不完整時尤其需要謹慎。</p></div></section>
+<section class="page" id="settings"><div class="pagehead"><span class="micro">KEEP YOUR RECORDS SAFE</span><h2 data-en="Archive &amp; backup" data-zh="檔案管理">檔案管理</h2><p data-en="These words belong to you. By default, they remain in this browser." data-zh="這些文字屬於你。資料預設只保存在目前裝置的瀏覽器。">這些文字屬於你。資料預設只保存在目前裝置的瀏覽器。</p></div><div class="sheet"><h3 data-en="Take a copy of your archive" data-zh="帶走一份自己的檔案">帶走一份自己的檔案</h3><p class="hint" data-en="Make a backup, or export text to discuss with ChatGPT or Claude." data-zh="可備份或匯出成適合交給 ChatGPT／Claude 分析的文字。">可備份或匯出成適合交給 ChatGPT／Claude 分析的文字。</p><div class="actions"><button class="btn primary" data-en="Full backup · JSON" data-zh="完整備份 JSON" onclick="exportJSON()">完整備份 JSON</button><button class="btn" data-en="Daily entries · CSV" data-zh="每日紀錄 CSV" onclick="exportCSV()">每日紀錄 CSV</button><button class="btn" data-en="For analysis · Markdown" data-zh="分析用 Markdown" onclick="exportMarkdown()">分析用 Markdown</button></div></div><div class="sheet"><h3 data-en="Restore your archive" data-zh="從備份中找回紀錄">從備份中找回紀錄</h3><div class="field"><label data-en="Choose an earlier JSON backup" data-zh="選擇先前匯出的 JSON">選擇先前匯出的 JSON</label><div class="archive-upload" data-upload-for="importFile"><input accept=".json,application/json" aria-label="restore backup" class="archive-file-native" id="importFile" type="file"/><label class="archive-drop" for="importFile"><span aria-hidden="true" class="archive-drop-mark">✥</span><span class="archive-drop-copy"><strong data-en="Select a page from your archive" data-zh="點此挑選一份舊檔案">點此挑選一份舊檔案</strong><small data-en="JSON document · Browse files" data-zh="JSON 檔案 · 輕觸選取">JSON 檔案 · 輕觸選取</small></span><span aria-hidden="true" class="archive-drop-seal">↗</span></label><div aria-live="polite" class="archive-file-selected" data-en="No document selected" data-zh="尚未選擇檔案" id="importFileStatus">尚未選擇檔案</div></div></div><button class="btn" data-en="Import backup" data-requires-file="importFile" data-zh="匯入備份" disabled="" onclick="importJSON()">匯入備份</button></div><div class="sheet"><h3 data-en="On privacy &amp; keeping records" data-zh="關於資料與隱私">關於資料與隱私</h3><p class="hint" data-en="Entries are stored in this browser’s localStorage, not automatically uploaded. Clearing browser data or switching devices may erase them; please back up regularly. Public website code does not make your personal entries public." data-zh="紀錄保存在這台裝置的瀏覽器 localStorage，不會自動上傳。清除瀏覽器資料或換裝置可能導致資料遺失，請定期匯出備份。公開網站程式碼不代表公開私人紀錄。">紀錄保存在這台裝置的瀏覽器 localStorage，不會自動上傳。清除瀏覽器資料或換裝置可能導致資料遺失，請定期匯出備份。公開網站程式碼不代表公開私人紀錄。</p><button class="btn danger" data-en="Erase all local records" data-zh="刪除本機全部紀錄" onclick="deleteAll()">刪除本機全部紀錄</button></div><div class="sheet"><span class="micro">ARCHIVE PRESERVATION</span><h3 data-en="Safer ways to keep your pages" data-zh="更安全地保存手札">更安全地保存手札</h3><p data-en="Merge another backup without erasing existing entries. Duplicate daily dates keep your current copy." data-zh="合併另一份備份，不覆蓋現有紀錄；相同日期的日記以目前版本為準。">合併另一份備份，不覆蓋現有紀錄；相同日期的日記以目前版本為準。</p><div class="field"><label data-en="Choose a JSON backup to merge" data-zh="選擇要合併的 JSON 備份">選擇要合併的 JSON 備份</label><div class="archive-upload" data-upload-for="mergeFile"><input accept=".json,application/json" aria-label="merge backup" class="archive-file-native" id="mergeFile" type="file"/><label class="archive-drop" for="mergeFile"><span aria-hidden="true" class="archive-drop-mark">✥</span><span class="archive-drop-copy"><strong data-en="Select a page from your archive" data-zh="點此挑選一份舊檔案">點此挑選一份舊檔案</strong><small data-en="JSON document · Browse files" data-zh="JSON 檔案 · 輕觸選取">JSON 檔案 · 輕觸選取</small></span><span aria-hidden="true" class="archive-drop-seal">↗</span></label><div aria-live="polite" class="archive-file-selected" data-en="No document selected" data-zh="尚未選擇檔案" id="mergeFileStatus">尚未選擇檔案</div></div></div><div class="actions"><button class="btn" data-en="Merge backup" data-requires-file="mergeFile" data-zh="合併備份" disabled="" onclick="mergeBackup()" type="button">合併備份</button><button class="btn" data-en="Encrypted backup" data-zh="加密備份" onclick="exportEncrypted()" type="button">加密備份</button></div><div class="field"><label data-en="Restore encrypted .mlock backup" data-zh="還原加密的 .mlock 備份">還原加密的 .mlock 備份</label><div class="archive-upload" data-upload-for="encryptedFile"><input accept=".mlock,application/json" aria-label="encrypted backup" class="archive-file-native" id="encryptedFile" type="file"/><label class="archive-drop" for="encryptedFile"><span aria-hidden="true" class="archive-drop-mark">✥</span><span class="archive-drop-copy"><strong data-en="Select a page from your archive" data-zh="點此挑選一份舊檔案">點此挑選一份舊檔案</strong><small data-en=".mlock encrypted backup · Browse files" data-zh=".mlock 加密備份 · 輕觸選取">.mlock 加密備份 · 輕觸選取</small></span><span aria-hidden="true" class="archive-drop-seal">↗</span></label><div aria-live="polite" class="archive-file-selected" data-en="No document selected" data-zh="尚未選擇檔案" id="encryptedFileStatus">尚未選擇檔案</div></div></div><button class="btn" data-en="Unlock and restore" data-requires-file="encryptedFile" data-zh="解密並還原" disabled="" onclick="restoreEncrypted()" type="button">解密並還原</button><p class="micro" data-en="Encrypted backups use your password and AES-GCM. Forgetting the password means the file cannot be recovered. Save an ordinary backup too." data-zh="加密備份使用自訂密碼及 AES-GCM；忘記密碼就無法還原，建議另存一份普通備份。">加密備份使用自訂密碼及 AES-GCM；忘記密碼就無法還原，建議另存一份普通備份。</p><div class="archive-reminder" id="backupReminder"></div></div></section>
+</main></div><footer>MOOD LAB · AN ARCHIVE OF BEING · OBSERVE WITHOUT JUDGMENT</footer></div>
 <script>
-const KEY='moodlab_v1';
-let db=JSON.parse(localStorage.getItem(KEY)||'{"daily":[],"quick":[],"research":[]}');
-let selectedMood=0;
-let viewMonth=new Date();
-const $=id=>document.getElementById(id);
-const todayISO=()=>new Date().toISOString().slice(0,10);
+"use strict";
+const KEY="moodlab_v1", $=id=>document.getElementById(id), pad=n=>String(n).padStart(2,"0");
+const todayISO=()=>{const d=new Date();return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`};
+const esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+
+// Dates are interpreted as calendar dates in the viewer's own system timezone.
+const localDateTime=()=>{const d=new Date();return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`};
+function archiveDate(value,style='long'){
+ if(!/^\d{4}-\d{2}-\d{2}$/.test(value||''))return value||'';
+ const [y,m,d]=value.split('-').map(Number),date=new Date(y,m-1,d,12);
+ if(date.getFullYear()!==y||date.getMonth()!==m-1||date.getDate()!==d)return value;
+ return date.toLocaleDateString(uiLanguage==='en'?'en-GB':'zh-TW',style==='long'?{year:'numeric',month:'long',day:'numeric'}:{year:'numeric',month:'short',day:'numeric'});
+}
+function archiveDateTime(value){if(!value)return '';const date=value.slice(0,10),time=value.slice(11,16);return `${archiveDate(date,'short')}${time?' · '+time:''}`}
+const moodText=(m)=>uiLanguage==='en'?`Mood ${esc(m)}/5`:`心情 ${esc(m)}/5`;
+
+const face=n=>["","🌧","☁","⛅","🌤","☀"][Number(n)]||"";
+let db;
+try{db=JSON.parse(localStorage.getItem(KEY)||'{"daily":[],"quick":[],"research":[]}')}catch{db={daily:[],quick:[],research:[]};alert("本機資料無法讀取，請先匯出或保留原始瀏覽器資料，勿直接儲存新紀錄。")}
+for(const k of ["daily","quick","research"])if(!Array.isArray(db[k]))db[k]=[];
+let selectedMood=0,viewMonth=new Date(),selectedDate=null;
 const saveDB=()=>localStorage.setItem(KEY,JSON.stringify(db));
-const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-$('today').textContent=new Date().toLocaleDateString('zh-TW',{year:'numeric',month:'long',day:'numeric',weekday:'long'});
-$('dDate').value=todayISO();
-
-function showPage(name){
- document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.id===name));
- document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===name));
- render();
-}
-$('nav').addEventListener('click',e=>{
- const b=e.target.closest('button[data-page]');if(b)showPage(b.dataset.page);
-});
-$('moodRating').addEventListener('click',e=>{
- const b=e.target.closest('button[data-value]');if(!b)return;
- selectedMood=Number(b.dataset.value);
- document.querySelectorAll('#moodRating button').forEach(x=>x.classList.toggle('selected',x===b));
-});
-function dailyForm(){
- return {date:$('dDate').value,mood:selectedMood,energy:Number($('dEnergy').value),
- stress:Number($('dStress').value),sleep:$('dSleep').value,body:$('dBody').value,
- tags:[...document.querySelectorAll('#dTags input:checked')].map(x=>x.value),
- event:$('dEvent').value,thought:$('dThought').value,note:$('dNote').value};
-}
-function saveDaily(){
- const d=dailyForm();
- if(!d.date||!d.mood){alert('請先選擇日期與心情評分。');return;}
- if([d.energy,d.stress].some(x=>!Number.isFinite(x)||x<1||x>10)){alert('能量與壓力請填 1–10。');return;}
- const i=db.daily.findIndex(x=>x.date===d.date);
- if(i>=0)db.daily[i]=d;else db.daily.push(d);
- db.daily.sort((a,b)=>a.date.localeCompare(b.date));saveDB();render();
- alert('每日紀錄已儲存！');
-}
+/* Date is rendered as an archival stamp by applyLanguage(). */
+$("dDate").value=todayISO();
+$("qTime").value=localDateTime();
+$("qIntensity").addEventListener("input",e=>{$("qIntensityLabel").textContent=e.target.value;$("qIntensity").setAttribute("aria-valuetext",e.target.value+" / 10")});
+$("nav").addEventListener("click",e=>{const b=e.target.closest("button[data-page]");if(b)showPage(b.dataset.page)});
+$("moodRating").addEventListener("click",e=>{const b=e.target.closest("button[data-value]");if(!b)return;selectedMood=Number(b.dataset.value);document.querySelectorAll("#moodRating button").forEach(x=>x.classList.toggle("selected",x===b))});
+function showPage(name){document.querySelectorAll(".page").forEach(x=>x.classList.toggle("active",x.id===name));document.querySelectorAll(".nav button").forEach(x=>x.classList.toggle("active",x.dataset.page===name));render();window.scrollTo({top:0,behavior:"smooth"})}
+function dailyForm(){return{date:$("dDate").value,mood:selectedMood,energy:Number($("dEnergy").value),stress:Number($("dStress").value),sleep:$("dSleep").value,body:$("dBody").value,tags:[...document.querySelectorAll("#dTags input:checked")].map(x=>x.value),event:$("dEvent").value,thought:$("dThought").value,note:$("dNote").value}}
+function saveDaily(){const d=dailyForm();if(!d.date||!d.mood){alert(txt('先選擇日期與心情就好。','Choose a date and a mood first.'));return}if([d.energy,d.stress].some(x=>!Number.isFinite(x)||x<1||x>10)){alert(txt('能量與壓力請填 1–10。','Energy and stress must be between 1 and 10.'));return}if(d.sleep!==""&&(!Number.isFinite(Number(d.sleep))||Number(d.sleep)<0||Number(d.sleep)>24)){alert(txt('睡眠時數請填 0–24。','Sleep must be between 0 and 24 hours.'));return}const i=db.daily.findIndex(x=>x.date===d.date);if(i>=0)db.daily[i]=d;else db.daily.push(d);db.daily.sort((a,b)=>a.date.localeCompare(b.date));saveDB();render();alert(txt('這一頁已經好好收藏起來了。','Your page has been safely filed.'))}
 function clearDaily(){
- ['dEvent','dThought','dNote','dSleep'].forEach(id=>$(id).value='');
- document.querySelectorAll('#dTags input').forEach(x=>x.checked=false);
- selectedMood=0;document.querySelectorAll('#moodRating button').forEach(x=>x.classList.remove('selected'));
+ const hasDraft=["dEvent","dThought","dNote","dSleep"].some(id=>$(id).value.trim())||document.querySelector("#dTags input:checked")||selectedMood>0;
+ if(hasDraft&&!confirm(txt("要重新填寫這一頁嗎？目前畫面上尚未儲存的文字與感受選擇會被清空；已收藏的紀錄不會刪除。","Start this page again? The text and feelings currently shown will be cleared. Previously saved entries will not be deleted.")))return;
+ for(const id of ["dEvent","dThought","dNote","dSleep"])$(id).value="";
+ document.querySelectorAll("#dTags input").forEach(x=>x.checked=false);
+ selectedMood=0;document.querySelectorAll("#moodRating button").forEach(x=>x.classList.remove("selected"));
+ $("dEvent").focus();
 }
-function saveQuick(){
- const q={time:$('qTime').value||new Date().toISOString().slice(0,16),
- mood:$('qMood').value,intensity:Number($('qIntensity').value),
- event:$('qEvent').value,body:$('qBody').value,thought:$('qThought').value};
- if(!q.event.trim()&&!q.thought.trim()){alert('至少寫下一點事件或想法。');return;}
- db.quick.unshift(q);saveDB();['qEvent','qBody','qThought'].forEach(id=>$(id).value='');
- render();alert('即時觀察已留下。');
-}
-function saveResearch(){
- const title=$('rTitle').value.trim(),question=$('rQuestion').value.trim();
- if(!title){alert('請填寫研究主題。');return;}
- db.research.push({title,question,date:todayISO()});saveDB();
- $('rTitle').value='';$('rQuestion').value='';render();
-}
-function removeItem(type,index){
- if(!confirm('確定刪除這筆紀錄？'))return;
- db[type].splice(index,1);saveDB();render();
-}
-function average(arr,key){
- const vals=arr.map(x=>Number(x[key])).filter(Number.isFinite);
- return vals.length?(vals.reduce((a,b)=>a+b,0)/vals.length).toFixed(1):'—';
-}
-function listDaily(){
- $('dailyList').innerHTML=db.daily.slice().reverse().map((d,i)=>`
- <div class="record"><strong>${esc(d.date)}</strong>　心情 ${d.mood}/5　
- 能量 ${d.energy}/10　壓力 ${d.stress}/10
- <div style="color:#858577;margin-top:6px">${esc(d.tags.join('、'))} ${esc(d.event)}</div>
- <button class="secondary" onclick="loadDaily('${d.date}')">編輯</button>
- <button class="secondary" onclick="removeItem('daily',${db.daily.length-1-i})">刪除</button></div>`).join('')||'<div class="empty">尚無紀錄。</div>';
-}
-function loadDaily(date){
- const d=db.daily.find(x=>x.date===date);if(!d)return;
- $('dDate').value=d.date;selectedMood=d.mood;
- document.querySelectorAll('#moodRating button').forEach(b=>b.classList.toggle('selected',Number(b.dataset.value)===d.mood));
- ['Energy','Stress','Sleep','Body','Event','Thought','Note'].forEach(k=>{
- const id='d'+k;if($(id))$(id).value=d[k.toLowerCase()]??'';
- });
- document.querySelectorAll('#dTags input').forEach(x=>x.checked=d.tags.includes(x.value));
- showPage('daily');window.scrollTo(0,0);
-}
-function renderQuick(){
- $('quickList').innerHTML=db.quick.map((q,i)=>`
- <div class="record"><strong>${esc(q.time.replace('T',' '))}</strong>　
- ${esc(q.mood)} · 強度 ${q.intensity}/10
- <div style="color:#858577;margin-top:6px">${esc(q.event)} ${esc(q.body)} ${esc(q.thought)}</div>
- <button class="secondary" onclick="removeItem('quick',${i})">刪除</button></div>`).join('')||'<div class="empty">尚無紀錄。</div>';
- $('recentQuick').innerHTML=db.quick.slice(0,3).map(q=>`<div class="record">${esc(q.time.replace('T',' '))}　<strong>${esc(q.mood)}</strong>　${esc(q.event)}</div>`).join('')||'目前還沒有即時紀錄。';
-}
-function renderResearch(){
- $('researchList').innerHTML=db.research.map((r,i)=>`
- <div class="record"><strong>${esc(r.title)}</strong><div>${esc(r.question)}</div>
- <small>${esc(r.date)}</small> <button class="secondary" onclick="removeItem('research',${i})">刪除</button></div>`).join('')||'<div class="empty">尚無研究題目。</div>';
-}
-function drawChart(id,series){
- const c=$(id);if(!c)return;
- const ctx=c.getContext('2d'),w=c.clientWidth,h=190,dpr=window.devicePixelRatio||1;
- c.width=w*dpr;c.height=h*dpr;ctx.scale(dpr,dpr);ctx.clearRect(0,0,w,h);
- const pad=25,values=series.map(x=>x.value),max=10,min=0;
- ctx.strokeStyle='#e5dfd1';ctx.lineWidth=1;
- for(let i=0;i<=5;i++){let y=pad+(h-pad*2)*i/5;ctx.beginPath();ctx.moveTo(pad,y);ctx.lineTo(w-pad,y);ctx.stroke();}
- if(!series.length){ctx.fillStyle='#999';ctx.font='12px sans-serif';ctx.fillText('累積紀錄後，趨勢圖會出現在這裡。',pad,h/2);return;}
- ctx.beginPath();ctx.strokeStyle='#899681';ctx.lineWidth=2;
- series.forEach((p,i)=>{let x=pad+(w-pad*2)*(series.length===1?.5:i/(series.length-1));let y=h-pad-(p.value-min)/(max-min)*(h-pad*2);if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);});
- ctx.stroke();
- series.forEach((p,i)=>{let x=pad+(w-pad*2)*(series.length===1?.5:i/(series.length-1));let y=h-pad-(p.value-min)/(max-min)*(h-pad*2);ctx.beginPath();ctx.arc(x,y,3.5,0,Math.PI*2);ctx.fillStyle='#d0aa4b';ctx.fill();});
-}
-function renderCalendar(){
- const y=viewMonth.getFullYear(),m=viewMonth.getMonth();
- $('monthTitle').textContent=`${y} 年 ${m+1} 月`;
- const first=new Date(y,m,1).getDay(),days=new Date(y,m+1,0).getDate();
- const names=['日','一','二','三','四','五','六'];
- let html=names.map(x=>`<div class="dayhead">週${x}</div>`).join('');
- for(let i=0;i<first;i++)html+='<div></div>';
- for(let d=1;d<=days;d++){
- const date=`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
- const item=db.daily.find(x=>x.date===date);
- const color=item?(item.mood<=2?'#bd796c':item.mood===3?'#d6ad43':'#899681'):'transparent';
- html+=`<div class="day ${date===todayISO()?'today':''}">${d}<span class="dot" style="background:${color}"></span></div>`;
- }
- $('calendarGrid').innerHTML=html;
- const monthItems=db.daily.filter(x=>x.date.startsWith(`${y}-${String(m+1).padStart(2,'0')}`));
- $('monthRecords').innerHTML=monthItems.map(x=>`<div class="record">${esc(x.date)}　心情 ${x.mood}/5　${esc(x.tags.join('、'))}</div>`).join('')||'這個月還沒有每日紀錄。';
-}
-function changeMonth(n){viewMonth.setMonth(viewMonth.getMonth()+n);renderCalendar();}
-function render(){
- const sorted=db.daily.slice().sort((a,b)=>a.date.localeCompare(b.date));
- const recent=sorted.slice(-7);
- $('homeMood').textContent=sorted.length?`${sorted.at(-1).mood}/5`:'—';
- $('homeEnergy').textContent=average(recent,'energy');
- $('homeDays').textContent=db.daily.length;
- $('avgMood').textContent=average(sorted,'mood');
- $('avgEnergy').textContent=average(sorted,'energy');
- $('avgStress').textContent=average(sorted,'stress');
- drawChart('homeChart',recent.map(x=>({value:x.mood*2})));
- drawChart('moodChart',sorted.slice(-30).map(x=>({value:x.mood*2})));
- drawChart('energyChart',sorted.slice(-30).map(x=>({value:x.energy})));
- const tags={};sorted.forEach(x=>x.tags.forEach(t=>tags[t]=(tags[t]||0)+1));
- $('tagStats').innerHTML=Object.entries(tags).sort((a,b)=>b[1]-a[1]).map(([t,n])=>`<div class="record">${esc(t)}　<strong>${n} 次</strong></div>`).join('')||'累積標籤後會顯示統計。';
- listDaily();renderQuick();renderResearch();renderCalendar();
-}
-function download(name,content,type){
- const blob=new Blob([content],{type}),url=URL.createObjectURL(blob),a=document.createElement('a');
- a.href=url;a.download=name;a.click();URL.revokeObjectURL(url);
-}
-function exportJSON(){download('mood-lab-backup.json',JSON.stringify(db,null,2),'application/json');}
-function exportCSV(){
- const rows=[['日期','心情','能量','壓力','睡眠','身體狀態','標籤','事件','想法','日記'],...db.daily.map(d=>[d.date,d.mood,d.energy,d.stress,d.sleep,d.body,d.tags.join('、'),d.event,d.thought,d.note])];
- const csv=rows.map(r=>r.map(v=>'"'+String(v??'').replace(/"/g,'""')+'"').join(',')).join('\n');
- download('mood-lab-daily.csv','\uFEFF'+csv,'text/csv;charset=utf-8');
-}
-function exportMarkdown(){
- let out='# MOOD LAB 個人觀察紀錄\n\n';
- out+='> 以下為個人自我觀察資料，並非臨床診斷。\n\n## 每日紀錄\n';
- db.daily.forEach(d=>{out+=`\n### ${d.date}\n- 心情：${d.mood}/5\n- 能量：${d.energy}/10\n- 壓力：${d.stress}/10\n- 睡眠：${d.sleep||'未填'} 小時\n- 身體：${d.body}\n- 標籤：${d.tags.join('、')}\n- 事件：${d.event}\n- 想法：${d.thought}\n- 日記：${d.note}\n`;});
- out+='\n## 即時觀察\n';
- db.quick.forEach(q=>{out+=`\n- ${q.time}｜${q.mood}（${q.intensity}/10）｜事件：${q.event}｜身體：${q.body}｜想法：${q.thought}\n`;});
- out+='\n## 研究問題\n';db.research.forEach(r=>out+=`\n- ${r.title}：${r.question}\n`);
- download('mood-lab-analysis.md',out,'text/markdown;charset=utf-8');
-}
-function importJSON(){
- const f=$('importFile').files[0];if(!f){alert('請先選擇 JSON 檔。');return;}
- const reader=new FileReader();reader.onload=()=>{
- try{const data=JSON.parse(reader.result);
- if(!Array.isArray(data.daily)||!Array.isArray(data.quick)||!Array.isArray(data.research))throw Error();
- if(!confirm('匯入會以備份內容取代目前資料，確定繼續？'))return;
- db=data;saveDB();render();alert('匯入成功！');
- }catch(e){alert('檔案格式不正確，無法匯入。');}
- };reader.readAsText(f);
-}
-function deleteAll(){
- if(!confirm('確定刪除這台裝置上的所有 MOOD LAB 紀錄？此操作無法復原。請先確認已備份。'))return;
- db={daily:[],quick:[],research:[]};saveDB();render();alert('本機紀錄已清除。');
-}
-$('qTime').value=new Date().toISOString().slice(0,16);
-render();
-</script>
-</body>
-</html>
+function loadDaily(date){const d=db.daily.find(x=>x.date===date);if(!d)return;$("dDate").value=d.date;selectedMood=Number(d.mood);document.querySelectorAll("#moodRating button").forEach(x=>x.classList.toggle("selected",Number(x.dataset.value)===selectedMood));for(const k of ["Energy","Stress","Sleep","Body","Event","Thought","Note"])$("d"+k).value=d[k.toLowerCase()]??"";document.querySelectorAll("#dTags input").forEach(x=>x.checked=(d.tags||[]).includes(x.value));showPage("daily")}
+function saveQuick(){const q={time:$("qTime").value,mood:$("qMood").value,intensity:Number($("qIntensity").value),event:$("qEvent").value,body:$("qBody").value,thought:$("qThought").value};if(!q.event.trim()&&!q.thought.trim()){alert(txt('至少寫下一點事情或想法就好。','Write at least an event or a thought.'));return}db.quick.unshift(q);saveDB();for(const id of ["qEvent","qBody","qThought"])$(id).value="";render();alert(txt('這個片刻已經被收好了。','This moment has been filed.'))}
+function saveResearch(){const title=$("rTitle").value.trim(),question=$("rQuestion").value.trim();if(!title){alert(txt('替研究問題取個名字吧。','Give your inquiry a title.'));return}db.research.push({title,question,date:todayISO()});saveDB();$("rTitle").value="";$("rQuestion").value="";render()}
+function removeItem(type,i){if(!confirm(txt('確定要移除這筆紀錄嗎？','Remove this record?')))return;db[type].splice(i,1);saveDB();render()}
+function removeDaily(date){const i=db.daily.findIndex(x=>x.date===date);if(i>=0)removeItem("daily",i)}
+function avg(rows,key){const v=rows.map(x=>Number(x[key])).filter(x=>Number.isFinite(x)&&x>0);return v.length?(v.reduce((a,b)=>a+b,0)/v.length).toFixed(1):"—"}
+function renderDaily(){const en=uiLanguage==='en';$("dailyList").innerHTML=db.daily.slice().sort((a,b)=>b.date.localeCompare(a.date)).map(d=>`<div class="entry"><strong>${esc(archiveDate(d.date))}　${face(d.mood)}　${moodText(d.mood)}</strong><p>${esc((d.tags||[]).map(t=>en?translateText(t):t).join(' · '))}　${esc(d.event||d.note||'')}</p><button class="btn tiny" data-edit="${esc(d.date)}">${en?'Read / edit':'閱讀／編輯'}</button> <button class="btn tiny" data-remove="${esc(d.date)}">${en?'Remove':'移除'}</button></div>`).join('')||`<div class="empty">${en?'No pages yet. Begin whenever you are ready.':'還沒有手札。空白也沒有關係，想寫的時候再來。'}</div>`}
+$("dailyList").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;if(b.hasAttribute("data-edit"))loadDaily(b.dataset.edit);if(b.hasAttribute("data-remove"))removeDaily(b.dataset.remove)});
+function renderQuick(){const en=uiLanguage==='en';const item=(q,i,remove)=>`<div class="entry"><strong>${esc(archiveDateTime(q.time))}　${esc(en?translateText(q.mood):q.mood)} · ${esc(q.intensity)}/10</strong><p>${esc(q.event||q.thought)} ${remove?esc(q.body)+' '+esc(q.thought):''}</p>${remove?`<button class="btn tiny" onclick="removeItem('quick',${i})">${en?'Remove':'移除'}</button>`:''}</div>`;$("quickList").innerHTML=db.quick.map((q,i)=>item(q,i,true)).join('')||`<div class="empty">${en?'No moments collected yet.':'尚未收藏即時片刻。'}</div>`;$("recentQuick").innerHTML=db.quick.slice(0,3).map((q,i)=>item(q,i,false)).join('')||`<div class="empty">${en?'No observations yet. Begin with one small moment.':'目前還沒有即時觀察。你可以從一個很小的片刻開始。'}</div>`}
+function renderResearch(){const en=uiLanguage==='en';$("researchList").innerHTML=db.research.map((r,i)=>`<div class="research"><span class="micro">QUESTION FILE · ${pad(i+1)}</span><h4>${esc(r.title)}</h4><p>${esc(r.question)}</p><small>${esc(archiveDate(r.date||''))}</small> <button class="btn tiny" onclick="removeItem('research',${i})">${en?'Remove':'移除'}</button></div>`).join('')||`<div class="empty">${en?'No inquiries yet. Every question can begin small.':'還沒有研究題目。第一個問題可以很小。'}</div>`}
+function draw(id,rows,keys){const c=$(id),w=Math.max(240,c.parentElement.clientWidth),h=210,dpr=devicePixelRatio||1;c.width=w*dpr;c.height=h*dpr;const ctx=c.getContext("2d");ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,w,h);const l=29,r=10,t=12,b=24,cw=w-l-r,ch=h-t-b;ctx.font="10px monospace";for(let i=0;i<=5;i++){const y=t+ch*i/5;ctx.strokeStyle="#ded6c8";ctx.beginPath();ctx.moveTo(l,y);ctx.lineTo(w-r,y);ctx.stroke();ctx.fillStyle="#999081";ctx.fillText(String(10-2*i),4,y+3)}const empty=c.parentElement.querySelector('.chart-empty');
+ if(!rows.length){c.style.display='none';if(empty){empty.hidden=false;empty.textContent=uiLanguage==='en'?'The first page has yet to be written. Your patterns will appear here, in time.':'第一頁尚未寫下。等故事慢慢累積，心情的軌跡也會在這裡浮現。'}return}
+ c.style.display='block';if(empty)empty.hidden=true;for(const [key,color] of keys){const pts=rows.map((v,i)=>({x:l+cw*(rows.length===1?.5:i/(rows.length-1)),y:t+ch*(1-Number(v[key])*(key==="mood"?2:1)/10)})).filter(p=>Number.isFinite(p.y));if(!pts.length)continue;ctx.beginPath();ctx.strokeStyle=color;ctx.lineWidth=2;pts.forEach((p,i)=>i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y));ctx.stroke();pts.forEach(p=>{ctx.beginPath();ctx.arc(p.x,p.y,3,0,Math.PI*2);ctx.fillStyle=color;ctx.fill()})}}
+function renderCalendar(){const y=viewMonth.getFullYear(),m=viewMonth.getMonth(),first=new Date(y,m,1).getDay(),days=new Date(y,m+1,0).getDate();$("monthTitle").textContent=new Date(y,m,1).toLocaleDateString(uiLanguage==='en'?'en-GB':'zh-TW',{year:'numeric',month:'long'});let h=(uiLanguage==='en'?['Sun','Mon','Tue','Wed','Thu','Fri','Sat']:['週日','週一','週二','週三','週四','週五','週六']).map(x=>`<div class="weekday">${x}</div>`).join('');for(let i=0;i<first;i++)h+='<div></div>';for(let d=1;d<=days;d++){const date=`${y}-${pad(m+1)}-${pad(d)}`,entry=db.daily.find(x=>x.date===date);h+=`<button class="day ${entry?'m'+entry.mood:''} ${date===todayISO()?'today':''} ${date===selectedDate?'selected':''}" data-date="${date}" aria-label="${esc(archiveDate(date))}">${d}${entry?`<b>${face(entry.mood)}</b>`:''}</button>`}$("calendarGrid").innerHTML=h;showCalendarRecord(selectedDate)}
+$("calendarGrid").addEventListener("click",e=>{const b=e.target.closest("button[data-date]");if(b){selectedDate=b.dataset.date;renderCalendar()}});
+function showCalendarRecord(date){const en=uiLanguage==='en';$("selectedDateTitle").textContent=date?archiveDate(date):(en?'Choose a date':'選擇一個日期');const d=db.daily.find(x=>x.date===date);$("monthRecords").innerHTML=!date?`<div class="empty archive-unwritten">${en?'Choose a day on the calendar to revisit its story.':'點選日曆中的日期，讓那一天重新浮現。'}</div>`:!d?`<div class="empty archive-unwritten"><span class="archive-flourish" aria-hidden="true">✧</span><em>${en?'This page remains unwritten.':'這一頁，尚未落筆。'}</em><span>${en?'Not every day asks to be remembered in words.':'不是每一天，都需要用文字留下證明。'}</span></div>`:`<div class="entry"><strong>${face(d.mood)} ${moodText(d.mood)} · ${esc((d.tags||[]).map(t=>en?translateText(t):t).join(' · '))}</strong><p>${en?'What happened':'發生的事情'}：${esc(d.event||(en?'Not recorded':'未填'))}</p><p>${en?'Thoughts at the time':'當時的想法'}：${esc(d.thought||(en?'Not recorded':'未填'))}</p><p>${en?'Journal':'日記'}：${esc(d.note||(en?'Not recorded':'未填'))}</p><button class="btn tiny" id="calendarEdit">${en?'Open this page':'打開這一頁'}</button></div>`;const b=$("calendarEdit");if(b)b.onclick=()=>loadDaily(date)}
+function changeMonth(n){viewMonth=new Date(viewMonth.getFullYear(),viewMonth.getMonth()+n,1);selectedDate=null;renderCalendar()}
+function render(){const sorted=db.daily.slice().sort((a,b)=>a.date.localeCompare(b.date)),recent=sorted.slice(-7);$("homeDays").textContent=sorted.length;$("homeMood").textContent=avg(recent,"mood");$("homeEnergy").textContent=avg(recent,"energy");$("avgMood").textContent=avg(sorted,"mood");$("avgEnergy").textContent=avg(sorted,"energy");$("avgStress").textContent=avg(sorted,"stress");$("greeting").textContent=sorted.some(d=>d.date===todayISO())?txt("今天的你，已經替自己留下一頁。","You have already left a page for yourself today."):txt("今天的你，過得還好嗎？","How has today been treating you?");draw("homeChart",recent,[["mood","#697965"]]);draw("moodChart",sorted.slice(-30),[["mood","#697965"]]);draw("energyChart",sorted.slice(-30),[["energy","#697965"],["stress","#ad7366"]]);const tags={};for(const d of sorted)for(const t of d.tags||[])tags[t]=(tags[t]||0)+1;$("tagStats").innerHTML=Object.entries(tags).sort((a,b)=>b[1]-a[1]).map(([t,n])=>`<div class="entry"><strong>${esc(uiLanguage==='en'?translateText(t):t)}</strong> · ${n} ${txt('次','times')}</div>`).join("")||`<div class="empty">${txt('紀錄累積後，常出現的感受會在這裡慢慢浮現。','As your notes grow, recurring feelings will emerge here.')}</div>`;$("dataInsight").textContent=sorted.length<5?`目前有 ${sorted.length} 筆每日紀錄。樣本還少，我們先把它當作觀察起點。`:`目前有 ${sorted.length} 筆每日紀錄。平均值只是輪廓，別忘了每一筆背後都有不同的生活情境。`;renderDaily();renderQuick();renderResearch();renderCalendar()}
+function download(name,content,type){const url=URL.createObjectURL(new Blob([content],{type})),a=document.createElement("a");a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1500)}
+function exportJSON(){download("mood-lab-backup.json",JSON.stringify(db,null,2),"application/json")}
+function exportCSV(){const rows=[["日期","心情","能量","壓力","睡眠","身體狀態","標籤","事件","想法","日記"],...db.daily.map(d=>[d.date,d.mood,d.energy,d.stress,d.sleep,d.body,(d.tags||[]).join("、"),d.event,d.thought,d.note])];download("mood-lab-daily.csv","\ufeff"+rows.map(r=>r.map(v=>'"'+String(v??"").replace(/"/g,'""')+'"').join(",")).join("\n"),"text/csv;charset=utf-8")}
+function exportMarkdown(){let s="# MOOD LAB 個人觀察紀錄\n\n> 個人自我觀察資料，非臨床診斷。\n";for(const d of db.daily)s+=`\n## ${d.date}\n- 心情：${d.mood}/5\n- 能量：${d.energy}/10\n- 壓力：${d.stress}/10\n- 睡眠：${d.sleep||"未填"}\n- 身體：${d.body}\n- 標籤：${(d.tags||[]).join("、")}\n- 事件：${d.event}\n- 想法：${d.thought}\n- 日記：${d.note}\n`;s+="\n## 即時觀察\n";for(const q of db.quick)s+=`\n- ${q.time}｜${q.mood}｜強度 ${q.intensity}｜${q.event}｜${q.body}｜${q.thought}`;s+="\n\n## 研究題目\n";for(const r of db.research)s+=`\n- ${r.title}：${r.question}`;download("mood-lab-analysis.md",s,"text/markdown;charset=utf-8")}
+function importJSON(){const f=$("importFile").files[0];if(!f){alert(txt('請先選擇 JSON 檔。','Choose a JSON file first.'));return}const reader=new FileReader();reader.onload=()=>{let x;try{x=JSON.parse(reader.result);if(!["daily","quick","research"].every(k=>Array.isArray(x[k])))throw Error("格式不正確")}catch{alert(txt('備份格式不正確。','Invalid backup format.'));return}if(!confirm(txt('匯入會取代目前紀錄。建議先匯出現有備份，確定繼續？','Importing will replace current records. Export a backup first. Continue?')))return;db=x;saveDB();render();alert(txt('備份已匯入。','Backup restored.'))};reader.readAsText(f)}
+function deleteAll(){if(!confirm(txt('確定刪除這台裝置上的所有 MOOD LAB 紀錄？此操作無法復原。','Delete every MOOD LAB record on this device? This cannot be undone.')))return;db={daily:[],quick:[],research:[]};saveDB();render();alert(txt('本機紀錄已清除。','Local records cleared.'))}
+window.addEventListener("resize",()=>{const sorted=db.daily.slice().sort((a,b)=>a.date.localeCompare(b.date));draw("homeChart",sorted.slice(-7),[["mood","#697965"]]);draw("moodChart",sorted.slice(-30),[["mood","#697965"]]);draw("energyChart",sorted.slice(-30),[["energy","#697965"],["stress","#ad7366"]])});
 
+const TRANSLATIONS={"一座收藏感受的私人研究室": "A private archive for the things we feel", "不必急著整理好自己。": "You need not have it all figured out.", "先把今天，輕輕放在這裡。": "Just leave a little of today here.", "今日手札": "Today’s journal", "每日紀錄": "Daily entries", "即時片刻": "Passing moments", "情緒年曆": "Mood calendar", "觀察圖譜": "Observation charts", "個人研究": "Personal inquiries", "檔案管理": "Archive & backup", "今天的你，過得還好嗎？": "How has today been treating you?", "不需要有答案，也不需要把感受說得完整。這裡留了一個位置，給此刻的你。": "You do not need an answer, or even the right words. There is a place here for you, just as you are.", "寫下今天的手札 ↗": "Write today’s entry ↗", "收藏一個片刻": "Keep a moment", "累積手札": "Days recorded", "天": "days", "近七筆平均心情": "Recent mood · 7 entries", "近七筆平均能量": "Recent energy · 7 entries", "最近的心情軌跡": "Recent traces of feeling", "留給自己的話": "A note to yourself", "有些日子不需要被定義。願意回頭看看自己，也是一種溫柔的觀察。": "Some days need no definition. Looking back at yourself with curiosity can be enough.", "最近留下的片刻": "Moments you have kept", "不是填寫一份表格，而是替今天留下一頁。": "Not a form to complete, but a page to leave behind.", "這一頁屬於哪一天？": "Which day does this page belong to?", "如果用一種天氣形容今天的心情？": "If your mood were weather, what would it be?", "很低落": "Stormy", "不太好": "Cloudy", "普通": "In between", "不錯": "Brightening", "很愉快": "Sunny", "能量（1–10）": "Energy (1–10)", "壓力（1–10）": "Stress (1–10)", "睡眠時數": "Hours of sleep", "身體狀態": "How is your body?", "正常": "As usual", "疲倦": "Tired", "疼痛": "In pain", "不舒服": "Unwell", "生病": "Sick", "其他": "Other", "今天有哪些感受來敲門？": "Which feelings visited today?", "平靜": "Calm", "焦慮": "Anxious", "煩躁": "Irritated", "開心": "Happy", "疲憊": "Exhausted", "失落": "Downhearted", "有成就感": "Accomplished", "期待": "Hopeful", "今天有什麼事情留在心裡？": "What stayed with you today?", "那時候，你心裡怎麼想？": "What went through your mind?", "還有什麼想替今天留下來？": "Anything else you want to keep?", "收進今天的手札 ✳": "Keep this page ✳", "重新填寫這一頁": "Start this page again", "過去的手札": "Earlier pages", "有些感受不必等到一天結束，現在就可以被留下。": "Some feelings deserve a place before the day is over.", "這個片刻發生在": "When did it happen?", "此刻最接近哪種情緒？": "Which emotion fits best?", "生氣": "Angry", "委屈": "Hurt", "難過": "Sad", "害怕": "Afraid", "感受有多強烈？": "How strong is the feeling?", "剛才發生了什麼？": "What just happened?", "身體有什麼反應？": "What did you notice in your body?", "腦中第一個浮現的想法": "The first thought that came to mind", "把這個片刻收好 ↗": "Keep this moment ↗", "片刻收藏": "Collected moments", "日子會過去，但曾經的感受值得被好好看見。": "Days pass. What you felt along the way still matters.", "← 上個月": "← Previous", "下個月 →": "Next →", "點選日期，重新閱讀那一天的手札。": "Choose a date to revisit that page.", "選擇一個日期": "Choose a date", "圖表不是答案，而是幫助我們提出更好的問題。": "Charts are not answers. They help us ask better questions.", "平均心情": "Average mood", "平均能量": "Average energy", "平均壓力": "Average stress", "心情的起伏": "The rise and fall of moods", "能量與壓力": "Energy & stress", "能量": "Energy", "壓力": "Stress", "反覆出現的感受": "Feelings that return", "個人研究室": "Personal inquiry room", "帶著好奇心觀察自己，不急著證明任何事情。": "Observe yourself with curiosity, without rushing to prove a theory.", "想研究的主題": "What would you like to explore?", "目前有什麼猜想？": "What is your working hypothesis?", "建立研究卡片 ＋": "Add inquiry card +", "正在思考的問題": "Questions in progress", "相關不等於因果。單次事件不代表長期模式。這裡是個人觀察工具，不是臨床診斷量表。": "Correlation is not causation. One event is not a lasting pattern. This is a self-reflection tool, not a clinical assessment.", "這些文字屬於你。資料預設只保存在目前裝置的瀏覽器。": "These words belong to you. By default, they remain in this browser.", "帶走一份自己的檔案": "Take a copy of your archive", "可備份或匯出成適合交給 ChatGPT／Claude 分析的文字。": "Make a backup, or export text to discuss with ChatGPT or Claude.", "完整備份 JSON": "Full backup · JSON", "每日紀錄 CSV": "Daily entries · CSV", "分析用 Markdown": "For analysis · Markdown", "從備份中找回紀錄": "Restore your archive", "選擇先前匯出的 JSON": "Choose an earlier JSON backup", "匯入備份": "Import backup", "關於資料與隱私": "On privacy & keeping records", "紀錄保存在這台裝置的瀏覽器 localStorage，不會自動上傳。清除瀏覽器資料或換裝置可能導致資料遺失，請定期匯出備份。公開網站程式碼不代表公開私人紀錄。": "Entries are stored in this browser’s localStorage, not automatically uploaded. Clearing browser data or switching devices may erase them; please back up regularly. Public website code does not make your personal entries public.", "刪除本機全部紀錄": "Erase all local records", "例如 7.5": "e.g. 7.5", "可以是一件大事，也可以只是一個小小的瞬間……": "It can be something big, or just a fleeting moment…", "不需要合理，也不需要修飾。": "No need to justify or polish it.", "一段話、一個念頭，或是今天不想忘記的事情。": "A sentence, a thought, or something you do not want to forget.", "先寫下客觀發生的事情……": "Begin with what happened…", "例如：心跳加快、肩膀緊繃": "e.g. racing heart, tense shoulders", "例如：睡眠與情緒的關係": "e.g. sleep and mood", "例如：睡眠不足時，我的壓力評分是否比較高？": "e.g. Does poor sleep coincide with higher stress?", "目前還沒有即時觀察。你可以從一個很小的片刻開始。": "No moments yet. You can begin with something small.", "還沒有手札。空白也沒有關係，想寫的時候再來。": "No entries yet. A blank page is fine; come back when you feel like writing.", "尚未收藏即時片刻。": "No moments collected yet.", "還沒有研究題目。第一個問題可以很小。": "No inquiries yet. Your first question can be a small one.", "點選日曆中的日期，讓那一天重新浮現。": "Select a day to revisit its story.", "這一天還沒有留下手札。": "No entry was left on this day.", "紀錄累積後，常出現的感受會在這裡慢慢浮現。": "Recurring feelings will appear here as you write.", "今天的你，已經替自己留下一頁。": "You have already left a page for today.", "閱讀／編輯": "Read / edit", "移除": "Remove", "打開這一頁": "Open this page", "發生的事情：": "What happened: ", "當時的想法：": "Your thoughts: ", "日記：": "Journal: ", "未填": "Not recorded", "心情": "Mood", "週日": "Sun", "週一": "Mon", "週二": "Tue", "週三": "Wed", "週四": "Thu", "週五": "Fri", "週六": "Sat"};
+let uiLanguage=localStorage.getItem("moodlab_language")==="en"?"en":"zh";
+function translateText(text){
+ if(TRANSLATIONS[text])return TRANSLATIONS[text];
+ let v=text;
+ const parts=[[/^(\d{4}) 年 (\d{1,2}) 月$/,(_,y,m)=>new Date(Number(y),Number(m)-1,1).toLocaleDateString("en-US",{month:"long",year:"numeric"})],
+ [/^目前有 (\d+) 筆每日紀錄。樣本還少，我們先把它當作觀察起點。$/,(_,n)=>`There are ${n} daily entries so far. The sample is small; take this as a beginning.`],
+ [/^目前有 (\d+) 筆每日紀錄。平均值只是輪廓，別忘了每一筆背後都有不同的生活情境。$/,(_,n)=>`There are ${n} daily entries. Averages are only outlines; each entry holds its own context.`],
+ [/^心情 (\d+)\/5$/,(_,n)=>`Mood ${n}/5`],
+ [/^(.*) · (\d+) 次$/,(_,word,n)=>`${TRANSLATIONS[word]||word} · ${n} times`],
+ [/^(.+)　([🌧☁⛅🌤☀])　心情 (\d+)\/5$/,(_,date,icon,n)=>`${date}　${icon}　Mood ${n}/5`],
+ [/^週([日一二三四五六])$/,(_,d)=>({日:"Sun",一:"Mon",二:"Tue",三:"Wed",四:"Thu",五:"Fri",六:"Sat"}[d])]];
+ for(const [re,fn] of parts)if(re.test(v))return v.replace(re,fn);
+ return v;
+}
+function applyLanguage(){
+ document.documentElement.lang=uiLanguage==="en"?"en":"zh-Hant";
+ for(const el of document.querySelectorAll("[data-en][data-zh]"))el.textContent=uiLanguage==="en"?el.dataset.en:el.dataset.zh;
+ for(const el of document.querySelectorAll("[data-placeholder-en]"))el.placeholder=uiLanguage==="en"?el.dataset.placeholderEn:el.dataset.placeholderZh;
+ const root=document.querySelector("main");
+ const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);
+ const nodes=[];while(walker.nextNode())nodes.push(walker.currentNode);
+ for(const n of nodes){if(n.parentElement?.closest("[data-en][data-zh],script,style"))continue;
+  const current=n.nodeValue;
+  if(n.__lastTranslated!==undefined&&current!==n.__lastTranslated)n.__originalText=current;
+  if(n.__originalText===undefined)n.__originalText=current;
+  const base=n.__originalText;
+  n.nodeValue=uiLanguage==="en"?(base.match(/^\s*/)?.[0]||"")+(translateText(base.trim())||base.trim())+(base.match(/\s*$/)?.[0]||""):base;
+  n.__lastTranslated=n.nodeValue;
+ }
+ $("langZh").setAttribute("aria-pressed",String(uiLanguage==="zh"));$("langEn").setAttribute("aria-pressed",String(uiLanguage==="en"));
+ const now=new Date();
+ const chineseDigits=['〇','一','二','三','四','五','六','七','八','九'];
+ const cnYear=String(now.getFullYear()).split('').map(n=>chineseDigits[Number(n)]).join('');
+ const cnNumber=n=>{const a=['','一','二','三','四','五','六','七','八','九'];return n<=10?(n===10?'十':a[n]):n<20?'十'+a[n%10]:n%10?'二十'+a[n%10]:'二十'};
+ $("dateLarge").textContent=uiLanguage==="en"?now.toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'}):cnYear+'年'+cnNumber(now.getMonth()+1)+'月'+cnNumber(now.getDate())+'日';
+ $("dateSmall").textContent=uiLanguage==="en"?now.toLocaleDateString("en-US",{weekday:"long"}):now.toLocaleDateString("zh-TW",{weekday:"long"});
+}
+function setLanguage(next){uiLanguage=next;localStorage.setItem("moodlab_language",next);render()}
+$("langZh").addEventListener("click",()=>setLanguage("zh"));$("langEn").addEventListener("click",()=>setLanguage("en"));
+function softenStatistics(){
+ const entries=Array.isArray(db.daily)?db.daily:[];
+ const empty=uiLanguage==='en'?'Not yet written':'還沒有寫下第一頁';
+ const noAvg=uiLanguage==='en'?'Not enough entries yet':'慢慢累積就好';
+ for(const [id,hasData,message] of [['homeDays',entries.length>0,empty],['homeMood',entries.some(x=>Number.isFinite(Number(x.mood))&&x.mood!==''),noAvg],['homeEnergy',entries.some(x=>Number.isFinite(Number(x.energy))&&x.energy!==''),noAvg]]){
+  const el=$(id);if(!el)continue;const card=el.closest('.stat');const unit=el.nextElementSibling;
+  card.classList.toggle('is-empty',!hasData);
+  el.classList.toggle('stat-empty',!hasData);
+  if(!hasData){el.textContent=message;if(unit)unit.hidden=true}
+  else if(unit)unit.hidden=false;
+ }
+}
+const oldRender=render;render=function(){oldRender();applyLanguage();softenStatistics()};
+const oldShowPage=showPage;showPage=function(name){oldShowPage(name);applyLanguage()};
+
+
+// The note changes once per local calendar day; no API, account, or tracking.
+const ARCHIVE_NOTES = [["有些日子不需要被解釋，只需要被記得。", "Some days need not be explained, only remembered."], ["不是每一個問題，都急著需要答案。", "Not every question needs an answer right away."], ["沉默有時不是空白，而是思緒正在生根。", "Sometimes silence is not emptiness, but thought taking root."], ["一個人的心情，從來不必符合天氣預報。", "The weather inside us need not match the forecast."], ["今天沒有結論，也可以是一篇完整的日記。", "A day without conclusions can still make a complete entry."], ["留意那些微小的改變；它們往往先於轉折。", "Notice the smallest changes; they often precede a turning point."], ["記憶不總是準確，但感受值得被傾聽。", "Memory is not always precise, but feelings deserve a hearing."], ["我們常在回望時，才看見當時的勇氣。", "We often recognize our courage only in retrospect."], ["不必把每一天，都過成值得展示的故事。", "Not every day must become a story worth displaying."], ["有些答案，要等生活慢慢寫完前言。", "Some answers arrive only after life has written its preface."], ["也許今天的平凡，就是明日想念的細節。", "Perhaps today’s ordinary details will be tomorrow’s longing."], ["感受不是證據，卻是理解自己的線索。", "A feeling is not proof, but it can be a clue."], ["心情像舊書頁，翻過去仍留下淡淡的痕。", "Moods are like old pages: turned, yet faintly marked."], ["你可以改變看法，而不必否定過去的自己。", "You may change your mind without disowning who you were."], ["有時候，休息也是一種認真生活的方式。", "Sometimes rest is a serious way of living."], ["那些說不清的時刻，也有被收藏的資格。", "Even moments without words deserve a place in the archive."], ["不是每一段等待，都代表停滯。", "Not every season of waiting is a season of standing still."], ["人會反覆，不代表從未前進。", "To circle back is not necessarily to have made no progress."], ["今天的自己，不需要替昨天辯護。", "Today’s self need not defend yesterday’s."], ["有些心事，寫下來就不再那麼擁擠。", "Some thoughts take up less room once written down."], ["比起解釋自己，或許可以先觀察自己。", "Before explaining yourself, perhaps simply observe."], ["日子不只由大事組成，也由無數細節縫合。", "A life is stitched together from details as much as events."], ["一段記錄，不是判決，而是見證。", "An entry is not a verdict; it is a witness."], ["有些疲倦來自走得太遠，有些來自想得太深。", "Some weariness comes from traveling far; some from thinking deeply."], ["不確定的時候，也可以先留下問號。", "When uncertain, you are allowed to leave a question mark."], ["舊日的心情，不必由今日重新審判。", "Yesterday’s feelings need not be retried today."], ["人心並非直線，無須拿尺丈量每次起伏。", "The heart is no straight line; it needs no ruler."], ["一點點好奇，足以照亮一段尋常日子。", "A little curiosity can illuminate an ordinary day."], ["不是所有遺憾，都需要一個完美的結尾。", "Not every regret requires a perfect ending."], ["我們收藏片刻，也讓片刻慢慢拼出自己。", "We collect moments, and they quietly assemble a portrait of us."], ["今天值得留下的，或許只是窗邊的一束光。", "Perhaps all worth keeping today is a sliver of window light."], ["允許複雜存在，是理解的開始。", "Allowing complexity is the beginning of understanding."], ["情緒會變，這不使曾經的感受失去真實。", "Feelings change; that does not make the old ones less real."], ["如果還沒找到語言，就先留下日期。", "If the words have not arrived, begin with the date."], ["並非所有重要的事，都會發出很大的聲音。", "Not everything important announces itself loudly."], ["寫下來的不是標準答案，而是你曾經在場。", "What you write is no model answer; it says you were here."], ["每一本厚厚的手札，都從一頁開始。", "Every well-worn journal begins with a single page."], ["心情的陰影，也能讓光線顯出形狀。", "Shadows in the mind can give the light its shape."], ["觀察自己，不必像審問自己。", "Observing yourself need not feel like an interrogation."], ["今天先留一頁空白，故事也不會因此中斷。", "Leave a page blank today; the story will still go on."]];
+function refreshDailyNote(){
+ const now=new Date(), day=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
+ // Deterministic daily selection, shared by both languages.
+ const days=Math.floor(Date.UTC(now.getFullYear(),now.getMonth(),now.getDate())/86400000);
+ const index=((days*17+13)%ARCHIVE_NOTES.length+ARCHIVE_NOTES.length)%ARCHIVE_NOTES.length;
+ const pair=ARCHIVE_NOTES[index];
+ document.getElementById('dailyQuote').textContent=pair[uiLanguage==='en'?1:0];
+ document.getElementById('noteIndex').textContent=`✦ ${uiLanguage==='en'?'NOTE':'手札'} No. ${String(index+1).padStart(3,'0')} · ${now.toLocaleDateString(uiLanguage==='en'?'en-GB':'zh-TW',{month:'short',day:'numeric'})}`;
+ document.getElementById('noteFoot').textContent=uiLanguage==='en'?'FROM THE ARCHIVE · A NOTE FOR TODAY':'FROM THE ARCHIVE · 今日的一頁';
+}
+const previousApplyLanguage=applyLanguage;
+applyLanguage=function(){previousApplyLanguage();refreshDailyNote()};
+
+
+/* ARCHIVE IV — memory, research, seasonal imprint, bilingual utilities, backups */
+const txt=(zh,en)=>uiLanguage==='en'?en:zh;
+let memoryOffset=0;
+const daysBetween=(a,b)=>Math.round((Date.parse(b+'T12:00:00')-Date.parse(a+'T12:00:00'))/86400000);
+function renderMemory(){
+ const old=db.daily.filter(d=>d.date&&d.date<todayISO()).slice().sort((a,b)=>a.date.localeCompare(b.date));
+ const spot=$('memoryLetter');
+ if(!old.length){spot.textContent=txt('從前的頁面還沒出現。等妳寫下幾個日子，這裡就會慢慢有故事。','No earlier pages yet. With time, your archive will have stories to revisit.');return}
+ const now=todayISO(),anniversary=old.filter(d=>d.date.slice(5)===now.slice(5));
+ const pool=anniversary.length?anniversary:old;
+ const seed=Math.floor(Date.parse(now+'T12:00:00')/86400000);
+ const d=pool[((seed+memoryOffset)%pool.length+pool.length)%pool.length];
+ const age=daysBetween(d.date,now);
+ spot.innerHTML=`<div class="micro">${esc(d.date)} · ${age} ${txt('天前','days ago')}</div><p>${esc((d.note||d.event||d.thought||txt('這一天，妳留下了一個心情。','You left a feeling on this day.')).slice(0,450))}</p><p class="research-sub">${txt('當時的心情','Mood then')}: ${esc(d.mood||'—')}/5 ${face(d.mood)}</p><button class="btn tiny" id="openMemory">${txt('打開這一天','Open this page')}</button>`;
+ $('openMemory').onclick=()=>loadDaily(d.date);
+}
+function renderArchive(){
+ const q=$('archiveSearch').value.trim().toLocaleLowerCase(),m=$('archiveMood').value;
+ const found=db.daily.filter(d=>(!m||String(d.mood)===m)&&(!q||[d.date,d.event,d.thought,d.note,d.body,...(d.tags||[])].join(' ').toLocaleLowerCase().includes(q))).sort((a,b)=>b.date.localeCompare(a.date));
+ $('archiveResults').innerHTML=`<p class="micro">${found.length} ${txt('份檔案','ARCHIVED PAGES')}</p>`+(found.length?found.slice(0,120).map(d=>`<article class="archive-result"><span class="micro">${esc(d.date)} · ${face(d.mood)} ${esc(d.mood)}/5</span><h4>${esc((d.tags||[]).join(' · ')||txt('沒有標籤','Untagged'))}</h4><p>${esc((d.event||d.note||d.thought||txt('未留下文字','No written note')).slice(0,200))}</p><button class="btn tiny" data-open-date="${esc(d.date)}">${txt('翻閱此頁','Open page')}</button></article>`).join(''):'<p class="empty">'+txt('沒有找到相符的手札。','No matching pages were found.')+'</p>');
+}
+function fmt(v){return Number.isFinite(v)?v.toFixed(2):'—'}
+function pearson(pairs){const n=pairs.length;if(n<5)return NaN;const mx=pairs.reduce((a,p)=>a+p[0],0)/n,my=pairs.reduce((a,p)=>a+p[1],0)/n;const cov=pairs.reduce((a,p)=>a+(p[0]-mx)*(p[1]-my),0),xx=pairs.reduce((a,p)=>a+(p[0]-mx)**2,0),yy=pairs.reduce((a,p)=>a+(p[1]-my)**2,0);return xx&&yy?cov/Math.sqrt(xx*yy):NaN}
+function renderInsights(){
+ const daily=db.daily.slice().sort((a,b)=>a.date.localeCompare(b.date));
+ const byDate=new Map(daily.map(d=>[d.date,d]));
+ const sleep=[];
+ for(const d of daily){const hrs=d.sleep===''||d.sleep==null?NaN:Number(d.sleep);const next=new Date(d.date+'T12:00:00');if(!Number.isFinite(next.getTime()))continue;next.setDate(next.getDate()+1);const key=`${next.getFullYear()}-${pad(next.getMonth()+1)}-${pad(next.getDate())}`;const tomorrow=byDate.get(key);if(Number.isFinite(hrs)&&hrs>=0&&hrs<=24&&tomorrow&&Number(tomorrow.mood)>=1&&Number(tomorrow.mood)<=5)sleep.push([hrs,Number(tomorrow.mood)])}
+ const se=daily.map(d=>[Number(d.stress),Number(d.energy)]).filter(p=>p.every(x=>Number.isFinite(x)&&x>=1&&x<=10));
+ const summary=(pairs,x,y)=>{const r=pearson(pairs);return `<div class="research-number">${Number.isFinite(r)?fmt(r):'—'}</div><div class="research-sub">${txt('皮爾森相關係數 r','Pearson correlation r')} · n = ${pairs.length}</div><p>${pairs.length<5?txt('有效配對不足 5 筆，先不計算相關。','Fewer than 5 valid pairs; correlation is withheld.'):!Number.isFinite(r)?txt('數值缺少變化，無法計算相關。','Not enough variation to calculate correlation.'):txt('正值代表同向變動，負值代表反向變動；這不代表因果關係。','Positive values move together; negative values move oppositely. Neither proves causation.')}</p>`};
+ $('sleepInsight').innerHTML=summary(sleep);$('stressInsight').innerHTML=summary(se);
+ const counts={};for(const d of daily)for(const t of d.tags||[])counts[t]=(counts[t]||0)+1;
+ const top=Object.entries(counts).sort((a,b)=>b[1]-a[1]).slice(0,8);
+ $('tagInsight').innerHTML=`<div class="research-sub">${txt('已記錄','Recorded')} ${daily.length} ${txt('天','days')}</div>`+(top.length?top.map(([tag,n])=>`<div class="archive-result"><strong>${esc(translateText(tag))}</strong> · ${n} ${txt('次','times')} <div style="height:5px;background:#d4c3a2;margin-top:7px"><div style="height:100%;width:${Math.min(100,100*n/daily.length)}%;background:#73785d"></div></div></div>`).join(''):`<p>${txt('還沒有足夠的標籤紀錄。','No tagged entries yet.')}</p>`);
+}
+function seasonalImprint(){const m=new Date().getMonth(),names=[['冬日的靜默','WINTER NOTES'],['春日的甦醒','SPRING NOTES'],['夏日的光影','SUMMER NOTES'],['秋日的回聲','AUTUMN NOTES']];const ix=m===11||m<=1?0:m<=4?1:m<=7?2:3;const n=names[ix];let el=$('seasonalImprint');if(!el){el=document.createElement('div');el.id='seasonalImprint';el.className='month-edition';document.querySelector('.hero .micro')?.after(el)}el.textContent=uiLanguage==='en'?n[1]:`${n[0]} · ${n[1]}`;}
+function backupReminder(){const last=localStorage.getItem('moodlab_last_backup');const days=last?daysBetween(last,todayISO()):Infinity;$('backupReminder').textContent=days>=14?txt('檔案提醒：距離上次在此裝置匯出備份已超過兩週，或尚未備份。','Archive reminder: no backup has been exported from this browser in the last two weeks.'):txt(`上次備份：${last}。記得妥善保管檔案。`,`Last backup: ${last}. Keep your file somewhere safe.`)}
+const baseExportJSON=exportJSON;
+exportJSON=function(){baseExportJSON();localStorage.setItem('moodlab_last_backup',todayISO());backupReminder()};
+function validBackup(x){return x&&typeof x==='object'&&['daily','quick','research'].every(k=>Array.isArray(x[k]))&&x.daily.length<100000&&x.quick.length<100000&&x.research.length<100000}
+async function readBackupFile(file){if(!file)throw Error(txt('請先選擇檔案。','Choose a file first.'));const x=JSON.parse(await file.text());if(!validBackup(x))throw Error(txt('不是有效的 MOOD LAB 備份。','Not a valid MOOD LAB backup.'));return x}
+function mergeInto(x){const current=new Set(db.daily.map(d=>d.date));let added=0;for(const d of x.daily)if(d&&typeof d.date==='string'&&!current.has(d.date)){db.daily.push(d);current.add(d.date);added++}const signatures=new Set(db.quick.map(q=>JSON.stringify(q)));for(const q of x.quick){const sig=JSON.stringify(q);if(!signatures.has(sig)){db.quick.push(q);signatures.add(sig);added++}}const researchSignatures=new Set(db.research.map(r=>JSON.stringify(r)));for(const r of x.research){const sig=JSON.stringify(r);if(!researchSignatures.has(sig)){db.research.push(r);researchSignatures.add(sig);added++}}saveDB();render();return added}
+async function mergeBackup(){try{const x=await readBackupFile($('mergeFile').files[0]);if(!confirm(txt('將合併備份；相同日期的原有日記不會被覆蓋。建議先匯出目前資料。確定繼續？','Merge this backup? Existing daily entries with the same date will be kept. Export your current archive first. Continue?')))return;const n=mergeInto(x);alert(txt(`已合併 ${n} 筆新紀錄。`,`Merged ${n} new records.`))}catch(e){alert(e.message)}}
+const encoder=new TextEncoder(),decoder=new TextDecoder();
+async function makeKey(password,salt){const raw=await crypto.subtle.importKey('raw',encoder.encode(password),'PBKDF2',false,['deriveKey']);return crypto.subtle.deriveKey({name:'PBKDF2',salt,iterations:210000,hash:'SHA-256'},raw,{name:'AES-GCM',length:256},false,['encrypt','decrypt'])}
+const toB64=u=>btoa(String.fromCharCode(...u));const fromB64=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
+async function exportEncrypted(){try{if(!crypto?.subtle)throw Error(txt('此瀏覽器環境不支援加密功能，請改用 HTTPS 網站。','Encryption is unavailable here; open the HTTPS site.'));const pw=prompt(txt('請設定加密密碼（至少 10 字元，請自己妥善保存）：','Set an encryption password (at least 10 characters; keep it safe):'));if(pw===null)return;if(pw.length<10)throw Error(txt('密碼至少需要 10 字元。','Password must be at least 10 characters.'));const pw2=prompt(txt('再輸入一次密碼確認：','Confirm your password:'));if(pw!==pw2)throw Error(txt('兩次密碼不相同。','Passwords do not match.'));const salt=crypto.getRandomValues(new Uint8Array(16)),iv=crypto.getRandomValues(new Uint8Array(12));const key=await makeKey(pw,salt);const ct=new Uint8Array(await crypto.subtle.encrypt({name:'AES-GCM',iv},key,encoder.encode(JSON.stringify(db))));download('mood-lab-encrypted.mlock',JSON.stringify({format:'moodlab-lock-v1',salt:toB64(salt),iv:toB64(iv),data:toB64(ct)}),'application/json');localStorage.setItem('moodlab_last_backup',todayISO());backupReminder();alert(txt('已建立加密檔案。密碼無法找回，請妥善保存。','Encrypted file created. Your password cannot be recovered.'))}catch(e){alert(e.message)}}
+async function restoreEncrypted(){try{if(!crypto?.subtle)throw Error(txt('此瀏覽器環境不支援解密。','Decryption is unavailable in this browser.'));const f=$('encryptedFile').files[0];if(!f)throw Error(txt('請先選擇 .mlock 檔。','Choose a .mlock file first.'));const blob=JSON.parse(await f.text());if(blob.format!=='moodlab-lock-v1')throw Error(txt('加密備份格式不正確。','Invalid encrypted backup format.'));const pw=prompt(txt('輸入備份密碼：','Enter your backup password:'));if(pw===null)return;const key=await makeKey(pw,fromB64(blob.salt));const raw=await crypto.subtle.decrypt({name:'AES-GCM',iv:fromB64(blob.iv)},key,fromB64(blob.data));const x=JSON.parse(decoder.decode(raw));if(!validBackup(x))throw Error(txt('解密後的備份格式不正確。','Decrypted backup is invalid.'));if(!confirm(txt('解密成功。要合併到現有檔案嗎？原有相同日期日記不會被覆蓋。','Decrypted. Merge into your current archive? Existing daily dates will not be overwritten.')))return;const n=mergeInto(x);alert(txt(`已還原 ${n} 筆新紀錄。`,`Restored ${n} new records.`))}catch(e){alert(txt('無法解密：密碼可能不正確或檔案已損壞。','Could not decrypt: incorrect password or damaged file.'))}}
+$('anotherMemory').addEventListener('click',()=>{memoryOffset++;renderMemory()});
+$('archiveSearch').addEventListener('input',renderArchive);$('archiveMood').addEventListener('change',renderArchive);
+$('archiveResults').addEventListener('click',e=>{const b=e.target.closest('[data-open-date]');if(b)loadDaily(b.dataset.openDate)});
+const beforeRenderAll=render;
+render=function(){beforeRenderAll();renderMemory();renderArchive();renderInsights();seasonalImprint();backupReminder()};
+const beforeLanguageAll=applyLanguage;
+applyLanguage=function(){beforeLanguageAll();renderCalendar();renderMemory();renderArchive();renderInsights();seasonalImprint();backupReminder()};
+
+// Localized archive intake: the real file control stays keyboard accessible.
+function updateArchiveFileState(fid){
+ const field=document.getElementById(fid),status=document.getElementById(fid+'Status');
+ if(!field||!status)return;
+ const file=field.files&&field.files[0];
+ status.classList.toggle('has-file',!!file);
+ if(file){status.textContent=(uiLanguage==='en'?'Selected: ':'已選擇：')+file.name;}
+ else{status.textContent=uiLanguage==='en'?'No document selected':'尚未選擇檔案';}
+ document.querySelectorAll('[data-requires-file="'+fid+'"]').forEach(b=>b.disabled=!file);
+}
+['importFile','mergeFile','encryptedFile'].forEach(fid=>{
+ const field=document.getElementById(fid);
+ if(field){field.addEventListener('change',()=>updateArchiveFileState(fid));updateArchiveFileState(fid);}
+});
+const archiveIntakeLanguage=applyLanguage;
+applyLanguage=function(){archiveIntakeLanguage();['importFile','mergeFile','encryptedFile'].forEach(updateArchiveFileState)};
+
+render();
+</script><script>
+function updateArchiveScales(){for(const id of ['dEnergy','dStress']){const el=document.getElementById(id);if(!el)continue;const val=Math.max(1,Math.min(10,Number(el.value)||5));el.value=String(val);el.style.setProperty('--fill',((val-1)/9*100)+'%');const out=document.getElementById(id+'Value');if(out)out.innerHTML=String(val).padStart(2,'0')+' <small>/ 10</small>';}}
+for(const id of ['dEnergy','dStress']){document.getElementById(id)?.addEventListener('input',updateArchiveScales);document.getElementById(id)?.addEventListener('change',updateArchiveScales);}
+const oldLoadDaily=loadDaily;loadDaily=function(date){oldLoadDaily(date);updateArchiveScales();};
+updateArchiveScales();
+</script>
+<script>
+/* Local date/time selector: avoids browser-language-specific native datetime UI. */
+(function(){
+ const $q=id=>document.getElementById(id),pad=n=>String(n).padStart(2,'0');
+ const selectIds=['qtYear','qtMonth','qtDay','qtHour','qtMinute'];
+ const fill=(id,values)=>{const el=$q(id);el.replaceChildren(...values.map(([value,label])=>{const o=document.createElement('option');o.value=String(value);o.textContent=String(label);return o;}));};
+ fill('qtYear',Array.from({length:201},(_,i)=>[1900+i,1900+i]));
+ fill('qtMonth',Array.from({length:12},(_,i)=>[i+1,pad(i+1)]));
+ fill('qtHour',Array.from({length:24},(_,i)=>[i,pad(i)]));
+ fill('qtMinute',Array.from({length:60},(_,i)=>[i,pad(i)]));
+ const current=()=>{const v=$q('qTime').value;const m=/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})/.exec(v||'');return m?m.slice(1).map(Number):null};
+ function dayOptions(year,month,selected){const n=new Date(year,month,0).getDate();fill('qtDay',Array.from({length:n},(_,i)=>[i+1,pad(i+1)]));$q('qtDay').value=String(Math.min(selected||1,n));}
+ function display(){const parts=current();if(!parts)return;const [y,m,d,h,mi]=parts;const english=document.documentElement.lang==='en';const dt=new Date(y,m-1,d,h,mi);const date=english?new Intl.DateTimeFormat('en-GB',{day:'numeric',month:'long',year:'numeric'}).format(dt):`${y}年${m}月${d}日`;
+ const time=english?new Intl.DateTimeFormat('en-GB',{hour:'2-digit',minute:'2-digit',hour12:true}).format(dt):`${pad(h)}:${pad(mi)}`;
+ $q('qTimeDisplay').textContent=date+'  ·  '+time;}
+ function fromStored(){const p=current();if(!p)return;const [y,m,d,h,mi]=p;$q('qtYear').value=String(y);$q('qtMonth').value=String(m);dayOptions(y,m,d);$q('qtHour').value=String(h);$q('qtMinute').value=String(mi);display();}
+ function toStored(){const y=Number($q('qtYear').value),m=Number($q('qtMonth').value),d=Number($q('qtDay').value),h=Number($q('qtHour').value),mi=Number($q('qtMinute').value);$q('qTime').value=`${y}-${pad(m)}-${pad(d)}T${pad(h)}:${pad(mi)}`;display();}
+ selectIds.forEach(id=>$q(id).addEventListener('change',()=>{if(id==='qtYear'||id==='qtMonth')dayOptions(Number($q('qtYear').value),Number($q('qtMonth').value),Number($q('qtDay').value));toStored();}));
+ $q('qTimeEdit').addEventListener('click',()=>{const panel=$q('qTimeControls');panel.hidden=!panel.hidden;$q('qTimeEdit').setAttribute('aria-expanded',String(!panel.hidden));if(!panel.hidden)fromStored();});
+ const baseRender=render;render=function(){baseRender();fromStored();};
+ const baseApplyLanguage=applyLanguage;applyLanguage=function(){baseApplyLanguage();display();};
+ if(!$q('qTime').value){const n=new Date();$q('qTime').value=`${n.getFullYear()}-${pad(n.getMonth()+1)}-${pad(n.getDate())}T${pad(n.getHours())}:${pad(n.getMinutes())}`;}
+ fromStored();
+})();
+</script>
+<script>
+/* V.7 final polish: optional journaling, draft recovery, bilingual insights, safe local writes. */
+(function(){
+ const $v=id=>document.getElementById(id);
+ const mode=$v('journalMode'),details=$v('journalDetails');
+ let detailed=false;
+ function setMode(open){detailed=!!open;details.hidden=!detailed;mode.setAttribute('aria-expanded',String(detailed));mode.textContent=uiLanguage==='en'?(detailed?'Hide detailed observations':'Show detailed observations'):(detailed?'收起完整觀察欄位':'展開完整觀察欄位');}
+ mode.addEventListener('click',()=>setMode(!detailed));setMode(false);
+ const baseLang=applyLanguage;
+ applyLanguage=function(){baseLang();setMode(detailed);};
+ // Preserve existing daily data model; mood may be absent for free-writing entries.
+ const baseSaveDaily=saveDaily;
+ saveDaily=function(){
+  const hasWords=['dEvent','dThought','dNote'].some(id=>$v(id).value.trim());
+  if(!selectedMood && hasWords){selectedMood=0;}
+  if(!selectedMood && !hasWords){alert(txt('寫幾句話，或選擇一種心情，就可以收藏這一頁。','Write a few words or choose a mood to keep this page.'));return;}
+  if(!selectedMood && hasWords){
+   const d=dailyForm();if(!d.date){alert(txt('請選擇日期。','Choose a date.'));return;}
+   if(d.sleep!=='' && (!Number.isFinite(Number(d.sleep))||Number(d.sleep)<0||Number(d.sleep)>24)){alert(txt('睡眠時數請填 0–24。','Sleep must be between 0 and 24 hours.'));return;}
+   const i=db.daily.findIndex(x=>x.date===d.date);
+   if(i>=0)db.daily[i]=d;else db.daily.push(d);
+   db.daily.sort((a,b)=>a.date.localeCompare(b.date));
+   if(!safeWrite())return;
+   clearDraft();render();alert(txt('這一頁已收藏。','Your page has been kept.'));return;
+  }
+  baseSaveDaily();clearDraft();
+ };
+ // Avoid losing a previous backup if the browser refuses a write.
+ function safeWrite(){try{localStorage.setItem(KEY,JSON.stringify(db));return true}catch(e){alert(txt('儲存失敗。請檢查瀏覽器儲存空間，並先備份資料。','Saving failed. Check browser storage and back up your archive.'));return false}}
+ const oldSaveDB=saveDB;
+ // Save existing entries still uses original function; browser quota failures are surfaced by a global listener.
+ window.addEventListener('error',e=>{if(e.error?.name==='QuotaExceededError')alert(txt('儲存空間不足，請先匯出備份。','Storage is full. Please export a backup.'));});
+ const DRAFT_KEY='moodlab_draft_v7';
+ const draftIds=['dDate','dEnergy','dStress','dSleep','dBody','dEvent','dThought','dNote'];
+ let draftTimer;
+ function capture(){const fields={};for(const id of draftIds)fields[id]=$v(id).value;return {fields,mood:selectedMood,tags:[...document.querySelectorAll('#dTags input:checked')].map(x=>x.value),updated:new Date().toISOString()}}
+ function clearDraft(){try{localStorage.removeItem(DRAFT_KEY)}catch{}}
+ function saveDraft(){try{const d=capture();if(!d.fields.dEvent.trim()&&!d.fields.dThought.trim()&&!d.fields.dNote.trim()&&!d.mood&&!d.tags.length)return;localStorage.setItem(DRAFT_KEY,JSON.stringify(d))}catch{}}
+ const draftRoot=$v('daily');draftRoot.addEventListener('input',()=>{clearTimeout(draftTimer);draftTimer=setTimeout(saveDraft,450)});draftRoot.addEventListener('change',saveDraft);draftRoot.addEventListener('click',e=>{if(e.target.closest('#moodRating button'))setTimeout(saveDraft,0)});
+ try{const d=JSON.parse(localStorage.getItem(DRAFT_KEY)||'null');if(d?.fields && (d.fields.dEvent||d.fields.dThought||d.fields.dNote||d.mood)){
+   const promptText=txt('找到上次尚未收藏的草稿，要繼續寫嗎？','An unfinished draft was found. Continue writing?');
+   if(confirm(promptText)){
+    for(const id of draftIds)if(typeof d.fields[id]==='string'&&$v(id))$v(id).value=d.fields[id];
+    selectedMood=Number(d.mood)||0;
+    document.querySelectorAll('#moodRating button').forEach(b=>b.classList.toggle('selected',Number(b.dataset.value)===selectedMood));
+    document.querySelectorAll('#dTags input').forEach(x=>x.checked=(d.tags||[]).includes(x.value));
+    if(typeof updateArchiveScales==='function')updateArchiveScales();
+    if(d.fields.dSleep||d.tags?.length)setMode(true);
+   }else clearDraft();
+ }}catch{}
+ const originalClear=clearDaily;
+ clearDaily=function(){const had=['dEvent','dThought','dNote','dSleep'].some(id=>$v(id).value.trim())||selectedMood||document.querySelector('#dTags input:checked');if(had&&!confirm(txt('要重新填寫這一頁嗎？目前尚未收藏的內容會被清空。','Start this page again? Unfiled changes will be cleared.')))return;
+  for(const id of ['dEvent','dThought','dNote','dSleep'])$v(id).value='';document.querySelectorAll('#dTags input').forEach(x=>x.checked=false);selectedMood=0;document.querySelectorAll('#moodRating button').forEach(x=>x.classList.remove('selected'));clearDraft();$v('dEvent').focus();};
+ const originalLoad=loadDaily;
+ loadDaily=function(date){originalLoad(date);if(!details.hidden)return;setMode(true)};
+ // Dynamic research notices should respect the selected UI language.
+ const oldRender=render;
+ render=function(){oldRender();const insight=$v('dataInsight');if(insight){const n=db.daily.length;insight.textContent=n<5?txt(`目前有 ${n} 筆每日紀錄。資料還少，先把它當作觀察起點。`,`There are ${n} daily entries so far. Treat this small sample as a starting point.`):txt(`目前有 ${n} 筆每日紀錄。平均值只是輪廓，仍需要留意每天的生活情境。`,`There are ${n} daily entries. Averages are only outlines; each day has its own context.`);}};
+ render();
+})();
+</script><script id="journal-intro-script">(function(){
+ const overlay=document.getElementById('journalIntro');
+ const skip=document.getElementById('introSkip');
+ let closed=false;
+ function close(){if(closed)return;closed=true;overlay.classList.add('intro-gone');setTimeout(()=>overlay.remove(),750)}
+ skip.addEventListener('click',close);
+ overlay.addEventListener('keydown',e=>{if(e.key==='Escape')close()});
+ if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){close();return}
+ setTimeout(close,3700);
+})();</script>
+</body></html>
