@@ -4,9 +4,8 @@
 <head>
 <meta charset="utf-8"/><meta content="width=device-width,initial-scale=1" name="viewport"/>
 <meta content="#eee7d8" name="theme-color"/>
-<title>MOOD LAB — 私人心情檔案室</title>
+<meta name="description" content="MOOD LAB — 一座收藏感受的私人心情研究室。A private archive for the things we feel."/><link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=IM+Fell+English:ital@0;1&family=Iansui&family=Noto+Serif+TC:wght@400;500;600;700&display=swap"/><title>MOOD LAB — 私人心情檔案室</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=IM+Fell+English:ital@0;1&family=Iansui&family=Noto+Serif+TC:wght@400;500;600;700&display=swap');
 :root{--bg:#eae3d5;--paper:#faf6eb;--ink:#3c3b31;--soft:#777669;--line:#d8cdbc;--green:#697965;--gold:#bb933f;--rose:#ad7366}
 *{box-sizing:border-box}body{margin:0;color:var(--ink);background:var(--bg);font:14px/1.8 "Noto Serif TC",serif;background-image:radial-gradient(#73664c14 .7px,transparent .7px);background-size:5px 5px}button,input,textarea,select{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:2px solid var(--gold);outline-offset:2px}.app{max-width:1250px;margin:auto;padding:25px 28px 45px}.top{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #77766c;padding-bottom:18px}.brand small,.micro,.no{font:11px "IM Fell English","Noto Serif TC",serif;letter-spacing:.16em;color:var(--gold)}.brand h1{font-family:"IM Fell English", "Noto Serif TC",serif;font-size:34px;letter-spacing:.1em;margin:0;line-height:1.35;font-weight:600}.brand p{margin:0;font-size:11px;color:var(--soft)}.date{text-align:right;font-size:12px;color:var(--soft)}.layout{display:grid;grid-template-columns:205px 1fr;gap:30px;margin-top:24px}.side{align-self:start;position:sticky;top:20px}.sidequote{font-size:16px;line-height:2;border-bottom:1px solid var(--line);padding:10px 8px 24px;margin-bottom:15px}.sidequote small{display:block;color:var(--gold);font:11px "IM Fell English","Noto Serif TC",serif;letter-spacing:.15em}.nav{display:grid;gap:3px}.nav button{background:transparent;border:0;text-align:left;padding:11px 12px;color:var(--soft);display:flex;gap:12px}.nav button.active,.nav button:hover{background:#dce0d5;color:#465342}.nav button.active{border-left:3px solid var(--green);padding-left:9px}.no{min-width:20px}.asidefoot{border-top:1px solid var(--line);padding-top:14px;margin-top:20px;color:var(--soft);font-size:10px}.page{display:none}.page.active{display:block;animation:enter .25s ease}@keyframes enter{from{opacity:.5;transform:translateY(5px)}to{opacity:1;transform:none}}.pagehead{border-bottom:1px solid var(--line);padding-bottom:15px;margin-bottom:18px}.pagehead h2{font-size:27px;font-weight:500;margin:2px 0}.pagehead p{color:var(--soft);font-size:12px;margin:0}.sheet{background:linear-gradient(135deg,#f6ebd7,#fbf3e3 75%,#eee0c7);border:1px solid #cbb99b;padding:23px;margin-bottom:20px;box-shadow:2px 6px 0 #c9b99c55,0 14px 28px #473f2a16;clip-path:polygon(0 .7%,12% 0,72% .4%,100% 0,99.7% 82%,100% 99.3%,67% 100%,0 99.4%);position:relative}.sheet.accent{border-left:3px solid var(--gold)}.sheet h3{font-size:18px;font-weight:500;margin:5px 0 14px}.hero{background:linear-gradient(120deg,#f4e5c9,#fcf3e2 70%,#e8d6b7);border:1px solid #c9b596;padding:31px;margin-bottom:22px;position:relative;overflow:hidden;transform:rotate(-.25deg);box-shadow:5px 7px 0 #c5b49477;clip-path:polygon(0 0,99.8% .7%,100% 99%,.4% 100%)}.hero:after{content:"✳";position:absolute;right:24px;top:-30px;font-size:135px;color:#d5c59f77;pointer-events:none}.hero h2{font-size:29px;font-weight:500;margin:9px 0}.hero p{color:var(--soft);font-size:13px;max-width:520px;position:relative}.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:18px;position:relative}.btn{border:1px solid #ad9670;background:linear-gradient(#e7d6b6,#e9dbbf);padding:9px 17px;color:var(--ink);font-size:12px;border-radius:3px 8px 4px 7px;box-shadow:2px 3px 0 #b7a68777;transform:rotate(-.4deg)}.btn:hover{background:#e4d6b6}.btn.primary{background:linear-gradient(125deg,#66745d,#4c604a);border-color:#596a50;color:#fff8e7;box-shadow:2px 3px 0 #a08f6e}.btn.primary:hover{background:#54634f}.btn.danger{color:#944e42}.btn.tiny{padding:4px 9px;font-size:11px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:17px}.stat{background:linear-gradient(125deg,#f1e6d0,#f8f1e4);border-top:1px solid #bca988;border-bottom:1px dashed #c8b999;padding:12px 15px;transform:rotate(-.3deg)}.stat small{display:block;font-size:11px;color:var(--soft)}.stat strong{font-size:28px;font-weight:500;color:var(--green)}.stat em{font-size:11px;color:var(--soft);font-style:normal}.two{display:grid;grid-template-columns:1.3fr .9fr;gap:17px}.quote{font-size:17px;line-height:2;color:#596654}.field{margin:14px 0}.field label{display:block;color:#65675a;font-size:12px;margin-bottom:6px}.field input:not([type=checkbox]):not([type=range]),.field select,.field textarea{width:100%;border:1px solid var(--line);background:transparent;padding:11px 5px;color:var(--ink);border-radius:0}.field textarea{min-height:105px;resize:vertical}.fields{display:grid;grid-template-columns:1fr 1fr;gap:0 15px}.moods{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}.moods button{background:#eee1c7;border:1px dashed #bba783;padding:12px 3px;font-size:12px;border-radius:8px 2px 9px 3px;box-shadow:1px 2px 0 #bfae8c88}.moods button span{display:block;font-size:22px}.moods button.selected{background:#eee0bd;border-color:var(--gold)}.tags{display:flex;flex-wrap:wrap;gap:8px}.tags label{background:#efe3cb;border:1px dashed #bfae8e;padding:5px 9px;font-size:12px;border-radius:2px 7px 3px 6px}.tags input{accent-color:var(--green)}.entry{padding:14px 0;border-top:1px dashed var(--line)}.entry:first-child{border:0}.entry strong{color:var(--green);font-weight:500}.entry p{font-size:12px;color:var(--soft);white-space:pre-wrap;margin:4px 0 8px}.empty,.hint{font-size:12px;color:var(--soft)}.chart{height:210px;position:relative}.chart canvas{width:100%;height:100%}.legend{font-size:11px;color:var(--soft)}.legend i{display:inline-block;width:8px;height:8px;border-radius:50%;margin:0 5px 0 12px}.calendarhead{display:flex;align-items:center;justify-content:space-between;margin-bottom:15px}.calendarhead h3{margin:0}.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}.weekday{text-align:center;font-size:11px;color:var(--soft)}.day{min-height:70px;background:#f2e5cb;border:1px solid #e2d1b4;padding:7px;text-align:left;font-size:12px;border-radius:48% 52% 43% 57% / 9% 11% 9% 10%}.day:hover,.day.selected{border-color:var(--green)}.day.today{outline:1px solid var(--gold)}.day.m1,.day.m2{background:#eddbd5}.day.m3{background:#ede3c8}.day.m4,.day.m5{background:#dfe6d9}.day b{display:block;font-weight:400;font-size:17px}.insight{background:#e4e6d9;border-left:3px solid var(--green);padding:15px;font-size:12px;color:#5b6657}.research{border:1px solid var(--line);padding:15px;margin-top:12px}.research h4{font-size:16px;margin:0;font-weight:500}footer{margin-top:32px;text-align:center;border-top:1px solid var(--line);padding-top:20px;font:11px "IM Fell English","Noto Serif TC",serif;letter-spacing:.12em;color:#9b9180}
 @media(max-width:800px){.app{padding:15px}.layout{grid-template-columns:1fr;gap:15px}.side{position:static}.sidequote,.asidefoot{display:none}.nav{grid-template-columns:repeat(4,1fr)}.nav button{display:block;text-align:center;font-size:11px;padding:8px 3px}.no{display:block}.two{grid-template-columns:1fr}}
@@ -39,7 +38,6 @@ html[lang=en] body{font-family:"IM Fell English","Cormorant Garamond",serif;font
 @media(max-width:500px){.app{padding:9px;border-width:3px}.top{padding:10px;gap:5px}.dateplate{min-width:115px;padding:5px}.date-large{font-size:20px}.date-small{font-size:11px}.date-ornament{font-size:10px}.brand h1{font-size:28px}.brand p{font-size:12px}.hero{padding:20px}.hero h2{font-size:27px}.sheet{padding:17px}.nav button{font-size:12px}.stat strong{font-size:26px}.field label{font-size:15px}}
 
 /* Heritage Edition II — editorial hierarchy, archival objects, handwritten paper */
-@import url('https://fonts.googleapis.com/css2?family=Iansui&family=IM+Fell+English:ital@0;1&family=Cormorant+Garamond:wght@400;500;600;700&family=Noto+Serif+TC:wght@400;500;600;700&display=swap');
 :root{--bg:#d6c4a5;--paper:#f5ead2;--ink:#403526;--soft:#6c5c47;--line:#bba782;--green:#485846;--gold:#9d733a;--rose:#905d4b;--display:'Iansui','Noto Serif TC',serif;--text:'Noto Serif TC',serif;--latin:'IM Fell English','Cormorant Garamond',serif}
 body{font-family:var(--text);font-size:16px;line-height:1.95;color:var(--ink);background-color:#cdbb9b;background-image:radial-gradient(#57412a15 .7px,transparent 1px),linear-gradient(100deg,#aa967133,#e8dac0 40%,#b8a47c4d);background-size:5px 5px,100% 100%}
 .app{max-width:1360px;padding:28px 40px 60px;background:linear-gradient(90deg,#3e4b3b 0 10px,transparent 10px)}
@@ -104,7 +102,6 @@ html[lang=en] .daily-note .quote{font:italic 500 clamp(23px,2.2vw,29px)/1.55 'Co
 
 
 /* Archive IV: disciplined typography, materiality and adaptable layout */
-@import url('https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Noto+Serif+TC:wght@400;500;600;700&family=Cormorant+Garamond:wght@400;500;600;700&display=swap');
 body{font-family:'Noto Serif TC','Songti TC','PMingLiU',serif;line-height:1.8}
 button,input,select,textarea{font-family:inherit}
 .brand h1{font-family:'IM Fell English','Cormorant Garamond',serif;letter-spacing:.065em;font-weight:400;line-height:1.05;overflow-wrap:anywhere;font-size:clamp(2.7rem,6.3vw,5.4rem)}
@@ -437,7 +434,7 @@ button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-vis
 @media(max-width:650px){.journal-mode{align-items:flex-start}.journal-mode button{max-width:100%;text-align:left}}
 </style><link rel="manifest" href="site.webmanifest"/>
 <link rel="icon" type="image/png" sizes="192x192" href="mood-icon-192.png"/>
-<link rel="apple-touch-icon" sizes="192x192" href="mood-icon-192.png"/>
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png"/>
 <meta name="apple-mobile-web-app-capable" content="yes"/>
 <meta name="apple-mobile-web-app-status-bar-style" content="default"/>
 <meta name="apple-mobile-web-app-title" content="MOOD LAB"/>
@@ -450,7 +447,7 @@ button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-vis
 .intro-inside{position:absolute;inset:3% 1% 2% 6%;background:#f5eddc;border:1px solid #b6a17e;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px;color:#4e4b3c}
 .intro-inside .intro-inside-title{font-size:clamp(22px,5vw,36px);line-height:1.2;letter-spacing:.04em}
 .intro-inside .intro-inside-sub{font-family:"Noto Serif TC",serif;font-size:13px;margin-top:15px;line-height:2}
-.intro-cover{position:absolute;inset:0;transform-origin:6% center;backface-visibility:hidden;transform-style:preserve-3d;animation:openAntiqueBook 2.5s cubic-bezier(.55,.04,.28,1) .5s both;border-radius:8px 13px 13px 8px;background:#384633 url('mood-icon-512.png') center/cover no-repeat;box-shadow:inset 10px 0 15px #111a12a6,4px 5px 12px #171d1680;border:1px solid #665a3d}
+.intro-cover{position:absolute;inset:0;transform-origin:6% center;backface-visibility:hidden;transform-style:preserve-3d;animation:openAntiqueBook 2.5s cubic-bezier(.55,.04,.28,1) .5s both;border-radius:8px 13px 13px 8px;background:#384633 url('mood-icon-512.webp') center/cover no-repeat;box-shadow:inset 10px 0 15px #111a12a6,4px 5px 12px #171d1680;border:1px solid #665a3d}
 .intro-cover:after{content:"";position:absolute;inset:0;border-left:14px solid #1e2a1d75;border-radius:inherit;box-shadow:inset 0 0 0 2px #c7a56c35}
 .intro-footnote{position:absolute;bottom:max(28px,5vh);left:16px;right:16px;text-align:center;color:#6b604b;letter-spacing:.07em;font-size:clamp(13px,2.5vw,17px)}
 .intro-skip{position:absolute;top:20px;right:22px;border:1px solid #a89577;border-radius:2px;background:#f4ebd8;color:#4c4a39;padding:8px 15px;font:15px "Noto Serif TC",serif;cursor:pointer;z-index:2}
@@ -458,6 +455,39 @@ button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-vis
 @keyframes openAntiqueBook{0%{transform:rotateY(0deg)}75%,100%{transform:rotateY(-148deg)}}
 @media(max-width:560px){.intro-scene{width:min(70vw,290px)}.intro-footnote{bottom:8vh}}
 @media(prefers-reduced-motion:reduce){.intro-cover{animation:none;transform:rotateY(-148deg)}#journalIntro{transition:none}}
+</style>
+<style id="mobile-polish">
+@media(max-width:800px){
+ html{-webkit-text-size-adjust:100%}
+ .app{padding-top:max(10px,env(safe-area-inset-top))!important;padding-bottom:max(28px,env(safe-area-inset-bottom))!important}
+ /* header: shorter, no wasted space */
+ .top{padding-top:8px!important;padding-bottom:14px!important;gap:8px 12px!important;margin-bottom:10px!important}
+ .brand h1{line-height:1.05!important;margin:4px 0!important}
+ .dateplate{min-width:0!important;padding:8px 12px!important}
+ /* navigation: one sticky, swipeable strip instead of a tall block */
+ .side{position:sticky!important;top:0!important;z-index:40;padding:8px 10px 6px!important;margin:0 0 6px!important}
+ .sidequote,.asidefoot{display:none!important}
+ .lang-toggle{display:flex!important;align-items:center;justify-content:space-between;gap:10px;margin:0 0 6px!important;padding:0 2px 6px!important;border:0!important;border-bottom:1px solid #ffffff22!important;background:transparent!important}
+ .lang-toggle .micro{margin:0!important;font-size:10px!important;white-space:nowrap}
+ .lang-controls{flex:0 0 auto}
+ .nav{display:flex!important;grid-template-columns:none!important;flex-wrap:nowrap!important;overflow-x:auto;gap:6px!important;padding:2px 2px 4px;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+ .nav::-webkit-scrollbar{display:none}
+ .nav button{flex:0 0 auto!important;white-space:nowrap!important;scroll-snap-align:center;padding:8px 13px!important;min-height:40px;display:inline-flex;align-items:center;gap:7px;border-radius:999px!important;text-align:center!important;border:1px solid #ffffff2e!important;font-size:14px!important}
+ .nav button .no{display:inline!important;width:auto!important;font-size:10px!important;opacity:.7}
+ .nav button.active{background:#ffffff26!important;border-left:1px solid #ffffff55!important;padding-left:13px!important}
+ /* mood buttons: never break a label across two lines */
+ .moods{gap:5px!important}
+ .moods button{white-space:nowrap!important;word-break:keep-all;min-width:0;padding:10px 0!important;font-size:clamp(12px,3.4vw,15px)!important;letter-spacing:0!important}
+ .moods button span:first-child{font-size:clamp(18px,5.4vw,22px)!important;margin-bottom:3px;line-height:1.2}
+ .moods button span:last-child{display:block;font-size:inherit!important;line-height:1.3}
+ html[lang=en] .moods button{white-space:normal!important;overflow-wrap:normal;font-size:clamp(10px,2.9vw,12px)!important;line-height:1.2!important;padding:10px 1px!important}
+ /* comfortable tap targets and no iOS zoom on focus */
+ input,select,textarea{font-size:16px!important}
+ button{min-height:40px}
+ .moods button,.nav button{touch-action:manipulation}
+}
+@media(max-width:380px){.nav button{padding:7px 11px!important;font-size:13px!important}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-delay:0s!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
 </style>
 </head>
 <body>
@@ -470,7 +500,7 @@ button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-vis
 <header class="top"><div class="brand"><small>AN ARCHIVE OF BEING · VOL. 01</small><h1>MOOD LAB</h1><p data-en="A private archive for the things we feel" data-zh="一座收藏感受的私人研究室">一座收藏感受的私人研究室</p></div><div class="date dateplate" id="today"><span class="micro">THE DAY IN THE ARCHIVE</span><span class="date-large" id="dateLarge"></span><span class="date-small" id="dateSmall"></span></div></header>
 <div class="layout">
 <aside class="side"><div class="sidequote"><small>DEAR OBSERVER</small><span data-en="You need not have it all figured out." data-zh="不必急著整理好自己。">不必急著整理好自己。</span><br/><span data-en="Just leave a little of today here." data-zh="先把今天，輕輕放在這裡。">先把今天，輕輕放在這裡。</span></div><div class="lang-toggle"><span class="micro">LANGUAGE / 語言</span><div class="lang-controls"><button aria-pressed="true" id="langZh" type="button">繁體中文</button><button aria-pressed="false" id="langEn" type="button">ENGLISH</button></div></div><nav class="nav" id="nav">
-<button class="active" data-page="home"><span class="no">01</span><span data-en="Today’s journal" data-zh="今日手札">今日手札</span></button><button data-page="daily"><span class="no">02</span><span data-en="Daily entries" data-zh="每日紀錄">每日紀錄</span></button><button data-page="quick"><span class="no">03</span><span data-en="Passing moments" data-zh="即時片刻">即時片刻</span></button><button data-page="calendar"><span class="no">04</span><span data-en="Mood calendar" data-zh="情緒年曆">情緒年曆</span></button><button data-page="data"><span class="no">05</span><span data-en="Observation charts" data-zh="觀察圖譜">觀察圖譜</span></button><button data-page="lab"><span class="no">06</span><span data-en="Personal inquiries" data-zh="個人研究">個人研究</span></button><button data-page="memories"><span class="no">07</span><span data-en="Memory cabinet" data-zh="記憶索引櫃">記憶索引櫃</span></button><button data-page="insights"><span class="no">08</span><span data-en="Observation studio" data-zh="心理觀察室">心理觀察室</span></button><button data-page="settings"><span class="no">07</span><span data-en="Archive &amp; backup" data-zh="檔案管理">檔案管理</span></button>
+<button class="active" data-page="home"><span class="no">01</span><span data-en="Today’s journal" data-zh="今日手札">今日手札</span></button><button data-page="daily"><span class="no">02</span><span data-en="Daily entries" data-zh="每日紀錄">每日紀錄</span></button><button data-page="quick"><span class="no">03</span><span data-en="Passing moments" data-zh="即時片刻">即時片刻</span></button><button data-page="calendar"><span class="no">04</span><span data-en="Mood calendar" data-zh="情緒年曆">情緒年曆</span></button><button data-page="data"><span class="no">05</span><span data-en="Observation charts" data-zh="觀察圖譜">觀察圖譜</span></button><button data-page="lab"><span class="no">06</span><span data-en="Personal inquiries" data-zh="個人研究">個人研究</span></button><button data-page="memories"><span class="no">07</span><span data-en="Memory cabinet" data-zh="記憶索引櫃">記憶索引櫃</span></button><button data-page="insights"><span class="no">08</span><span data-en="Observation studio" data-zh="心理觀察室">心理觀察室</span></button><button data-page="settings"><span class="no">09</span><span data-en="Archive &amp; backup" data-zh="檔案管理">檔案管理</span></button>
 </nav><div class="asidefoot">FIELD NOTES / PRIVATE ARCHIVE<br/>OBSERVE WITHOUT JUDGMENT</div></aside>
 <main>
 <section class="page active" id="home">
@@ -809,4 +839,6 @@ updateArchiveScales();
  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){close();return}
  setTimeout(close,3700);
 })();</script>
+<script>(function(){var n=document.getElementById("nav");if(n)n.addEventListener("click",function(){setTimeout(function(){var a=n.querySelector("button.active");if(a&&a.scrollIntoView)a.scrollIntoView({inline:"center",block:"nearest",behavior:"smooth"})},60)});
+if("serviceWorker"in navigator&&/^https?:$/.test(location.protocol)){window.addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){})})}})();</script>
 </body></html>
