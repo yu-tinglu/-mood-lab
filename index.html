@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>MOOD LAB — 心理測驗室</title>
 <meta name="theme-color" content="#eee7d8">
+<script>try{var t=localStorage.getItem("psyhub.theme")||"auto";var d=t==="dark"||(t==="auto"&&matchMedia("(prefers-color-scheme: dark)").matches);document.documentElement.setAttribute("data-theme",d?"dark":"light")}catch(e){}</script>
 <link rel="manifest" href="site.webmanifest">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="icon" href="mood-icon-192.png">
@@ -12,7 +13,12 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;600;700&display=swap">
 <style>
 :root{--bg:#eae3d5;--card:#faf6eb;--ink:#3c3b31;--mute:#5a594e;--line:#d8cdbc;--acc:#4f6249;--acc2:#b0852f;--accbg:#e1e6d3;--warn:#a8503f;--warnbg:#f5e3dc;--shadow:0 1px 2px rgba(60,50,30,.06),0 6px 20px rgba(60,50,30,.05)}
-@media(prefers-color-scheme:dark){:root{--bg:#181916;--card:#23241f;--ink:#f1ecdf;--mute:#cdc9ba;--line:#44453b;--acc:#aecb9f;--acc2:#e6c36f;--accbg:#334030;--warn:#f4a28b;--warnbg:#402822;--shadow:none}.btn:not(.ghost),.chip.on,.tag.done,.tag.std{color:#161713!important}.btn.ghost{color:var(--acc);border-color:var(--acc)}.tag{color:#d8e8cf}.tag.none{color:var(--mute)}.opt:hover,.opt.sel{background:var(--accbg)}.card{border-color:#4a4b40}}
+:root{color-scheme:light}
+:root[data-theme=dark]{color-scheme:dark;--bg:#181916;--card:#23241f;--ink:#f1ecdf;--mute:#cdc9ba;--line:#44453b;--acc:#aecb9f;--acc2:#e6c36f;--accbg:#334030;--warn:#f4a28b;--warnbg:#402822;--shadow:none}
+[data-theme=dark] .btn:not(.ghost),[data-theme=dark] .chip.on,[data-theme=dark] .tag.done,[data-theme=dark] .tag.std{color:#161713!important}
+[data-theme=dark] .btn.ghost{color:var(--acc);border-color:var(--acc)}
+[data-theme=dark] .tag{color:#d8e8cf}[data-theme=dark] .tag.none{color:var(--mute)}
+[data-theme=dark] .opt:hover,[data-theme=dark] .opt.sel{background:var(--accbg)}[data-theme=dark] .card{border-color:#4a4b40}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:"Noto Serif TC","PingFang TC","Microsoft JhengHei",serif;background-image:radial-gradient(#73664c14 .7px,transparent .7px);background-size:5px 5px;line-height:1.7;-webkit-text-size-adjust:100%}
 header{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
@@ -76,11 +82,22 @@ td,th{border-bottom:1px solid var(--line);padding:6px 4px;text-align:left}
 .ic{color:var(--acc);flex:none}.ic .ac{stroke:var(--acc2)}
 .tag.std{background:var(--acc2);color:#2a2820}.tag.none{background:none;border:1px solid var(--line);color:var(--mute)}
 .card p.mute,.note{line-height:1.7}
+.hrow{display:flex;justify-content:space-between;align-items:center;gap:8px}.hrow h1{margin:0 0 6px}
+.tbtn{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:99px;padding:3px 12px;font:inherit;font-size:13px;cursor:pointer;flex:none}
+.fold{background:none;border:0;padding:0;margin:18px 0 0;border-radius:0}
+.fold>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:8px;padding:6px 0;font-weight:inherit}
+.fold>summary::-webkit-details-marker{display:none}
+.fold>summary::before{content:'▸';color:var(--acc);transition:transform .15s;flex:none}
+.fold[open]>summary::before{transform:rotate(90deg)}
+.fold>summary>h2,.fold>summary>h3{margin:0;display:inline}
+.fold-body{padding-top:4px}
+.fold.cardf{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:6px 16px 10px;margin-top:14px;box-shadow:var(--shadow)}
+#app>.fold:first-child{margin-top:0}
 </style>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="rough"><feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves="2" seed="3" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="1.8"/></filter></svg>
-<header><div class="hwrap"><h1>MOOD LAB <small style="font-weight:400;font-size:13px;color:var(--mute)">心理測驗室</small></h1>
+<header><div class="hwrap"><div class="hrow"><h1>MOOD LAB <small style="font-weight:400;font-size:13px;color:var(--mute)">心理測驗室</small></h1><button class="tbtn" id="themeBtn" data-a="theme" aria-label="切換深淺色"></button></div>
 <nav id="nav"></nav></div></header>
 <main id="app"></main>
 <script>
@@ -636,6 +653,12 @@ mem.history=mem.history.filter(x=>byId(x.id));
 const latest=id=>{const h=mem.history.filter(x=>x.id===id);return h[h.length-1]};
 const fmt=ts=>{const d=new Date(ts);return d.getFullYear()+'/'+(d.getMonth()+1)+'/'+d.getDate()};
 const TABS=[['lobby','測驗大廳'],['daily','每日簽到'],['profile','我的檔案'],['action','每週行動'],['growth','成長追蹤'],['practice','心理練習'],['library','知識庫']];
+let THEME='auto';try{THEME=localStorage.getItem('psyhub.theme')||'auto'}catch(e){}
+let OPEN={};try{OPEN=JSON.parse(localStorage.getItem('psyhub.fold')||'{}')}catch(e){}
+const mq=window.matchMedia?matchMedia('(prefers-color-scheme: dark)'):null;
+const effTheme=()=>THEME==='auto'?(mq&&mq.matches?'dark':'light'):THEME;
+function applyTheme(){const e=effTheme();document.documentElement.setAttribute('data-theme',e);COL=PALS[e];const m=document.querySelector('meta[name=theme-color]');if(m)m.content=e==='dark'?'#181916':'#eee7d8'}
+if(mq&&mq.addEventListener)mq.addEventListener('change',()=>{if(THEME==='auto'){applyTheme();render()}});
 const S={tab:'lobby',cat:'all',run:null,res:null,gsel:null,sc:0,f:{},breath:null,d:null};
 
 /* ===== 手繪風圖示 ===== */
@@ -659,6 +682,19 @@ animal:'<ellipse cx="16" cy="21" rx="6" ry="5"/><circle cx="8" cy="14" r="2.3"/>
 emperor:'<path d="M5 24V11l6 6 5-9 5 9 6-6v13z"/><path class="ac" d="M5 27h22"/>'};
 const icon=(t,sz)=>`<svg class="ic" viewBox="0 0 32 32" width="${sz||38}" height="${sz||38}" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" style="filter:url(#rough)" aria-hidden="true">${IC[t.id.replace(/_d$/,'')]||''}</svg>`;
 
+const defClosed=t=>/^(提醒與備份|歷次紀錄|睡眠日記|過去的週|④|⑤|⑥)/.test(t);
+function mkFold(head,key,cls,text){const d=document.createElement('details');d.className='fold'+(cls?' '+cls:'');d.dataset.sec=key;d.open=OPEN[key]!=null?OPEN[key]:!defClosed(text);const s=document.createElement('summary');s.appendChild(head);const b=document.createElement('div');b.className='fold-body';d.appendChild(s);d.appendChild(b);return {d,b}}
+function collapsify(){
+ if(S.run)return;const app=$('#app');if(S.tab==='library'&&!S.res)return;
+ const kids=[...app.children],frag=[];let cur=null;
+ kids.forEach(k=>{
+  const tag=k.tagName;
+  if(S.tab==='practice'&&!S.res){
+   if(k.classList.contains('card')&&k.firstElementChild&&k.firstElementChild.tagName==='H3'){const hd=k.firstElementChild,txt=hd.textContent.trim();const f=mkFold(hd,'practice|'+txt.slice(0,8),'cardf',txt);[...k.children].forEach(c=>f.b.appendChild(c));frag.push(f.d)}else frag.push(k);return}
+  if(tag==='H2'||tag==='H3'){const txt=k.textContent.trim().replace(/\s+/g,'');cur=mkFold(k,S.tab+(S.res?'|res|':'|')+txt.slice(0,10),'',txt);frag.push(cur.d)}
+  else if(cur)cur.b.appendChild(k);else frag.push(k)});
+ app.replaceChildren(...frag);
+}
 function go(tab){S.tab=tab;S.run=null;S.res=null;stopBreath();try{history.replaceState(null,'','#'+tab)}catch(e){}render();window.scrollTo(0,0)}
 function render(){
  $('#nav').innerHTML=TABS.map(t=>`<button class="${S.tab===t[0]?'on':''}" data-a="tab" data-v="${t[0]}">${t[1]}</button>`).join('');
@@ -666,6 +702,8 @@ function render(){
  if(S.run)h=vRun();else if(S.res)h=vRes();
  else h={lobby:vLobby,daily:vDaily,profile:vProfile,action:vAction,growth:vGrowth,practice:vPractice,library:vLibrary}[S.tab]();
  $('#app').innerHTML=h;
+ $('#themeBtn').textContent={auto:'◐ 自動',light:'☀ 淺色',dark:'☾ 深色'}[THEME];
+ collapsify();
 }
 
 function vLobby(){
@@ -673,15 +711,16 @@ function vLobby(){
  const ids=new Set(mem.history.map(x=>x.id));
  const done=vis.filter(t=>ids.has(t.id)||(t.deep&&ids.has(t.deep))).length;
  const cats=[['all','全部'],...Object.entries(CATS)];
- const list=vis.filter(t=>S.cat==='all'||t.cat===S.cat);
- return `<p class="mute">已探索 ${done} / ${vis.length} 個主題。所有紀錄只存在這台裝置的瀏覽器裡。每題約 15 秒，可依時間選擇快速或深度。</p>
- ${dueBanner()}
- <div class="chips">${cats.map(c=>`<button class="chip ${S.cat===c[0]?'on':''}" data-a="cat" data-v="${c[0]}">${c[1]}</button>`).join('')}</div>
- <div class="grid">${list.map(t=>{
-  const d=t.deep?byId(t.deep):null;const l=[latest(t.id),d&&latest(d.id)].filter(Boolean).sort((a,b)=>b.ts-a.ts)[0];
+ const card=t=>{const d=t.deep?byId(t.deep):null;const l=[latest(t.id),d&&latest(d.id)].filter(Boolean).sort((a,b)=>b.ts-a.ts)[0];
   return `<div class="card tc"><div class="tc-h">${icon(t)}<div><h3>${t.title}</h3><div class="mute">${t.desc}</div></div></div>
   <div class="tc-b"><button class="btn sm" data-a="start" data-v="${t.id}">${d?(t.std?'正式量表':'快速探索'):'開始'}・${t.qs.length} 題・約 ${t.mins} 分</button>${d?`<button class="btn ghost sm" data-a="start" data-v="${d.id}">深度探索・${d.qs.length} 題・約 ${d.mins} 分</button>`:''}</div>
-  <div class="tc-f"><span class="tag">${CATS[t.cat]}</span><span class="tag ${t.std?'std':''}">${t.std?'正式量表':t.cat==='fun'?'趣味':'自製探索'}</span><span class="tag ${l?'done':'none'}">${l?'上次 '+fmt(l.ts):'尚未測'}</span></div></div>`}).join('')}</div>
+  <div class="tc-f"><span class="tag">${CATS[t.cat]}</span><span class="tag ${t.std?'std':''}">${t.std?'正式量表':t.cat==='fun'?'趣味':'自製探索'}</span><span class="tag ${l?'done':'none'}">${l?'上次 '+fmt(l.ts):'尚未測'}</span></div></div>`};
+ const grid=l=>`<div class="grid">${l.map(card).join('')}</div>`;
+ const body=S.cat==='all'?Object.entries(CATS).map(([c,n])=>{const l=vis.filter(t=>t.cat===c);return l.length?`<h2>${n}（${l.length}）</h2>${grid(l)}`:''}).join(''):grid(vis.filter(t=>t.cat===S.cat));
+ return `<p class="mute">已探索 ${done} / ${vis.length} 個主題。所有紀錄只存在這台裝置的瀏覽器裡。每題約 15 秒，可依時間選擇快速或深度。點分類標題可以收合。</p>
+ ${dueBanner()}
+ <div class="chips">${cats.map(c=>`<button class="chip ${S.cat===c[0]?'on':''}" data-a="cat" data-v="${c[0]}">${c[1]}</button>`).join('')}</div>
+ ${body}
  <p class="note">「正式量表」指有發表的信效度研究、可公開使用的量表，本站中文為自行翻譯，非官方認證版本。其餘為自製探索工具，題目與分級為本站設計，不代表經過驗證，也沒有臨床切點。結果都不是診斷；如果你正在受苦，請尋求專業協助。</p>`;
 }
 
@@ -872,7 +911,8 @@ function moodChart(m){
  const x=i=>P+(i+.5)*(W-2*P)/d.length,y=v=>H-P-v/10*(H-2*P);
  return `<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="心情強度圖">`+[0,5,10].map(v=>`<line x1="${P}" x2="${W-P}" y1="${y(v)}" y2="${y(v)}" stroke="currentColor" opacity=".15"/><text x="2" y="${y(v)+4}" font-size="11" fill="currentColor" opacity=".7">${v}</text>`).join('')+d.map((e,i)=>`<rect x="${x(i)-bw/2}" y="${y(e.i)}" width="${bw}" height="${H-P-y(e.i)}" rx="4" fill="var(--acc)" opacity=".8"/><text x="${x(i)}" y="${H-16}" font-size="10" text-anchor="middle" fill="currentColor" opacity=".85">${esc(e.e)}</text><text x="${x(i)}" y="${H-4}" font-size="9" text-anchor="middle" fill="currentColor" opacity=".7">${md(e.ts)}</text>`).join('')+`</svg>`;
 }
-const COL=(window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches)?['#aecb9f','#e6c36f','#9fb0ff','#f0a0b0','#b5df7a','#cfb0ea']:['#4f6249','#b0852f','#5565c4','#a8586a','#5f8f33','#7c5c96'];
+const PALS={dark:['#aecb9f','#e6c36f','#9fb0ff','#f0a0b0','#b5df7a','#cfb0ea'],light:['#4f6249','#b0852f','#5565c4','#a8586a','#5f8f33','#7c5c96']};
+let COL=PALS.light;
 
 /* ===== 每週行動 ===== */
 const hiV=(v,t)=>v!=null&&v>=t,loV=(v,t)=>v!=null&&v<=t;
@@ -1061,8 +1101,10 @@ document.addEventListener('click',e=>{
  else if(a==='ics'){const d=new Date(Date.now()+DAY),p=n=>String(n).padStart(2,'0');const ds=d.getFullYear()+p(d.getMonth()+1)+p(d.getDate())+'T200000';
   S.icsText=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Mood Lab//ZH','BEGIN:VEVENT','UID:moodlab-retest@moodlab','DTSTAMP:'+new Date().toISOString().replace(/[-:]/g,'').slice(0,15)+'Z','DTSTART:'+ds,'RRULE:FREQ=DAILY;INTERVAL='+remDays(),'SUMMARY:Mood Lab：回來看看自己的變化','DESCRIPTION:重測一個你上次做過的測驗，看看變化。','BEGIN:VALARM','TRIGGER:PT0M','ACTION:DISPLAY','DESCRIPTION:Mood Lab','END:VALARM','END:VEVENT','END:VCALENDAR'].join('\r\n');
   dl('mood-lab-reminder.ics',S.icsText,'text/calendar');render()}
+ else if(a==='theme'){THEME={auto:'light',light:'dark',dark:'auto'}[THEME];try{localStorage.setItem('psyhub.theme',THEME)}catch(x){}applyTheme();render()}
  else if(a==='breath'){if(S.breath)stopBreath();else startBreath();render()}
 });
+document.addEventListener('toggle',e=>{const d=e.target;if(d&&d.dataset&&d.dataset.sec){OPEN[d.dataset.sec]=d.open;try{localStorage.setItem('psyhub.fold',JSON.stringify(OPEN))}catch(x){}}},true);
 document.addEventListener('change',e=>{const el=e.target,a=el.dataset.a;
  if(a==='scen'){S.sc=+el.value;render()}
  else if(a==='pfeel'){const it=planSync().items[+el.dataset.i];if(it){it.feel=el.value?+el.value:null;persist()}}
@@ -1089,7 +1131,7 @@ function finish(){
 }
 const h0=(location.hash||'').slice(1);if(TABS.some(t=>t[0]===h0))S.tab=h0;
 window.addEventListener('hashchange',()=>{const h=(location.hash||'').slice(1);if(TABS.some(t=>t[0]===h)&&h!==S.tab)go(h)});
-render();
+applyTheme();render();
 try{if('serviceWorker' in navigator&&location.protocol==='https:')navigator.serviceWorker.register('sw.js').catch(()=>{})}catch(e){}
 }
 </script>
