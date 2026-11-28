@@ -638,6 +638,7 @@ function vLobby(){
  const cats=[['all','全部'],...Object.entries(CATS)];
  const list=vis.filter(t=>S.cat==='all'||t.cat===S.cat);
  return `<p class="mute">已探索 ${done} / ${vis.length} 個主題。所有紀錄只存在這台裝置的瀏覽器裡。每題約 15 秒，可依時間選擇快速或深度。</p>
+ ${dueBanner()}
  <div class="chips">${cats.map(c=>`<button class="chip ${S.cat===c[0]?'on':''}" data-a="cat" data-v="${c[0]}">${c[1]}</button>`).join('')}</div>
  <div class="grid">${list.map(t=>{
   const d=t.deep?byId(t.deep):null;const l=[latest(t.id),d&&latest(d.id)].filter(Boolean).sort((a,b)=>b.ts-a.ts)[0];
@@ -723,14 +724,29 @@ function vProfile(){
 }
 
 /* ===== 圖表 ===== */
+const DAY=86400000;
+const md=ts=>{const d=new Date(ts);return (d.getMonth()+1)+'/'+(d.getDate())};
+const ymd=ts=>{const d=new Date(ts);return d.getFullYear()+'/'+(d.getMonth()+1)+'/'+d.getDate()};
+const remDays=()=>(mem.remind&&mem.remind.days)||14;
+function dueList(){
+ const last={};mem.history.forEach(x=>{const k=x.id.replace(/_d$/,'');if(!last[k]||x.ts>last[k])last[k]=x.ts});
+ return Object.keys(last).filter(k=>Date.now()-last[k]>=remDays()*DAY).map(k=>({k,days:Math.floor((Date.now()-last[k])/DAY),t:byId(k)})).filter(x=>x.t).sort((a,b)=>b.days-a.days);
+}
+function dueBanner(){
+ const d=dueList();if(!d.length)return'';
+ return `<div class="card" style="margin:12px 0;border-color:var(--acc2)"><b>該回來看看自己了</b><p class="mute" style="margin:4px 0">${d.slice(0,4).map(x=>`${esc(x.t.title.replace(/（正式量表）/,''))}（${x.days} 天前）`).join('、')}${d.length>4?' 等 '+d.length+' 項':''} 已超過 ${remDays()} 天沒有重測。重測後，成長追蹤才看得出變化。</p></div>`;
+}
 function chart(t,hist,keys){
- const W=640,H=220,P=30,n=hist.length,m=tmax(t);if(!n)return'';
- const x=i=>n===1?W/2:P+i*(W-2*P)/(n-1),y=v=>H-P-v/m*(H-2*P);
- let g=[0,m/2,m].map(v=>`<line x1="${P}" x2="${W-P}" y1="${y(v)}" y2="${y(v)}" stroke="currentColor" opacity=".15"/><text x="2" y="${y(v)+4}" font-size="11" fill="currentColor" opacity=".7">${Math.round(v)}</text>`).join('');
- keys.forEach((k,j)=>{const pts=hist.map((h,i)=>[x(i),y(h.scores[k]==null?0:h.scores[k])]);
-  g+=`<polyline fill="none" stroke="${COL[j%6]}" stroke-width="2.5" points="${pts.map(p=>p.join(',')).join(' ')}"/>`+pts.map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="4" fill="${COL[j%6]}"/>`).join('')});
- g+=hist.map((h,i)=>`<text x="${x(i)}" y="${H-8}" font-size="11" text-anchor="middle" fill="currentColor" opacity=".75">${new Date(h.ts).getMonth()+1}/${new Date(h.ts).getDate()}</text>`).join('');
- return `<p class="mute" style="margin:8px 0 0">歷次變化</p><svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="成長趨勢圖">${g}</svg><div class="legend">${keys.map((k,j)=>`<span><i style="background:${COL[j%6]}"></i>${esc(nameOf(t,k))}</span>`).join('')}</div>`;
+ const W=640,H=236,P=34,n=hist.length,m=tmax(t);if(!n)return'';
+ const t0=hist[0].ts,t1=hist[n-1].ts,span=t1-t0;
+ const x=h=>span>0?P+(h.ts-t0)/span*(W-2*P):W/2,y=v=>H-P-v/m*(H-2*P-6);
+ let g=[0,m/2,m].map(v=>`<line x1="${P}" x2="${W-P/2}" y1="${y(v)}" y2="${y(v)}" stroke="currentColor" opacity=".15"/><text x="2" y="${y(v)+4}" font-size="11" fill="currentColor" opacity=".7">${Math.round(v)}</text>`).join('');
+ keys.forEach((k,j)=>{const pts=hist.map(h=>[x(h),y(h.scores[k]==null?0:h.scores[k])]);
+  g+=`<polyline fill="none" stroke="${COL[j%6]}" stroke-width="2.5" points="${pts.map(p=>p.join(',')).join(' ')}"/>`+pts.map((p,i)=>`<circle cx="${p[0]}" cy="${p[1]}" r="4.5" fill="${COL[j%6]}"><title>${esc(nameOf(t,k))}：${hist[i].scores[k]}（${ymd(hist[i].ts)}）</title></circle>`).join('')});
+ const yr=span>300*DAY;const lab=h=>yr?ymd(h.ts).slice(2):md(h.ts);
+ const L=[];hist.forEach((h,i)=>{const X=x(h);if(!L.length||X-L[L.length-1].X>=48)L.push({X,s:lab(h)});else if(i===n-1)L[L.length-1]={X,s:lab(h)}});
+ g+=hist.map(h=>`<line x1="${x(h)}" x2="${x(h)}" y1="${H-P}" y2="${H-P+4}" stroke="currentColor" opacity=".5"/>`).join('')+L.map(l=>`<text x="${l.X}" y="${H-12}" font-size="11" text-anchor="middle" fill="currentColor" opacity=".85">${l.s}</text>`).join('');
+ return `<p class="mute" style="margin:8px 0 0">歷次變化（橫軸依實際日期排列：${ymd(t0)}${n>1?' ～ '+ymd(t1):''}）</p><svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="成長趨勢圖">${g}</svg><div class="legend">${keys.map((k,j)=>`<span><i style="background:${COL[j%6]}"></i>${esc(nameOf(t,k))}</span>`).join('')}</div>`;
 }
 function radar(t,hist,keys){
  const n=keys.length;if(n<3||!hist.length)return'';
@@ -752,7 +768,8 @@ function scatter(t,hist){
  g+=`<text x="50" y="266" font-size="11" fill="currentColor" opacity=".8">穩定自在</text><text x="50" y="50" font-size="11" fill="currentColor" opacity=".8">重視距離</text><text x="274" y="266" font-size="11" text-anchor="end" fill="currentColor" opacity=".8">渴望靠近</text><text x="274" y="50" font-size="11" text-anchor="end" fill="currentColor" opacity=".8">想靠近又怕受傷</text>`;
  g+=`<text x="162" y="298" font-size="12" text-anchor="middle" fill="currentColor">${esc(t.dims[kx].n)} →</text><text transform="translate(14 154) rotate(-90)" font-size="12" text-anchor="middle" fill="currentColor">${esc(t.dims[ky].n)} →</text>`;
  if(pts.length>1)g+=`<polyline points="${pts.map(p=>p.join(',')).join(' ')}" fill="none" stroke="var(--acc2)" stroke-width="1.5" stroke-dasharray="4 3"/>`+pts.slice(0,-1).map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="5" fill="var(--acc2)" opacity=".6"/>`).join('');
- const l=pts[pts.length-1];g+=`<circle cx="${l[0]}" cy="${l[1]}" r="8" fill="var(--acc)" stroke="var(--card)" stroke-width="2"/><text x="${l[0]}" y="${l[1]-12}" font-size="11" text-anchor="middle" fill="currentColor">現在</text>`;
+ g+=pts.slice(0,-1).map((p,i)=>`<text x="${p[0]}" y="${p[1]+15}" font-size="10" text-anchor="middle" fill="currentColor" opacity=".8">${md(hist[i].ts)}</text>`).join('');
+ const l=pts[pts.length-1];g+=`<circle cx="${l[0]}" cy="${l[1]}" r="8" fill="var(--acc)" stroke="var(--card)" stroke-width="2"/><text x="${l[0]}" y="${l[1]-12}" font-size="11" text-anchor="middle" fill="currentColor">現在 ${md(hist[hist.length-1].ts)}</text>`;
  return `<p class="mute" style="margin:0">依附座標圖（連續座標，不是類型）</p><svg viewBox="0 0 300 304" width="100%" style="max-width:420px;display:block;margin:auto" role="img" aria-label="依附二維座標圖">${g}</svg>`;
 }
 function spark(vals,m){
@@ -762,24 +779,33 @@ function spark(vals,m){
 }
 function moodChart(m){
  const d=m.slice(-14);if(!d.length)return'';
- const W=640,H=150,P=24,bw=Math.min(34,(W-2*P)/d.length-6);
+ const W=640,H=170,P=30,bw=Math.min(34,(W-2*P)/d.length-6);
  const x=i=>P+(i+.5)*(W-2*P)/d.length,y=v=>H-P-v/10*(H-2*P);
- return `<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="心情強度圖">`+[0,5,10].map(v=>`<line x1="${P}" x2="${W-P}" y1="${y(v)}" y2="${y(v)}" stroke="currentColor" opacity=".15"/><text x="2" y="${y(v)+4}" font-size="11" fill="currentColor" opacity=".7">${v}</text>`).join('')+d.map((e,i)=>`<rect x="${x(i)-bw/2}" y="${y(e.i)}" width="${bw}" height="${H-P-y(e.i)}" rx="4" fill="var(--acc)" opacity=".8"/><text x="${x(i)}" y="${H-8}" font-size="10" text-anchor="middle" fill="currentColor" opacity=".75">${esc(e.e)}</text>`).join('')+`</svg>`;
+ return `<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="心情強度圖">`+[0,5,10].map(v=>`<line x1="${P}" x2="${W-P}" y1="${y(v)}" y2="${y(v)}" stroke="currentColor" opacity=".15"/><text x="2" y="${y(v)+4}" font-size="11" fill="currentColor" opacity=".7">${v}</text>`).join('')+d.map((e,i)=>`<rect x="${x(i)-bw/2}" y="${y(e.i)}" width="${bw}" height="${H-P-y(e.i)}" rx="4" fill="var(--acc)" opacity=".8"/><text x="${x(i)}" y="${H-16}" font-size="10" text-anchor="middle" fill="currentColor" opacity=".85">${esc(e.e)}</text><text x="${x(i)}" y="${H-4}" font-size="9" text-anchor="middle" fill="currentColor" opacity=".7">${md(e.ts)}</text>`).join('')+`</svg>`;
 }
 const COL=['#5d6e59','#bb933f','#6d7bd6','#ad7366','#7aa84a','#8a6f9e'];
 
 function vGrowth(){
  const ids=[...new Set(mem.history.map(x=>x.id))];
- if(!ids.length)return `<h2 style="margin-top:0">成長追蹤</h2><div class="card">還沒有紀錄。同一個測驗隔一段時間再做一次，就能在這裡比較變化。<br><br><button class="btn" data-a="tab" data-v="lobby">去做測驗</button></div>`;
+ const bk=`<h2>提醒與備份</h2><div class="card">
+ <label class="f">多久提醒我重測一次</label><select data-a="rdays">${[7,14,30,60].map(d=>`<option value="${d}" ${remDays()===d?'selected':''}>每 ${d} 天</option>`).join('')}</select>
+ <p class="row" style="margin-top:10px"><button class="btn ghost sm" data-a="ics">加入行事曆（.ics）</button><button class="btn ghost sm" data-a="export">匯出備份</button></p>
+ ${S.exp?`<p class="mute">若沒有開始下載，請複製下方文字，存成 .json 檔。</p><textarea readonly id="expbox" style="min-height:90px">${esc(S.exp)}</textarea><p><button class="btn ghost sm" data-a="copyexp">複製備份文字</button> <span class="mute" id="cpmsg2"></span></p>`:''}
+ ${S.icsText?`<p class="mute">若沒有開始下載，請複製下方內容，存成 .ics 檔再匯入行事曆。</p><textarea readonly style="min-height:70px">${esc(S.icsText)}</textarea>`:''}
+ <label class="f">還原備份（貼上備份文字，或選擇檔案）</label><textarea data-f="imp" placeholder="貼上匯出的 JSON">${esc(S.f.imp)}</textarea>
+ <p class="row"><button class="btn sm" data-a="import">匯入</button><input type="file" accept=".json,application/json" data-a="impfile" style="max-width:220px"> <span class="mute" id="impmsg">${esc(S.impMsg||'')}</span></p>
+ <p class="mute">紀錄只存在這個瀏覽器裡。換裝置或清除瀏覽資料前，請先匯出備份。</p></div>`;
+ if(!ids.length)return `<h2 style="margin-top:0">成長追蹤</h2><div class="card">還沒有紀錄。同一個測驗隔一段時間再做一次，就能在這裡比較變化。<br><br><button class="btn" data-a="tab" data-v="lobby">去做測驗</button></div>${bk}`;
  const id=ids.includes(S.gsel)?S.gsel:ids[0];const t=byId(id);const hist=mem.history.filter(x=>x.id===id);const keys=keysOf(t);
  let diff='';
- if(hist.length>1){const a=hist[0],b=hist[hist.length-1];diff=`<h2>第一次 → 最近一次</h2><table>${keys.map(k=>{const d=(b.scores[k]||0)-(a.scores[k]||0);return `<tr><td>${esc(nameOf(t,k))}</td><td>${a.scores[k]}</td><td>→ ${b.scores[k]}</td><td><b>${d>0?'+':''}${d}</b></td></tr>`}).join('')}</table>`}
+ if(hist.length>1){const a=hist[0],b=hist[hist.length-1];diff=`<h2>第一次（${ymd(a.ts)}）→ 最近一次（${ymd(b.ts)}）</h2><table>${keys.map(k=>{const d=(b.scores[k]||0)-(a.scores[k]||0);return `<tr><td>${esc(nameOf(t,k))}</td><td>${a.scores[k]}</td><td>→ ${b.scores[k]}</td><td><b>${d>0?'+':''}${d}</b></td></tr>`}).join('')}</table>`}
  else diff='<p class="mute">再做一次同一個測驗，就能看到變化。</p>';
  return `<h2 style="margin-top:0">成長追蹤</h2>
- <h3>總覽</h3><div class="card"><table>${ids.map(i=>{const tt=byId(i),hh=mem.history.filter(x=>x.id===i);const sp=(!tt.dims&&(tt.kind==='likert'||tt.kind==='sum'))?spark(hh.map(x=>x.scores.total),tmax(tt)):'';return `<tr><td>${icon(tt,22)} ${esc(tt.title.replace(/（正式量表）/,''))}</td><td>${hh.length} 次</td><td>${esc(hh[hh.length-1].label)}</td><td>${sp}</td></tr>`}).join('')}</table></div>
+ <h3>總覽</h3><div class="card" style="overflow-x:auto"><table><tr><th>測驗</th><th>次數</th><th>最近結果</th><th>趨勢</th><th>建議重測</th></tr>${ids.map(i=>{const tt=byId(i),hh=mem.history.filter(x=>x.id===i),lt=hh[hh.length-1].ts,nx=lt+remDays()*DAY,od=nx<=Date.now();const sp=(!tt.dims&&(tt.kind==='likert'||tt.kind==='sum'))?spark(hh.map(x=>x.scores.total),tmax(tt)):'';return `<tr><td>${icon(tt,22)} ${esc(tt.title.replace(/（正式量表）/,''))}</td><td>${hh.length} 次<br><span class="mute">${md(hh[0].ts)}～${md(lt)}</span></td><td>${esc(hh[hh.length-1].label)}</td><td>${sp}</td><td style="${od?'color:var(--warn);font-weight:600':''}">${ymd(nx)}${od?'<br>已到期':''}</td></tr>`}).join('')}</table></div>
  <h3 style="margin-top:18px">詳細圖表</h3><div class="chips">${ids.map(i=>`<button class="chip ${i===id?'on':''}" data-a="growth" data-v="${i}">${esc(byId(i).title.replace(/（正式量表）/,''))}</button>`).join('')}</div>
  <div class="card">${t.xy?scatter(t,hist):''}${radar(t,hist,keys)}${chart(t,hist,keys)}</div>${diff}
- <h2>歷次紀錄</h2><table>${hist.map(h=>`<tr><td>${fmt(h.ts)}</td><td>${esc(h.label)}</td><td style="text-align:right"><button class="btn ghost sm" data-a="del" data-v="${h.ts}">刪除</button></td></tr>`).join('')}</table>
+ <h2>歷次紀錄</h2><table>${hist.map(h=>`<tr><td>${new Date(h.ts).getFullYear()}/${new Date(h.ts).getMonth()+1}/${new Date(h.ts).getDate()} ${String(new Date(h.ts).getHours()).padStart(2,'0')}:${String(new Date(h.ts).getMinutes()).padStart(2,'0')}</td><td>${esc(h.label)}</td><td style="text-align:right"><button class="btn ghost sm" data-a="del" data-v="${h.ts}">刪除</button></td></tr>`).join('')}</table>
+ ${bk}
  <p class="row" style="margin-top:20px"><button class="btn ghost sm" data-a="wipe">清除所有紀錄</button></p>`;
 }
 
@@ -825,6 +851,17 @@ function vLibrary(){
  ${LIB.map(x=>`<details><summary>${x[0]}</summary><p>${x[1]}</p><p><b>研究來源：</b>${x[2]}</p><p><b>改善方法：</b>${x[3]}</p></details>`).join('')}`;
 }
 
+function dl(name,text,mime){try{const b=new Blob([text],{type:mime});const u=URL.createObjectURL(b);const a=document.createElement('a');a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),2000);return true}catch(e){return false}}
+function doImport(){
+ let d;try{d=JSON.parse(S.f.imp||'')}catch(e){S.impMsg='格式不正確，請貼上完整的備份文字。';render();return}
+ if(!d||!Array.isArray(d.history)){S.impMsg='找不到紀錄。';render();return}
+ const seen=new Set(mem.history.map(x=>x.id+'@'+x.ts));let n=0;
+ d.history.forEach(x=>{if(x&&byId(x.id)&&x.scores&&x.ts&&!seen.has(x.id+'@'+x.ts)){mem.history.push(x);seen.add(x.id+'@'+x.ts);n++}});
+ mem.history.sort((a,b)=>a.ts-b.ts);
+ if(d.notes){['worries','moods'].forEach(k=>{const s2=new Set(mem.notes[k].map(x=>x.ts));(d.notes[k]||[]).forEach(x=>{if(x&&x.ts&&!s2.has(x.ts)){mem.notes[k].push(x);s2.add(x.ts)}})})}
+ if(d.remind&&d.remind.days)mem.remind=d.remind;
+ persist();S.f.imp='';S.impMsg='已匯入 '+n+' 筆新紀錄。';render();
+}
 /* ===== 呼吸 ===== */
 function stopBreath(){if(S.breath){clearInterval(S.breath);S.breath=null}}
 function startBreath(){
@@ -851,9 +888,19 @@ document.addEventListener('click',e=>{
  else if(a==='saveworry'){const f=S.f;if(!f.wtxt)return;mem.notes.worries.push({ts:Date.now(),t:f.wtxt,p:f.wp==null?50:f.wp,a:f.wact||''});persist();['wtxt','wp','wc','wact'].forEach(k=>delete f[k]);render()}
  else if(a==='savemood'){const f=S.f;if(!f.emo)return;mem.notes.moods.push({ts:Date.now(),e:f.emo,i:f.ei==null?5:f.ei,n:f.en||''});persist();['emo','ei','en'].forEach(k=>delete f[k]);render()}
  else if(a==='copy'){const s=$('#sent').textContent;const m=$('#cpmsg');try{navigator.clipboard.writeText(s).then(()=>m.textContent='已複製',()=>m.textContent='請手動選取文字複製')}catch(x){m.textContent='請手動選取文字複製'}}
+ else if(a==='export'){S.exp=JSON.stringify({app:'mood-lab',v:1,exported:new Date().toISOString(),history:mem.history,notes:mem.notes,remind:mem.remind||{days:14}});dl('mood-lab-backup-'+new Date().toISOString().slice(0,10)+'.json',S.exp,'application/json');render()}
+ else if(a==='copyexp'){const m=$('#cpmsg2');try{navigator.clipboard.writeText(S.exp).then(()=>m.textContent='已複製',()=>{$('#expbox').select();m.textContent='請手動複製'})}catch(x){$('#expbox').select();m.textContent='請手動複製'}}
+ else if(a==='import'){doImport()}
+ else if(a==='ics'){const d=new Date(Date.now()+DAY),p=n=>String(n).padStart(2,'0');const ds=d.getFullYear()+p(d.getMonth()+1)+p(d.getDate())+'T200000';
+  S.icsText=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Mood Lab//ZH','BEGIN:VEVENT','UID:moodlab-retest@moodlab','DTSTAMP:'+new Date().toISOString().replace(/[-:]/g,'').slice(0,15)+'Z','DTSTART:'+ds,'RRULE:FREQ=DAILY;INTERVAL='+remDays(),'SUMMARY:Mood Lab：回來看看自己的變化','DESCRIPTION:重測一個你上次做過的測驗，看看變化。','BEGIN:VALARM','TRIGGER:PT0M','ACTION:DISPLAY','DESCRIPTION:Mood Lab','END:VALARM','END:VEVENT','END:VCALENDAR'].join('\r\n');
+  dl('mood-lab-reminder.ics',S.icsText,'text/calendar');render()}
  else if(a==='breath'){if(S.breath)stopBreath();else startBreath();render()}
 });
-document.addEventListener('change',e=>{const el=e.target;if(el.dataset.a==='scen'){S.sc=+el.value;render()}});
+document.addEventListener('change',e=>{const el=e.target,a=el.dataset.a;
+ if(a==='scen'){S.sc=+el.value;render()}
+ else if(a==='rdays'){mem.remind={days:+el.value};persist();S.icsText='';render()}
+ else if(a==='impfile'&&el.files&&el.files[0]){const rd=new FileReader();rd.onload=()=>{S.f.imp=String(rd.result);doImport()};rd.readAsText(el.files[0])}
+});
 document.addEventListener('input',e=>{
  const el=e.target,k=el.dataset.f;if(!k)return;
  if(el.type==='checkbox'){S.f[k]=el.checked;return}
