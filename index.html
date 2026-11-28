@@ -11,8 +11,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;600;700&display=swap">
 <style>
-:root{--bg:#eae3d5;--card:#faf6eb;--ink:#3c3b31;--mute:#777669;--line:#d8cdbc;--acc:#5d6e59;--acc2:#bb933f;--accbg:#e2e5d6;--warn:#a8503f;--warnbg:#f5e3dc;--shadow:0 1px 2px rgba(60,50,30,.06),0 6px 20px rgba(60,50,30,.05)}
-@media(prefers-color-scheme:dark){:root{--bg:#1d1e1a;--card:#272820;--ink:#ece7da;--mute:#a39f90;--line:#3a3b32;--acc:#9db398;--acc2:#d6b25e;--accbg:#2c3528;--warn:#f0957f;--warnbg:#3a2620;--shadow:none}.btn,.chip.on,.tag.done{color:#1d1e1a!important}}
+:root{--bg:#eae3d5;--card:#faf6eb;--ink:#3c3b31;--mute:#5a594e;--line:#d8cdbc;--acc:#5d6e59;--acc2:#bb933f;--accbg:#e2e5d6;--warn:#a8503f;--warnbg:#f5e3dc;--shadow:0 1px 2px rgba(60,50,30,.06),0 6px 20px rgba(60,50,30,.05)}
+@media(prefers-color-scheme:dark){:root{--bg:#1d1e1a;--card:#272820;--ink:#ece7da;--mute:#c2beaf;--line:#3a3b32;--acc:#9db398;--acc2:#d6b25e;--accbg:#2c3528;--warn:#f0957f;--warnbg:#3a2620;--shadow:none}.btn,.chip.on,.tag.done{color:#1d1e1a!important}}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:"Noto Serif TC","PingFang TC","Microsoft JhengHei",serif;background-image:radial-gradient(#73664c14 .7px,transparent .7px);background-size:5px 5px;line-height:1.7;-webkit-text-size-adjust:100%}
 header{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
@@ -25,8 +25,8 @@ main{max-width:820px;margin:0 auto;padding:18px 16px 60px}
 h2{font-size:18px;margin:26px 0 10px}
 h3{font-size:16px;margin:0 0 4px}
 p{margin:6px 0}
-.mute{color:var(--mute);font-size:13px}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
+.mute{color:var(--mute);font-size:14px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(285px,1fr));gap:12px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px;box-shadow:var(--shadow)}
 .tcard{cursor:pointer;text-align:left;font:inherit;color:inherit;display:flex;flex-direction:column;gap:4px;transition:transform .12s}
 .tcard:hover{transform:translateY(-2px)}
@@ -70,9 +70,16 @@ td,th{border-bottom:1px solid var(--line);padding:6px 4px;text-align:left}
 .sect{border-left:4px solid var(--acc);padding-left:12px;margin:14px 0}
 .legend{display:flex;flex-wrap:wrap;gap:10px;font-size:12px;margin-top:6px}
 .legend span i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:4px}
+.tc{display:flex;flex-direction:column;gap:12px}.tc-h{display:flex;gap:12px;align-items:flex-start}.tc-h h3{margin:0 0 2px}
+.tc-b{display:flex;flex-direction:column;gap:6px}.tc-b .btn{text-align:left}
+.tc-f{margin-top:auto;display:flex;gap:6px;flex-wrap:wrap;align-items:center;padding-top:10px;border-top:1px dashed var(--line)}
+.ic{color:var(--acc);flex:none}.ic .ac{stroke:var(--acc2)}
+.tag.std{background:var(--acc2);color:#2a2820}.tag.none{background:none;border:1px solid var(--line);color:var(--mute)}
+.card p.mute,.note{line-height:1.7}
 </style>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="rough"><feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves="2" seed="3" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="1.8"/></filter></svg>
 <header><div class="hwrap"><h1>MOOD LAB <small style="font-weight:400;font-size:13px;color:var(--mute)">心理測驗室</small></h1>
 <nav id="nav"></nav></div></header>
 <main id="app"></main>
@@ -104,17 +111,51 @@ const TESTS=[
  ['朋友向你訴苦，你第一反應是…',['T','幫他分析問題'],['F','先陪他感受']],['做重要決定時你更看重…',['T','客觀利弊'],['F','對人的影響']],['討論意見分歧時你…',['T','就事論事、指出問題'],['F','顧及氣氛、委婉表達']],
  ['出門旅行你偏好…',['J','事先排好行程'],['P','到了再看']],['面對截止日，你通常…',['J','提早完成'],['P','靠臨場爆發力']],['你的桌面或房間…',['J','有固定位置、整齊'],['P','亂中有序、順手就好']]]},
 
-{id:'attach',cat:'personality',em:'💞',title:'親密關係依附風格',desc:'你在關係中的安全感，來自「焦慮」和「逃避」兩個軸。',kind:'likert',scale:LIK,
+{id:'attach',cat:'personality',title:'親密關係依附風格',desc:'探索親密、自主與安全感。以「焦慮」與「逃避」兩個連續軸呈現，不貼類型標籤。',kind:'likert',scale:LIK,xy:['anx','avo'],deep:'attach_d',
  dims:{anx:{n:'依附焦慮',hi:'你很在乎關係是否穩固，容易擔心被拋下。',lo:'你較能相信關係，不太需要時時確認。'},
  avo:{n:'依附逃避',hi:'你習慣保持距離、靠自己，親密太近會不自在。',lo:'你能自在地依靠別人，也願意被依靠。'}},
  qs:[['我常擔心對方沒有我在乎他那麼在乎我','anx'],['對方沒回訊息時，我會忍不住胡思亂想','anx'],['我很害怕被拋棄','anx'],['我需要常常被確認「你愛我」','anx'],['我擔心自己不夠好、配不上對方','anx'],['感情中我容易吃醋或不安','anx'],
  ['我不習慣向伴侶透露內心深處的感受','avo'],['當對方想更靠近時，我會想退開','avo'],['依賴別人會讓我不舒服','avo'],['我偏好和伴侶維持一點距離','avo'],['我覺得靠自己比靠別人安全','avo'],['我很容易對伴侶敞開心扉','avo',1]],
- result:s=>{const a=s.anx>=50,v=s.avo>=50;const m={
- '11':['恐懼型（焦慮＋逃避）','你渴望親近，卻又害怕受傷，因此容易在靠近與退縮間拉扯。','練習把「我怕」說出口，並從低風險的小事開始信任。'],
- '10':['焦慮型','你很投入關係，對訊號敏感，安全感常依賴對方回應。','練習自我安撫：先給自己 10 分鐘冷靜，再用「我感到…我需要…」溝通。'],
- '01':['迴避型','你重視獨立與空間，親密時容易築牆。','練習在安全的人面前，每週分享一件真實的感受。'],
- '00':['安全型','你能在親密與獨立之間取得平衡，也較能坦誠溝通。','維持現有的溝通習慣，也可以成為伴侶的穩定力量。']}[(a?1:0)+''+(v?1:0)];
- return {title:m[0],text:m[1],tips:[m[2],'依附風格不是命運，會隨經驗與安全的關係而改變。']}}},
+ result:s=>{const a=s.anx,v=s.avo;
+  const near=a>=50&&v>=50?'「想靠近又怕受傷」':a>=50?'「渴望靠近、擔心失去」':v>=50?'「重視距離與自主」':'「穩定自在」';
+  return {title:'焦慮 '+a+'・逃避 '+v,text:'你的落點較靠近'+near+'那一側。這是連續座標，不是類型判定；越靠近中間，越看情境而定。快速版只有 12 題，想區分「怕被拋下」「不適親密」「抗拒義務」等不同面向，可做深度版。',
+  tips:['問問自己：如果對方穩定地愛我、尊重我的自主、不過度索取、也不會突然消失，我還會想逃離嗎？','依附風格不是命運，會隨經驗與安全的關係而改變。']}}},
+
+{id:'attach_d',hidden:1,cat:'personality',title:'親密關係依附・深度探索',desc:'6 個構面、48 題，把「怕被拋下」「不適親密」「抗拒義務」「信任」「衝突修復」「需求表達」分開看。',kind:'likert',scale:LIK,xy:['fear','dis'],
+ dims:{
+ fear:{n:'被拋棄的恐懼',hi:'你對關係可能結束很敏感，容易因對方的小變化而不安。',lo:'你較能相信關係穩固。',tip:'不安出現時，先分辨「事實」與「想像」；用「我感到…我需要…」直接說，而不是等對方猜。'},
+ dis:{n:'親密的不適感',hi:'太靠近、太揭露會讓你想退開。',lo:'你多半能自在地靠近與被靠近。',tip:'從低風險的小揭露開始，觀察對方的回應，累積「靠近是安全的」經驗。'},
+ aut:{n:'自主權與義務敏感',hi:'被要求、被期待、被「應該」時，你特別容易反彈；你抗拒的可能是義務，而不一定是親密。',lo:'你不太在意被期待或約定，較能自在配合。',tip:'把「被要求」轉成「協商」：說出你願意給什麼、需要保留什麼。'},
+ trust:{n:'人際信任保留',hi:'你信任需要時間與證明，較會留一手。',lo:'你較容易信任他人。',tip:'區分「這個人」與「過去的經驗」；用小事逐步驗證信任，而非暗中測試。'},
+ conf:{n:'衝突修復困難',hi:'衝突後你要麼躲、要麼追，恢復平靜較慢。',lo:'你多半能在衝突後冷靜並修復。',tip:'約定「暫停 20 分鐘再談」的規則；先承認感受，再討論事情。'},
+ need:{n:'情感需求表達困難',hi:'你不太習慣直接說出需要，常靠忍耐或暗示。',lo:'你多半能清楚表達自己的需要。',tip:'每週練習說一句具體的需求，例如「我今晚想要你陪我十分鐘」。'}},
+ qs:[
+ ['對方回覆變慢時，我會開始擔心他是不是不想理我','fear',0,'f'],['我常在腦中預演「對方有一天會離開我」','fear',0,'j'],['即使關係穩定，我仍會擔心哪天突然被結束','fear',0,'f'],['對方心情不好時，我會先懷疑是不是我做錯了什麼','fear',0,'j'],
+ ['對方想要自己的時間時，我會忍不住一再確認他還愛我','fear',0,'b'],['我相信自己值得被長久地愛','fear',1,'j'],['吵完架後，沒收到對方回應前我會坐立難安','fear',0,'f'],['為了不被拋下，我曾壓下自己的需求去配合對方','fear',0,'b'],
+ ['兩個人太黏時，我會想找藉口拉開距離','dis',0,'b'],['深入分享脆弱的一面讓我覺得不安全','dis',0,'f'],['我很自在地讓伴侶知道我內心的真實想法','dis',1,'b'],['對方說「我想更了解你」時，我會有點想退縮','dis',0,'f'],
+ ['我覺得需要依靠別人是一種軟弱','dis',0,'j'],['我享受和伴侶長時間靠得很近','dis',1,'f'],['關係變得更認真時，我反而會想踩煞車','dis',0,'b'],['我能在伴侶面前放鬆做自己，不需要保持戒備','dis',1,'f'],
+ ['當對方「期待」我怎麼做時，我會覺得被控制','aut',0,'f'],['我討厭被要求固定報備行蹤，即使對方只是關心','aut',0,'f'],['把「應該為對方做的事」變成義務，會讓我想抗拒','aut',0,'j'],['如果是我自己想做的，我會很樂意為對方付出','aut',0,'j'],
+ ['我需要保有一塊完全屬於自己、不必交代的空間','aut',0,'j'],['對方幫我做決定，即使是好意，我還是會不舒服','aut',0,'f'],['我會用拖延或沉默來回應我覺得被強迫的要求','aut',0,'b'],['只要對方尊重我的選擇，我反而更願意靠近','aut',0,'j'],
+ ['我預設別人要先證明可靠，我才會信任','trust',0,'j'],['我常懷疑對方說的話背後另有目的','trust',0,'j'],['我相信伴侶在我不在場時也會對我忠誠','trust',1,'j'],['把重要的事交給別人時，我很難放心','trust',0,'f'],
+ ['我會暗中測試對方是否真的在乎我','trust',0,'b'],['就算對方曾讓我失望，我仍願意再給機會','trust',1,'j'],['我習慣先預設對方可能會傷害我，以保護自己','trust',0,'j'],['我能放心地依賴值得信任的人','trust',1,'f'],
+ ['吵架後我會想先躲起來，很難主動開口','conf',0,'b'],['發生衝突時，我會立刻追著對方要個結論','conf',0,'b'],['我能在爭執後冷靜下來，再好好談','conf',1,'b'],['我常把對方的批評當成對我整個人的否定','conf',0,'j'],
+ ['衝突時我會說出事後後悔的重話','conf',0,'b'],['我願意先道歉，即使我不覺得全是我的錯','conf',1,'b'],['爭執之後我需要很久才能恢復平靜','conf',0,'f'],['我認為好的關係就不該有衝突','conf',0,'j'],
+ ['我很難開口說出「我需要你」','need',0,'b'],['我期待對方不用說就能猜到我需要什麼','need',0,'j'],['我能清楚說出自己想要的陪伴方式','need',1,'b'],['難過時，我習慣一個人扛，不告訴對方','need',0,'b'],
+ ['我怕說出需求會成為對方的負擔','need',0,'j'],['我會用暗示或情緒，而不是直接說，來表達需求','need',0,'b'],['當我被關心時，我能自在地接受','need',1,'f'],['我常不確定自己真正需要什麼','need',0,'j']],
+ result:s=>{
+  const lines=[];
+  const a=s.fear,v=s.dis,u=s.aut;
+  if(u>=60&&v<50)lines.push('你的抗拒更像是針對「義務與被控制」，而不是親密本身。你可能並不排斥靠近，只是需要靠近是出於自願、而且保有選擇權。');
+  else if(u>=60&&v>=60)lines.push('自主敏感與親密不適同時偏高：除了怕被要求，靠近本身也讓你不安。可以留意哪一邊更主要。');
+  if(a>=60&&v>=60)lines.push('你同時渴望靠近又害怕受傷，容易在「想靠近」與「想退開」之間拉扯。');
+  else if(a>=60)lines.push('你渴望親近、也很怕失去，安全感相當依賴對方的回應。');
+  else if(v>=60&&u<60)lines.push('你在親密與揭露上較有保留，傾向靠自己消化。');
+  if(s.trust>=60)lines.push('信任需要時間，你會用觀察與測試來確認安全。');
+  if(s.conf>=60)lines.push('衝突後的修復是你的功課之一。');
+  if(s.need>=60)lines.push('把需求說出口對你不容易，常期待被猜中或自己吞下。');
+  if(!lines.length)lines.push('各構面都沒有特別突出，整體偏穩定、彈性。');
+  return {title:'焦慮軸 '+a+'・逃避軸 '+v,text:lines.join('\n'),
+  tips:['座標只是你「目前自評」的落點，不是類型判定，也不是診斷。','問問自己：如果對方穩定地愛我、尊重我的自主、不過度索取、也不會突然消失，我還會想逃離嗎？你的答案會告訴你，你抗拒的是什麼。']}}},
 
 {id:'stress',cat:'well',em:'🌧️',title:'壓力指數自評',desc:'最近一個月的壓力感受（參考 PSS 概念，原創題目）。',kind:'likert',scale:FREQ,tot:1,
  qs:[['覺得事情不在自己的掌控之中'],['覺得緊繃、壓力很大'],['覺得無法應付所有該做的事'],['因為意外發生的事而心煩'],['覺得困難堆得像山一樣高'],['對處理自己的問題有信心',1],['覺得事情進展順利',1],['能掌控生活中惱人的事',1]],
@@ -124,13 +165,55 @@ const TESTS=[
  qs:[['入睡要花超過 30 分鐘'],['半夜醒來後很難再睡著'],['比預期更早醒來'],['白天感到精神不濟'],['睡前很晚還在滑手機'],['睡醒後覺得休息充足',1],['睡眠時間很不規律'],['睡不好影響到白天的表現']],
  bands:[[35,'睡眠狀態良好','你的睡眠看起來相當穩定。',['維持固定起床時間','睡前一小時降低螢幕亮度']],[65,'睡眠需要留意','最近睡眠品質有些起伏。',['固定上床與起床時間','下午後減少咖啡因','睡前寫下待辦事項，減少腦中盤旋']],[100,'睡眠明顯受擾','睡眠困擾已影響日常。',['建立睡前放鬆儀式','若持續兩週以上，建議諮詢醫師或睡眠專科']]]},
 
-{id:'anx',cat:'well',em:'🌀',title:'焦慮情緒自評',desc:'過去兩週的緊張與擔心程度（參考 GAD 概念，原創題目，非診斷）。',kind:'likert',scale:FREQ,tot:1,care:1,
- qs:[['覺得緊張、不安或煩躁'],['無法停止或控制自己的擔心'],['對很多事情過度擔心'],['很難放鬆下來'],['坐立不安，難以靜坐'],['容易生氣或煩躁'],['害怕好像有不好的事情要發生']],
- bands:[[35,'焦慮感偏低','近期焦慮感不明顯。',['保持現有的紓壓習慣']],[65,'輕中度緊張','你有一些緊張與擔心，值得留意。',['嘗試「擔憂時間盒」練習','規律運動與呼吸練習']],[100,'焦慮感偏高','近期焦慮感明顯。這不是診斷，但建議與專業人員聊聊。',['預約心理師、身心科或學校/公司諮商資源','先從呼吸與著陸練習降低當下強度']]]},
+{id:'gad7',cat:'well',std:1,kind:'sum',max:21,deep:'anxd',title:'GAD-7 焦慮篩檢（正式量表）',desc:'國際常用的 7 題焦慮篩檢，過去兩週，總分 0–21。',
+ scale:['完全沒有','好幾天','超過一半的天數','幾乎每天'],careFrom:3,
+ qs:[['感到緊張、焦慮或煩躁'],['無法停止或控制擔心'],['對各種事情過度擔心'],['很難放鬆'],['坐立不安，難以靜坐'],['變得容易生氣或煩躁'],['感到害怕，好像有什麼可怕的事會發生']],
+ bands:[[4,'極輕微或沒有（0–4 分）','近兩週的焦慮症狀不明顯。',['維持現有的紓壓習慣']],
+ [9,'輕度（5–9 分）','有一些焦慮症狀，可持續觀察。',['試試「心理練習」的呼吸與擔憂時間盒','2–4 週後再測一次']],
+ [14,'中度（10–14 分）','達到常用的「建議進一步評估」門檻。這不是診斷，但建議和心理師或醫師談談。',['預約心理師、身心科或學校／公司諮商資源','做「焦慮深度探索」，看看觸發情境與因應方式']],
+ [21,'中重度（15–21 分）','症狀明顯，建議盡快尋求專業評估。',['盡快預約身心科或心理師','先用呼吸與著陸練習降低當下強度']]]},
 
-{id:'mood',cat:'well',em:'☁️',title:'心情低落自評',desc:'過去兩週的情緒低落程度（參考 PHQ 概念，原創題目，非診斷）。',kind:'likert',scale:FREQ,tot:1,care:1,
- qs:[['對平常喜歡的事提不起興趣'],['心情低落、沒有精神'],['難以專心做事'],['覺得疲倦、沒有力氣'],['覺得自己很糟、讓人失望'],['食慾或睡眠和平常不一樣'],['動作或想法變得遲緩']],
- bands:[[35,'情緒狀態尚穩','近期低落感不明顯。',['保持社交與活動節奏']],[65,'情緒有些低落','你近期情緒偏低，請對自己溫柔一點。',['安排一件小而具體的愉快活動','每天出門走 10 分鐘','和信任的人聊聊近況']],[100,'低落感偏高','低落感已明顯影響你。這不是診斷，但很值得尋求協助。',['盡快預約心理師或身心科','告訴一位信任的人你的狀況']]]},
+{id:'anxd',hidden:1,cat:'well',title:'焦慮深度探索',desc:'8 個構面、40 題：觸發情境、思考模式、身體反應、因應防禦、調節資源，並分開看感受、想法與行為。',kind:'likert',scale:LIK,
+ dims:{
+ eval:{n:'評價與表現情境',hi:'被看、被評、要表現時，你特別容易緊繃。',lo:'表現與評價情境對你影響不大。',tip:'把「完美表現」改成「足夠好」；用小規模曝露（先對一位朋友講）逐步練習。'},
+ unc:{n:'不確定與失控情境',hi:'等待結果、計畫被打亂時，你特別難熬。',lo:'你能和不確定共處。',tip:'練習「先不確認」，區分可控與不可控；到「心理練習」使用擔憂時間盒。'},
+ rej:{n:'關係與被拒情境',hi:'擔心讓人失望、被討厭，是你的敏感點。',lo:'關係中的小波動較不影響你。',tip:'把想知道的直接問出來，而不是猜；練習把「這次不合」和「我不好」分開。'},
+ cat:{n:'災難化與反覆擔憂',hi:'你的大腦傾向預演最壞結果並反覆咀嚼，讓焦慮在事情發生前就先上場。',lo:'你較少陷入災難化。',tip:'對每個「萬一」寫下：最壞、最可能、我如何應對三個版本。'},
+ body:{n:'身體警報',hi:'焦慮常先從身體冒出來（心跳、緊繃、腸胃），並可能被解讀成危險。',lo:'焦慮較少以身體症狀出現。',tip:'練習 4-7-8 呼吸；把身體訊號命名為「焦慮的反應」，而不是「危險」。'},
+ avoid:{n:'迴避與安全行為',hi:'迴避、過度準備或尋求保證能短期降低不安，但長期會讓大腦學到「必須這樣才安全」，反而維持焦慮。',lo:'你較少依賴迴避與安全行為。',tip:'用階梯式曝露，從最輕微的情境開始，逐步減少迴避與過度準備。'},
+ reg:{n:'調節資源',hi:'你已經有不少調節策略可用。',lo:'可用的調節策略還不多，值得多建立一兩個。',tip:'強化你已在用且有效的策略，並固定排進每週行程。'}},
+ qs:[
+ ['要在眾人面前發言或被評價的前一晚，我很難放鬆','eval',0,'f'],['別人對我表現的一點批評，會讓我反覆想很久','eval',0,'j'],['我會因為擔心表現不好而延後開始做事','eval',0,'b'],['面對考核或報告，我通常覺得自己準備得夠充分','eval',1,'j'],['在不熟的人面前，我很在意自己是否出糗','eval',0,'f'],
+ ['等待結果（面試、檢查、回覆）的期間，我特別難熬','unc',0,'f'],['計畫突然改變時，我會明顯緊繃','unc',0,'f'],['我需要把每個可能都想過一遍才安心','unc',0,'b'],['即使不知道結果，我也能先做自己能做的事','unc',1,'b'],['「萬一……」常常在我腦中自動出現','unc',0,'j'],
+ ['對方回訊變慢時，我會猜是不是我做錯了什麼','rej',0,'j'],['我很怕讓身邊的人失望','rej',0,'f'],['為了避免衝突，我會不說出真正的想法','rej',0,'b'],['被拒絕時，我通常能看成「這次不合」而不是否定自己','rej',1,'j'],['我會一再確認對方是不是生氣了','rej',0,'b'],
+ ['一件小事不順，我會預想連鎖的壞結果','cat',0,'j'],['我擔心的事會在腦中重複播放好幾遍','cat',0,'f'],['我很容易把「可能」當成「一定會」','cat',0,'j'],['擔心的事真的發生時，我通常覺得自己有辦法處理','cat',1,'j'],['睡前我常想著明天可能出錯的事','cat',0,'b'],
+ ['緊張時我會心跳加快、胸悶或呼吸變淺','body',0,'f'],['焦慮時我的肩頸或肚子會明顯緊繃或不舒服','body',0,'f'],['身體的小變化常讓我擔心是不是出了什麼問題','body',0,'j'],['我能察覺身體緊張，並用方法讓它放鬆','body',1,'b'],['緊張時我容易手抖、冒汗或腸胃不適','body',0,'f'],
+ ['會讓我緊張的場合，我常找理由不去','avoid',0,'b'],['我會過度準備（反覆檢查、排練）才敢行動','avoid',0,'b'],['我需要別人一再保證「沒事」才安心','avoid',0,'b'],['我會用忙碌、滑手機或吃東西讓自己不去想','avoid',0,'b'],['我傾向把擔心壓下去，假裝沒事','avoid',0,'b'],
+ ['焦慮時，我會試著換個角度看事情','reg'],['我能接受「我現在很緊張」，不急著把它趕走','reg'],['我會用運動、呼吸或散步讓自己平靜','reg'],['我會把擔心寫下來，區分哪些能控制','reg'],['我有可以傾訴的人','reg']],
+ result:s=>{
+  const D=TESTS.find(t=>t.id==='anxd').dims;
+  const tr=['eval','unc','rej'].sort((a,b)=>s[b]-s[a]);
+  const L=[];
+  L.push('最容易被觸發的情境：'+D[tr[0]].n+'（'+s[tr[0]]+'）、'+D[tr[1]].n+'（'+s[tr[1]]+'）。');
+  L.push('思考模式（'+s.cat+'）：'+(s.cat>=60?D.cat.hi:'災難化與反覆擔憂的程度相對溫和。'));
+  L.push('身體反應（'+s.body+'）：'+(s.body>=60?D.body.hi:'身體警報不是你焦慮的主要出口。'));
+  L.push('慣用的因應（'+s.avoid+'）：'+(s.avoid>=60?D.avoid.hi:D.avoid.lo));
+  L.push('調節資源（'+s.reg+'）：'+(s.reg>=60?'你已有不少策略可用，優點是能自我照顧；留意是否都在「壓下去」而非「處理」。':D.reg.lo));
+  const tips=[];
+  [tr[0],'cat','avoid','body'].forEach(k=>{if(s[k]>=55&&tips.length<3)tips.push(D[k].n+'：'+D[k].tip)});
+  if(!tips.length)tips.push('目前沒有特別突出的面向，維持現有的調節習慣即可。');
+  tips.push('想知道症狀程度，請做 GAD-7 正式量表；本測驗只用來探索原因，不能判斷是否有焦慮症。');
+  return {title:'最明顯：'+D[tr[0]].n,text:L.join('\n'),tips};
+ }},
+
+{id:'phq9',cat:'well',std:1,kind:'sum',max:27,care9:1,careFrom:3,title:'PHQ-9 情緒低落篩檢（正式量表）',desc:'國際常用的 9 題憂鬱症狀篩檢，過去兩週，總分 0–27。',
+ scale:['完全沒有','好幾天','超過一半的天數','幾乎每天'],
+ qs:[['做事時提不起勁或沒有興趣'],['感到心情低落、沮喪或絕望'],['入睡困難、睡不安穩，或睡得過多'],['覺得疲倦或沒有活力'],['食慾不振，或吃太多'],['覺得自己很糟，或覺得自己很失敗，或讓自己或家人失望'],['對事物專注有困難，例如閱讀或看電視時'],['動作或說話速度緩慢到別人已經察覺；或相反，變得比平常更煩躁、坐立不安'],['有不如死掉，或用某種方式傷害自己的念頭']],
+ bands:[[4,'極輕微或沒有（0–4 分）','近兩週的低落症狀不明顯。',['保持社交與活動節奏']],
+ [9,'輕微（5–9 分）','有一些低落症狀，可持續觀察。',['安排一件小而具體的愉快活動','每天出門走 10 分鐘']],
+ [14,'中度（10–14 分）','達到常用的「建議進一步評估」門檻。這不是診斷，但建議和心理師或醫師談談。',['預約心理師或身心科','告訴一位信任的人你的狀況']],
+ [19,'中重度（15–19 分）','症狀明顯，建議盡快尋求專業評估。',['盡快預約身心科或心理師']],
+ [27,'重度（20–27 分）','症狀相當明顯，請儘快尋求專業協助。',['盡快聯絡身心科或心理師，並請身邊的人陪你']]]},
 
 {id:'iu',cat:'mind',em:'🌫️',title:'不確定性容忍度',desc:'面對未知時，你多自在？分數越高＝越難容忍。',kind:'likert',scale:LIK,tot:1,
  qs:[['不確定的情況會讓我不安'],['我討厭不知道接下來會發生什麼'],['計畫被打亂時我很難受'],['要先確認所有細節我才敢行動'],['面對未知，我會往最壞的方向想'],['我能接受事情沒有明確答案',1],['不確定的狀況有時反而有趣',1],['遇到不確定，我會一直查資料想確認']],
@@ -152,6 +235,7 @@ const TESTS=[
  dims:{aut:{n:'自主感',hi:'你覺得生活是自己選擇的。',lo:'你可能常覺得被推著走，可以找回一些「我選的」空間。'},
  com:{n:'勝任感',hi:'你覺得自己有能力、有成長。',lo:'你可能缺少成就感，試著設定小而明確的目標。'},
  rel:{n:'歸屬感',hi:'你與他人連結良好、被接納。',lo:'你可能感到孤單，值得主動經營一兩段支持性關係。'}},
+ result:sdtRes,
  qs:[['我的日常選擇大多是出於自己的意願','aut'],['我能決定自己想怎麼過生活','aut'],['我常覺得身不由己','aut',1],['我可以做真實的自己','aut'],
  ['我對自己做的事感到有能力','com'],['我最近有學到或進步','com'],['我常覺得自己做得不夠好','com',1],['我能完成有挑戰性的事','com'],
  ['我有可以信任、傾訴的人','rel'],['我覺得被身邊的人接納','rel'],['我常感到孤單','rel',1],['我和他人有真誠的連結','rel']]},
@@ -210,6 +294,21 @@ const TESTS=[
  ['你理想的一天…',['sage','批奏摺、見大臣'],['hegemon','校閱軍隊'],['keeper','巡視民情、早睡早起'],['artist','聽曲賞畫、吟詩作對']]]}
 ];
 
+const SRC={
+big5:'概念參考 Big Five（Costa & McCrae, 1992）；題目自製。',
+pref4:'概念參考榮格類型理論的二分法；題目自製，與官方 MBTI 無關。',
+attach:'概念參考 ECR（Brennan, Clark & Shaver, 1998）的焦慮／逃避雙維度；題目自製。',
+attach_d:'構面（被拋棄恐懼、親密不適、自主與義務、信任、衝突修復、需求表達）為本站設計；概念參考依附理論（Bowlby, 1969；Ainsworth et al., 1978）。',
+gad7:'Spitzer, Kroenke, Williams & Löwe (2006). Arch Intern Med 166(10):1092–1097。量表可免費使用；本站中文為自行翻譯，非官方認證版本。常用切點：5／10／15 分為輕／中／中重度。',
+phq9:'Kroenke, Spitzer & Williams (2001). J Gen Intern Med 16(9):606–613。量表可免費使用；本站中文為自行翻譯，非官方認證版本。常用切點：5／10／15／20 分。',
+anxd:'構面整理自焦慮的認知行為模型（Clark & Beck, 2010）與情緒調節研究（Gross, 1998）；題目與分級為本站設計。',
+stress:'概念參考 PSS（Cohen et al., 1983）；題目自製。',sleep:'概念參考 PSQI（Buysse et al., 1989）；題目自製。',
+iu:'概念參考 IUS（Carleton et al., 2007）；題目自製。',bound:'概念參考界線相關文獻（Cloud & Townsend, 1992）；題目自製。',
+emo:'概念參考 Gross 情緒調節歷程模型（1998）；題目自製。',sdt:'概念參考自我決定理論（Ryan & Deci, 2000）；題目自製。',
+str:'概念參考 VIA 品格優勢（Peterson & Seligman, 2004）；題目自製。',cd:'概念參考 Beck 的認知扭曲（1976）；題目自製。',
+love:'趣味向，題目與結果皆為本站創作，無研究依據。',animal:'趣味向，題目與結果皆為本站創作，無研究依據。',emperor:'趣味向，題目與結果皆為本站創作，無研究依據。'};
+TESTS.forEach(t=>{t.src=SRC[t.id]||'';t.mins=Math.max(1,Math.round(t.qs.length*15/60))});
+
 /* ========= 知識庫 / 練習資料 ========= */
 const LIB=[
 ['大五人格 Big Five','性格心理學中最被廣泛研究的模型，用外向、親和、盡責、情緒敏感（神經質）、開放五個向度描述個體差異。每個向度都是連續光譜，沒有「好」或「壞」。','Costa & McCrae（1992）NEO-PI-R；Goldberg（1990）','認識自己的傾向後，挑選與性格相配的環境；對弱項設計外部輔助（例如提醒、夥伴）。'],
@@ -225,16 +324,30 @@ const EMOS=['焦慮','生氣','難過','疲憊','孤單','失落','羞愧','煩�
 const SCEN=['同事臨時要我加班','朋友開口借錢','家人干涉我的決定','對方一直傳訊息要我立刻回覆','自訂情境'];
 const GROUND=['看見 5 樣東西','摸到 4 樣東西','聽到 3 種聲音','聞到 2 種味道','嘗到 1 種味道（或深呼吸一次）'];
 
+function sdtRes(s){
+ const D={aut:'自主感',com:'勝任感',rel:'歸屬感'};
+ const ks=Object.keys(D).sort((a,b)=>s[a]-s[b]);
+ const low=ks.filter(k=>s[k]<45);let title,text;
+ if(low.length===3){title='三項基本需求目前都偏缺（最低：'+D[ks[0]]+'）';text='三項分數都低於中間值。最高的那項（'+D[ks[2]]+' '+s[ks[2]]+'）只是「相對較高」，不代表已被滿足。'}
+ else if(low.length){title='目前最缺乏：'+low.map(k=>D[k]).join('、');text='這些需求目前得到的滿足較少，其餘需求大致尚可。'}
+ else{title='三項需求大致都有被滿足';text='沒有特別缺乏的需求。'}
+ text+='\n提醒：「重視」某項需求和「實際感受到」是兩回事；勝任感也會受近期精力與情緒影響，低分不一定代表能力不足。';
+ return {title,text,tips:['把最低分的需求當成「補給站」：本週安排一件小而具體、能滿足它的事。','若多項需求同時偏低，困擾可能不只是想法，而是生活中能滋養你的部分太少。']};
+}
 /* ========= 計分（純函式） ========= */
-function qtext(t,i){return t.qs[i][0]}
-function keysOf(t){return t.kind==='likert'?(t.dims?Object.keys(t.dims):['total']):t.kind==='choice'?Object.keys(t.types):t.pairs.map(p=>p[0]+p[1])}
-function nameOf(t,k){if(t.kind==='likert')return t.dims?t.dims[k].n:'總分';if(t.kind==='choice')return t.types[k].n;const p=t.pairs.find(p=>p[0]+p[1]===k);return p[2]+'↔'+p[3]}
+function keysOf(t){return t.kind==='likert'?(t.dims?Object.keys(t.dims):['total']):t.kind==='sum'?['total']:t.kind==='choice'?Object.keys(t.types):t.pairs.map(p=>p[0]+p[1])}
+function nameOf(t,k){if(t.kind==='likert')return t.dims?t.dims[k].n:'總分';if(t.kind==='sum')return '總分';if(t.kind==='choice')return t.types[k].n;const p=t.pairs.find(p=>p[0]+p[1]===k);return p[2]+'↔'+p[3]}
+function tmax(t){return t.max||100}
+const LAYERS=[['f','內在感受'],['j','想法判斷'],['b','實際行為']];
 function score(t,ans){
  const s={};
- if(t.kind==='likert'){
-  const acc={};
-  t.qs.forEach((q,i)=>{const d=t.dims?q[1]:'total';const rev=t.dims?q[2]:q[1];let v=ans[i];if(rev)v=6-v;(acc[d]=acc[d]||[]).push(v)});
-  for(const d in acc){const m=acc[d].reduce((a,b)=>a+b,0)/acc[d].length;s[d]=Math.round((m-1)/4*100)}
+ if(t.kind==='sum'){s.total=ans.reduce((a,b)=>a+b,0)}
+ else if(t.kind==='likert'){
+  const acc={},L={};
+  t.qs.forEach((q,i)=>{const d=t.dims?q[1]:'total';const rev=t.dims?q[2]:q[1];let v=ans[i];if(rev)v=6-v;(acc[d]=acc[d]||[]).push(v);if(t.dims&&q[3])(L[q[3]]=L[q[3]]||[]).push(v)});
+  const pc=a=>Math.round((a.reduce((x,y)=>x+y,0)/a.length-1)/4*100);
+  for(const d in acc)s[d]=pc(acc[d]);
+  for(const l in L)s['_'+l]=pc(L[l]);
  }else if(t.kind==='choice'){
   const c={};Object.keys(t.types).forEach(k=>c[k]=0);
   t.qs.forEach((q,i)=>{c[q[1+ans[i]][0]]++});
@@ -244,19 +357,25 @@ function score(t,ans){
  }
  return s;
 }
-function interpret(t,s){
+function interpret(t,s,ans){
  const r={title:'',text:'',tips:[],items:[]};
- if(t.kind==='likert'&&!t.dims){
+ if(t.kind==='sum'){
+  const bi=t.bands.findIndex(b=>s.total<=b[0]);const i=bi<0?t.bands.length-1:bi,b=t.bands[i];
+  r.title=b[1];r.text=b[2];r.tips=b[3];r.items=[{n:'總分',v:s.total,max:t.max,note:''}];
+  r.care=i>=t.careFrom||!!(t.care9&&ans&&ans[ans.length-1]>0);
+  if(t.care9&&ans&&ans[ans.length-1]>0)r.text+='\n你在第 9 題有勾選，請特別留意：這個念頭很重要，值得被認真對待。';
+ }else if(t.kind==='likert'&&!t.dims){
   const v=s.total;const b=t.bands.find(b=>v<=b[0])||t.bands[t.bands.length-1];
-  r.title=b[1];r.text=b[2];r.tips=b[3];r.items=[{n:'總分',v,note:''}];r.care=!!t.care&&b===t.bands[t.bands.length-1];
+  r.title=b[1];r.text=b[2];r.tips=b[3];r.items=[{n:'總分',v,note:''}];
  }else if(t.kind==='likert'){
-  if(t.result){const x=t.result(s);Object.assign(r,x)}
-  else{
-   const ks=keysOf(t).sort((a,b)=>s[b]-s[a]);
-   r.title='最突出：'+nameOf(t,ks[0]);r.text=t.dims[ks[0]].hi||'';
-   r.tips=['分數只代表你「目前自評」的傾向，沒有好壞。'];
-  }
+  if(t.result){Object.assign(r,t.result(s))}
+  else{const ks=keysOf(t).sort((a,b)=>s[b]-s[a]);const v=s[ks[0]],n=nameOf(t,ks[0]);
+   if(v>=65){r.title='最突出：'+n;r.text=t.dims[ks[0]].hi||''}
+   else if(v>=45){r.title='相對最高：'+n+'（仍屬中等）';r.text='沒有特別突出的面向。'+n+'只是相對較高，分數仍落在中間。'}
+   else{r.title='整體偏低（最高的「'+n+'」也只有 '+v+'）';r.text='「相對最高」不等於「很強」或「已被滿足」：所有面向都低於中間值。'}
+   r.tips=['分數只代表你「目前自評」的傾向，沒有好壞；請以「絕對分數」而不是排名來解讀。']}
   r.items=keysOf(t).map(k=>{const d=t.dims[k],v=s[k];return{n:d.n,v,note:v>=65?d.hi:v<=35?d.lo:'介於中間，會隨情境彈性調整。'}});
+  if(s._f!=null||s._j!=null||s._b!=null)r.layers=LAYERS.filter(l=>s['_'+l[0]]!=null).map(l=>({n:l[1],v:s['_'+l[0]]}));
  }else if(t.kind==='choice'){
   const ks=keysOf(t).sort((a,b)=>s[b]-s[a]);
   r.title=t.types[ks[0]].n;r.text=t.types[ks[0]].t;r.items=ks.map(k=>({n:t.types[k].n,v:s[k],note:''}));
@@ -278,13 +397,34 @@ const persist=()=>{try{localStorage.setItem('psyhub.v1',JSON.stringify(mem))}cat
 const $=s=>document.querySelector(s);
 const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const byId=id=>TESTS.find(t=>t.id===id);
+mem.history=mem.history.filter(x=>byId(x.id));
 const latest=id=>{const h=mem.history.filter(x=>x.id===id);return h[h.length-1]};
 const fmt=ts=>{const d=new Date(ts);return d.getFullYear()+'/'+(d.getMonth()+1)+'/'+d.getDate()};
 const TABS=[['lobby','測驗大廳'],['profile','我的檔案'],['growth','成長追蹤'],['practice','心理練習'],['library','知識庫']];
 const S={tab:'lobby',cat:'all',run:null,res:null,gsel:null,sc:0,f:{},breath:null};
 
-function go(tab){S.tab=tab;S.run=null;S.res=null;stopBreath();try{history.replaceState(null,'','#'+tab)}catch(e){}render();window.scrollTo(0,0)}
+/* ===== 手繪風圖示 ===== */
+const IC={
+big5:'<path d="M6 26C6 14 14 6 26 6c0 12-8 20-20 20z"/><path d="M6 26L18 14"/><path class="ac" d="M20 22h4"/>',
+pref4:'<rect x="5" y="5" width="9" height="9" rx="1.5"/><rect x="18" y="5" width="9" height="9" rx="1.5"/><rect x="5" y="18" width="9" height="9" rx="1.5"/><rect class="ac" x="18" y="18" width="9" height="9" rx="1.5"/>',
+attach:'<circle cx="12" cy="16" r="7"/><circle class="ac" cx="20" cy="16" r="7"/>',
+gad7:'<path d="M16 15a1.5 1.5 0 1 1-1.5 1.5a3.5 3.5 0 1 1 3.5 3.5a5.5 5.5 0 1 1-5.5-5.5a7.5 7.5 0 1 1 7.5 7.5"/>',
+anxd:'<path d="M16 15a1.5 1.5 0 1 1-1.5 1.5a3.5 3.5 0 1 1 3.5 3.5a5.5 5.5 0 1 1-5.5-5.5a7.5 7.5 0 1 1 7.5 7.5"/><circle class="ac" cx="26" cy="26" r="1.8"/>',
+phq9:'<path d="M9 23a5 5 0 0 1 0-10a7 7 0 0 1 13-1a5.5 5.5 0 0 1 1 11z"/><path class="ac" d="M10 27h4M17 27h4"/>',
+stress:'<path d="M9 19a5 5 0 0 1 0-10a7 7 0 0 1 13-1a5.5 5.5 0 0 1 1 11z"/><path class="ac" d="M11 23l-1 4M16 23l-1 4M21 23l-1 4"/>',
+sleep:'<path d="M22 22A10 10 0 0 1 12 6a10 10 0 1 0 10 16z"/><path class="ac" d="M24 6v4M22 8h4"/>',
+iu:'<path d="M5 10h16M9 16h18M5 22h14"/><path class="ac" d="M23 22h4"/>',
+bound:'<path d="M6 8v18M14 8v18M22 8v18M4 14h24M4 21h24"/><path class="ac" d="M26 6v3"/>',
+emo:'<circle cx="16" cy="16" r="10"/><path d="M16 16l5-5"/><path class="ac" d="M9 22a10 10 0 0 1-2-6"/>',
+sdt:'<rect x="4" y="10" width="22" height="12" rx="2.5"/><path d="M28 14v4"/><path class="ac" d="M8 14v4M13 14v4"/>',
+str:'<path d="M16 4l3.6 7.6 8.4 1-6.2 5.7 1.7 8.2L16 22.3 8.5 26.5l1.7-8.2L4 12.6l8.4-1z"/><circle class="ac" cx="16" cy="15" r="1.6"/>',
+cd:'<circle cx="14" cy="14" r="8"/><path d="M20 20l7 7"/><path class="ac" d="M10 14h8"/>',
+love:'<path d="M16 27C6 20 4 13 8 9c3-3 6-1 8 2c2-3 5-5 8-2c4 4 2 11-8 18z"/><path class="ac" d="M11 12c1-1 2-1 3 0"/>',
+animal:'<ellipse cx="16" cy="21" rx="6" ry="5"/><circle cx="8" cy="14" r="2.3"/><circle cx="14" cy="9" r="2.3"/><circle cx="21" cy="9" r="2.3"/><circle class="ac" cx="26" cy="14" r="2.3"/>',
+emperor:'<path d="M5 24V11l6 6 5-9 5 9 6-6v13z"/><path class="ac" d="M5 27h22"/>'};
+const icon=(t,sz)=>`<svg class="ic" viewBox="0 0 32 32" width="${sz||38}" height="${sz||38}" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" style="filter:url(#rough)" aria-hidden="true">${IC[t.id.replace(/_d$/,'')]||''}</svg>`;
 
+function go(tab){S.tab=tab;S.run=null;S.res=null;stopBreath();try{history.replaceState(null,'','#'+tab)}catch(e){}render();window.scrollTo(0,0)}
 function render(){
  $('#nav').innerHTML=TABS.map(t=>`<button class="${S.tab===t[0]?'on':''}" data-a="tab" data-v="${t[0]}">${t[1]}</button>`).join('');
  let h='';
@@ -294,105 +434,142 @@ function render(){
 }
 
 function vLobby(){
- const done=new Set(mem.history.map(x=>x.id)).size;
+ const vis=TESTS.filter(t=>!t.hidden);
+ const ids=new Set(mem.history.map(x=>x.id));
+ const done=vis.filter(t=>ids.has(t.id)||(t.deep&&ids.has(t.deep))).length;
  const cats=[['all','全部'],...Object.entries(CATS)];
- const list=TESTS.filter(t=>S.cat==='all'||t.cat===S.cat);
- return `<p class="mute">已完成 ${done} / ${TESTS.length} 個測驗。所有紀錄只存在你這台裝置的瀏覽器裡。</p>
+ const list=vis.filter(t=>S.cat==='all'||t.cat===S.cat);
+ return `<p class="mute">已探索 ${done} / ${vis.length} 個主題。所有紀錄只存在這台裝置的瀏覽器裡。每題約 15 秒，可依時間選擇快速或深度。</p>
  <div class="chips">${cats.map(c=>`<button class="chip ${S.cat===c[0]?'on':''}" data-a="cat" data-v="${c[0]}">${c[1]}</button>`).join('')}</div>
- <div class="grid">${list.map(t=>{const l=latest(t.id);return `<button class="card tcard" data-a="start" data-v="${t.id}"><span class="em">${t.em}</span><h3>${t.title}</h3><span class="mute">${t.desc}</span><span class="row"><span class="tag">${CATS[t.cat]}</span><span class="tag">${t.qs.length} 題</span>${l?'<span class="tag done">已測 '+fmt(l.ts)+'</span>':''}</span></button>`}).join('')}</div>
- <p class="note">本站測驗為原創題目，「參考」某量表只代表概念靈感，並非官方版本；結果是自我探索工具，不是診斷。若你正在受苦，請尋求專業協助。</p>`;
+ <div class="grid">${list.map(t=>{
+  const d=t.deep?byId(t.deep):null;const l=[latest(t.id),d&&latest(d.id)].filter(Boolean).sort((a,b)=>b.ts-a.ts)[0];
+  return `<div class="card tc"><div class="tc-h">${icon(t)}<div><h3>${t.title}</h3><div class="mute">${t.desc}</div></div></div>
+  <div class="tc-b"><button class="btn sm" data-a="start" data-v="${t.id}">${d?(t.std?'正式量表':'快速探索'):'開始'}・${t.qs.length} 題・約 ${t.mins} 分</button>${d?`<button class="btn ghost sm" data-a="start" data-v="${d.id}">深度探索・${d.qs.length} 題・約 ${d.mins} 分</button>`:''}</div>
+  <div class="tc-f"><span class="tag">${CATS[t.cat]}</span><span class="tag ${t.std?'std':''}">${t.std?'正式量表':t.cat==='fun'?'趣味':'自製探索'}</span><span class="tag ${l?'done':'none'}">${l?'上次 '+fmt(l.ts):'尚未測'}</span></div></div>`}).join('')}</div>
+ <p class="note">「正式量表」指有發表的信效度研究、可公開使用的量表，本站中文為自行翻譯，非官方認證版本。其餘為自製探索工具，題目與分級為本站設計，不代表經過驗證，也沒有臨床切點。結果都不是診斷；如果你正在受苦，請尋求專業協助。</p>`;
 }
 
 function vRun(){
  const r=S.run,t=byId(r.id),i=r.i,q=t.qs[i];
- let opts='';
- if(t.kind==='likert'){opts=`<div class="lik">${t.scale.map((l,k)=>`<button class="opt ${r.a[i]===k+1?'sel':''}" data-a="ans" data-v="${k+1}">${l}</button>`).join('')}</div>`}
+ const base=t.kind==='sum'?0:1;let opts='';
+ if(t.kind==='likert'||t.kind==='sum'){opts=`<div class="lik" style="grid-template-columns:repeat(${t.scale.length},1fr)">${t.scale.map((l,k)=>`<button class="opt ${r.a[i]===k+base?'sel':''}" data-a="ans" data-v="${k+base}">${l}</button>`).join('')}</div>`}
  else{opts=`<div class="opts">${q.slice(1).map((o,k)=>`<button class="opt ${r.a[i]===k?'sel':''}" data-a="ans" data-v="${k}">${esc(o[1])}</button>`).join('')}</div>`}
- const stem=t.kind==='likert'?(t.scale===FREQ?'最近這段時間：':'你同意這句話嗎？'):'';
- return `<div class="row"><button class="btn ghost sm" data-a="quit">← 離開</button><span class="mute">${t.em} ${t.title}</span></div>
+ const stem=t.kind==='sum'?'過去兩週，你被這個問題困擾的頻率：':t.scale===FREQ?'最近這段時間：':t.kind==='likert'?'這句話符合你嗎？':'';
+ return `<div class="row"><button class="btn ghost sm" data-a="quit">← 離開</button><span class="mute">${esc(t.title)}</span></div>
  <div class="prog"><i style="width:${i/t.qs.length*100}%"></i></div>
- <p class="mute">第 ${i+1} / ${t.qs.length} 題 ${stem}</p><div class="q">${esc(q[0])}</div>${opts}
+ <p class="mute">第 ${i+1} / ${t.qs.length} 題　${stem}</p><div class="q">${esc(q[0])}</div>${opts}
  <div class="row" style="margin-top:16px">${i>0?'<button class="btn ghost sm" data-a="back">上一題</button>':''}</div>`;
 }
 
 function vRes(){
  const {t,s,r}=S.res;const hist=mem.history.filter(x=>x.id===t.id);const prev=hist.length>1?hist[hist.length-2]:null;
- return `<p class="mute">${t.em} ${t.title}</p><div class="big">${esc(r.title)}</div>
+ const keys=keysOf(t);
+ const charts=(t.xy?scatter(t,hist):'')+radar(t,hist,keys)+chart(t,hist,keys);
+ return `<p class="mute">${icon(t,22)} ${esc(t.title)}</p><div class="big">${esc(r.title)}</div>
  <p style="white-space:pre-line">${esc(r.text)}</p>
  ${r.care?`<div class="care"><b>關心你一下：</b>${HELP}</div>`:''}
- <h2>各項分數</h2>
- ${r.items.map(it=>`<div class="bar"><div class="bl"><span>${esc(it.n)}</span><b>${it.v}</b></div><div class="bt"><i style="width:${it.v}%"></i></div>${it.note?`<div class="mute">${esc(it.note)}</div>`:''}</div>`).join('')}
- <h2>圖表</h2><div class="card">${radar(t,hist,keysOf(t))}${chart(t,hist,keysOf(t))}</div>
+ <h2>圖表</h2><div class="card">${charts}</div>
+ <h2>${t.kind==='sum'?'分數':'各項分數'}</h2>
+ ${r.items.map(it=>`<div class="bar"><div class="bl"><span>${esc(it.n)}</span><b>${it.v}${it.max?' / '+it.max:''}</b></div><div class="bt"><i style="width:${it.v/(it.max||100)*100}%"></i></div>${it.note?`<div class="mute">${esc(it.note)}</div>`:''}</div>`).join('')}
+ ${r.layers?`<h2>三層分析</h2><p class="mute">同一個主題，在「感受」「想法」「行為」三層的程度可能不一致。差距本身就是線索。</p>${r.layers.map(it=>`<div class="bar"><div class="bl"><span>${esc(it.n)}</span><b>${it.v}</b></div><div class="bt"><i style="width:${it.v}%"></i></div></div>`).join('')}`:''}
  ${r.tips.length?`<h2>小建議</h2><ul class="t">${r.tips.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`:''}
- ${prev?`<p class="mute">上一次測驗：${fmt(prev.ts)}（${esc(prev.label)}），可到「成長追蹤」比較。</p>`:''}
+ ${prev?`<p class="mute">上一次：${fmt(prev.ts)}（${esc(prev.label)}），圖表已並列比較。</p>`:''}
  <div class="row" style="margin-top:18px"><button class="btn" data-a="tab" data-v="lobby">回大廳</button><button class="btn ghost" data-a="start" data-v="${t.id}">再做一次</button><button class="btn ghost" data-a="growth" data-v="${t.id}">成長追蹤</button></div>
- <p class="note">這是自我探索工具，不是診斷。分數會受當下狀態影響。</p>`;
+ <p class="note"><b>${t.std?'正式量表':'自製探索工具'}</b>｜來源：${esc(t.src)}${t.std?'':' 題目與分級為本站設計，不代表經過信效度驗證，也沒有臨床切點。'}結果不是診斷，分數會受當下狀態影響。</p>`;
 }
 
-function pick(id,fn){const l=latest(id);return l?fn(l):null}
-function need(id){const t=byId(id);return `<div class="mute">尚未完成。<button class="btn ghost sm" data-a="start" data-v="${id}">做「${t.title}」</button></div>`}
-function topKeys(id,n,asc){const t=byId(id),l=latest(id);if(!l)return null;const ks=keysOf(t).sort((a,b)=>asc?l.scores[a]-l.scores[b]:l.scores[b]-l.scores[a]);return ks.slice(0,n).map(k=>({k,v:l.scores[k],n:nameOf(t,k),d:t.dims?t.dims[k]:null}))}
+/* ===== 跨測驗關聯分析 ===== */
+const val=(id,k)=>{const l=latest(id);if(!l)return null;const t=byId(id);const v=l.scores[k||'total'];return v==null?null:(t.max?v/t.max*100:v)};
+const first=(...a)=>{for(const x of a)if(x!=null)return x;return null};
+const anxL=()=>{const g=val('gad7');if(g!=null)return g;const a=['eval','unc','rej'].map(k=>val('anxd',k));return a[0]==null?null:(a[0]+a[1]+a[2])/3};
+const attA=()=>first(val('attach_d','fear'),val('attach','anx'));
+const attV=()=>first(val('attach_d','dis'),val('attach','avo'));
+const RULES=[
+{need:['gad7','iu'],f:()=>[anxL(),val('iu')],t:(a,u)=>a>=47&&u>=60,title:'焦慮與「受不了不確定」同時偏高',text:'你的焦慮可能不只來自事情本身，而是來自「結果還沒出來」的狀態。越想用準備或確認來消除不確定，越可能讓大腦更依賴確認。',ask:'最近一次焦慮時，如果結果永遠不會揭曉，最難受的是哪一點？'},
+{need:['gad7','cd'],f:()=>[anxL(),val('cd','cat')],t:(a,c)=>a>=47&&c>=60,title:'焦慮可能被「災難化」放大',text:'焦慮偏高、又常把事情往最壞處想，這是很常見的組合：想法先預演災難，身體再跟著警報。',ask:'你最近一個「萬一」，最可能的結果和你能怎麼應對是什麼？'},
+{need:['attach','cd'],f:()=>[attA(),val('cd','mind')],t:(a,m)=>a>=60&&m>=60,title:'關係焦慮與「讀心術」互相加強',text:'擔心被拋下、又習慣猜測對方在想什麼，容易把模糊訊號（慢回訊息、語氣）解讀成否定。',ask:'上一次你猜對方在生氣，後來有向對方求證嗎？結果如何？'},
+{need:['bound','big5','stress'],f:()=>[val('bound'),val('big5','A'),val('stress')],t:(b,a,s)=>b<50&&a>=60&&s>=50,title:'體貼＋界線模糊，可能正在累積壓力',text:'你重視他人感受，但不太說「不」，付出可能超過你的負荷，壓力便悄悄累積。',ask:'這週你答應了哪件其實不想做的事？下次可以怎麼改寫回應？'},
+{need:['sdt','stress'],f:()=>[val('sdt','aut'),first(val('stress'),val('phq9'))],t:(a,s)=>a<45&&s>=50,title:'自主感偏低，與壓力或低落同時出現',text:'覺得生活是被推著走時，壓力與疲倦更容易增加。這是「相關」，不代表一定是原因，但值得從「一件我自己選的事」開始。',ask:'本週有哪一件事，我可以從「應該」改成「我選擇」？'},
+{need:['emo','sleep'],f:()=>[val('emo','rum'),val('sleep')],t:(r,s)=>r>=65&&s>=50,title:'反覆思索可能影響睡眠',text:'容易重播事件的人，睡前常是反芻最強的時候；睡不好又會降低隔天的情緒調節力。',ask:'睡前把盤旋的事寫成「明天要處理／我無法控制」兩欄，會有幫助嗎？'},
+{need:['emo','attach'],f:()=>[val('emo','sup'),attV()],t:(s,v)=>s>=65&&v>=60,title:'習慣壓抑情緒，也不太習慣靠近',text:'把感受藏起來能避免尷尬，但也讓別人不容易靠近你；這可能讓你更覺得「靠自己比較安全」。',ask:'有沒有一個安全的人，可以先分享一件小感受？'},
+{need:['big5','cd','stress'],f:()=>[val('big5','C'),val('cd','should'),val('stress')],t:(c,s,st)=>c>=65&&s>=60&&st>=50,title:'高盡責＋「應該」思維：完美主義式的壓力',text:'責任感是優勢，但搭配很多「應該」時，容易把標準訂得過高，壓力因此降不下來。',ask:'如果把「我應該…」改成「我希望…」，哪一項會變得比較輕？'},
+{need:['sdt','stress'],f:()=>[val('sdt','rel'),val('stress')],t:(r,s)=>r>=65&&s<=50,title:'歸屬感可能是你的緩衝',text:'有穩定連結的人較能承受壓力。你目前歸屬感高、壓力不高，這是值得珍惜的保護因子。',ask:'哪些人或活動在撐住你？有沒有固定排進行程？'},
+{need:['attach_d'],f:()=>[val('attach_d','aut'),val('attach_d','dis')],t:(u,v)=>u>=60&&v<50,title:'你抗拒的可能是「義務」，不是「親密」',text:'自主與義務敏感偏高、親密不適不高：當靠近是出於自願、被尊重選擇時，你可能是自在的；被要求與被控制才是反彈的來源。',ask:'如果靠近完全出於自願，我還會想退開嗎？我想保留的是什麼？'},
+{need:['anxd','iu'],f:()=>[val('anxd','avoid'),val('iu')],t:(a,u)=>a>=60&&u>=60,title:'迴避與安全行為，可能讓不確定更難忍受',text:'迴避、過度準備、尋求保證短期有效，但沒機會學到「我其實撐得住」，不確定性因此一直很可怕。',ask:'哪一個安全行為，是我可以先減少 10% 的？'},
+{need:['str','stress'],f:()=>[val('str','grit'),val('stress')],t:(g,s)=>g>=65&&s>=65,title:'堅毅可能讓你撐太久',text:'堅毅是優勢，但壓力偏高時，繼續硬撐可能耗損你。把「求助」也當成一種堅毅。',ask:'如果我的朋友處在我的狀況，我會建議他怎麼做？'},
+{need:['big5','emo'],f:()=>[val('big5','N'),val('emo','re')],t:(n,r)=>n>=65&&r<45,title:'情緒敏感，但較少用「重新詮釋」',text:'情緒細膩的人若較少練習換角度，容易被情緒帶著走。重新詮釋是可以練習的技巧。',ask:'下次心情起伏時，能想出一個「同樣事件的另一種解讀」嗎？'}
+];
 
 function vProfile(){
- const done=new Set(mem.history.map(x=>x.id)).size;
- if(!done)return `<h2 style="margin-top:0">我的心理檔案</h2><div class="card">完成幾個測驗後，這裡會自動整理出你的思維模式、心理需求、優勢與近期困擾。<br><br><button class="btn" data-a="tab" data-v="lobby">去做測驗</button></div>`;
- const s1=[];
- const cd=topKeys('cd',2),er=topKeys('emo',1);
- s1.push(cd?`<p>最常見的思考陷阱：${cd.map(x=>`<b>${x.n}</b>（${x.v}）`).join('、')}。${cd[0].d.hi}</p>`:need('cd'));
- s1.push(er?`<p>情緒調節上最偏好：<b>${er[0].n}</b>。${er[0].d.hi}</p>`:need('emo'));
- const nd=topKeys('sdt',1,1),at=latest('attach');
- const s2=[nd?`<p>目前最需要被滋養：<b>${nd[0].n}</b>（${nd[0].v}）。${nd[0].d.lo}</p>`:need('sdt')];
- if(at)s2.push(`<p>關係中的依附風格：<b>${esc(at.label)}</b></p>`);else s2.push(need('attach'));
- const st=topKeys('str',3),b5=topKeys('big5',2);
- const s3=[st?`<p>前三項優勢：${st.map(x=>`<b>${x.n}</b>`).join('、')}。${st[0].d.hi}</p>`:need('str')];
- if(b5)s3.push(`<p>性格上最突出：${b5.map(x=>`<b>${x.n}</b>`).join('、')}。</p>`);
- const flags=[];
- [['stress','壓力'],['sleep','睡眠'],['anx','焦慮'],['mood','情緒低落'],['iu','難以容忍不確定']].forEach(([id,n])=>{const l=latest(id);if(l&&l.scores.total>35)flags.push(`${n}（${l.scores.total}）`)});
- const bd=latest('bound');if(bd&&bd.scores.total<70)flags.push(`界線不夠清晰（${bd.scores.total}）`);
- const miss=['stress','sleep','anx','mood','iu','bound'].filter(id=>!latest(id));
- const care=['anx','mood'].some(id=>{const l=latest(id);return l&&l.scores.total>65});
- const s4=[flags.length?`<p>值得留意：<b>${flags.join('、')}</b>。可以從「心理練習」開始。</p>`:(miss.length<6?'<p>目前沒有特別偏高的困擾指標。</p>':''),
-  miss.length?`<div class="mute">尚未測：${miss.map(id=>`<button class="btn ghost sm" data-a="start" data-v="${id}">${byId(id).title}</button>`).join(' ')}</div>`:''];
- const sec=(t,a)=>`<div class="sect"><h3>${t}</h3>${a.join('')}</div>`;
- return `<h2 style="margin-top:0">我的心理檔案</h2><p class="mute">依你最近一次的測驗結果自動整理（${done}/${TESTS.length} 個測驗）。</p>
- ${sec('🧠 思維模式',s1)}${sec('🔋 心理需求',s2)}${sec('⭐ 優勢',s3)}${sec('🌧️ 困擾與壓力',s4)}
+ const ids=new Set(mem.history.map(x=>x.id));
+ if(!ids.size)return `<h2 style="margin-top:0">我的心理檔案</h2><div class="card">完成幾個測驗後，這裡會整合所有結果，找出不同特質之間「可能的關聯」，而不是單純羅列分數。<br><br><button class="btn" data-a="tab" data-v="lobby">去做測驗</button></div>`;
+ const MAP=[['壓力','stress'],['睡眠困擾','sleep'],['焦慮症狀（GAD-7）','gad7'],['低落症狀（PHQ-9）','phq9'],['難以容忍不確定','iu'],['界線清晰度','bound'],['災難化','cd','cat'],['讀心術','cd','mind'],['應該思維','cd','should'],['重新詮釋','emo','re'],['壓抑表達','emo','sup'],['反覆思索','emo','rum'],['自主感','sdt','aut'],['勝任感','sdt','com'],['歸屬感','sdt','rel'],['依附焦慮',null,0],['依附逃避',null,1],['外向性','big5','E'],['親和性','big5','A'],['盡責性','big5','C'],['情緒敏感度','big5','N'],['開放性','big5','O']];
+ const pts=MAP.map(m=>({n:m[0],v:m[1]===null?(m[2]?attV():attA()):(m[2]?val(m[1],m[2]):val(m[1]))})).filter(x=>x.v!=null);
+ const hits=[],miss=new Set();let unev=0;
+ RULES.forEach(r=>{const v=r.f();if(v.some(x=>x==null)){r.need.forEach(i=>{if(!ids.has(i)&&!(i==='gad7'&&ids.has('anxd'))&&!(i==='attach'&&ids.has('attach_d')))miss.add(i)});unev++}else if(r.t(...v))hits.push(r)});
+ const ins=hits.length?hits.map(r=>`<div class="card" style="margin:8px 0"><b>${r.title}</b><p>${r.text}</p><p class="mute">來自：${r.need.map(i=>byId(i).title.replace(/（正式量表）/,'')).join('、')}｜可以問自己：${r.ask}</p></div>`).join(''):`<div class="card">目前的資料裡，沒有出現明顯的跨測驗關聯。${unev?'再多做幾個測驗，可以解鎖更多比對。':'這也是好消息：各面向彼此沒有互相放大。'}</div>`;
+ const unlock=unev?`<p class="mute">還有 ${unev} 組關聯因資料不足尚未比對。補做：${[...miss].map(i=>`<button class="btn ghost sm" data-a="start" data-v="${i}">${byId(i).title.replace(/（正式量表）/,'')}</button>`).join(' ')}</p>`:'';
+ const fl=[];[['stress','壓力',35],['sleep','睡眠',35],['iu','不確定性',35]].forEach(([id,n,th])=>{const l=latest(id);if(l&&l.scores.total>th)fl.push(n+'達中等以上')});
+ [['gad7','焦慮'],['phq9','低落']].forEach(([id,n])=>{const l=latest(id);if(l&&l.scores.total>=10)fl.push(n+'量表達建議進一步評估（'+l.scores.total+'）')});
+ const bd=latest('bound');if(bd&&bd.scores.total<70)fl.push('界線不夠清晰');
+ const care=['gad7','phq9'].some(id=>{const l=latest(id);return l&&l.care});
+ const st=['cur','grit','grat','kind','cre','lead'].map(k=>({k,v:val('str',k)})).filter(x=>x.v!=null&&x.v>=55).sort((a,b)=>b.v-a.v).slice(0,3).map(x=>byId('str').dims[x.k].n);
+ return `<h2 style="margin-top:0">我的心理檔案</h2><p class="mute">整合你最近一次的測驗結果（已探索 ${new Set([...ids].map(i=>i.replace(/_d$/,''))).size} 個主題）。以下是「可能的關聯」假設，相關不等於因果。</p>
+ <h3>🔗 可能的關聯</h3>${ins}${unlock}
+ <h3 style="margin-top:22px">心理圖譜</h3><div class="card">${pts.map(p=>`<div class="bar" style="margin:6px 0"><div class="bl"><span>${p.n}</span><b>${Math.round(p.v)}</b></div><div class="bt"><i style="width:${p.v}%"></i></div></div>`).join('')}<p class="mute">數字代表該特質或症狀的程度（0–100），不是好壞。GAD-7、PHQ-9 以滿分換算。</p></div>
+ <h3 style="margin-top:22px">重點摘要</h3>
+ <div class="sect"><b>優勢</b><p>${st.length?'自評較高的優勢：'+st.join('、')+'。':(latest('str')?'個人優勢的自評都沒有特別高，這可能是你對自己比較嚴格，不代表沒有優勢。':'尚未做「個人優勢探索」。')}</p></div>
+ <div class="sect"><b>值得留意</b><p>${fl.length?fl.join('、')+'。可以從「心理練習」開始。':'目前沒有特別偏高的指標。'}</p></div>
  ${care?`<div class="care"><b>關心你一下：</b>${HELP}</div>`:''}
- <p class="note">檔案由你自評的分數整理而成，僅供自我了解，不能取代專業評估。</p>`;
+ <p class="note">檔案由你自評的分數與簡單規則整理而成，僅供自我了解，不能取代專業評估。</p>`;
 }
 
+/* ===== 圖表 ===== */
+function chart(t,hist,keys){
+ const W=640,H=220,P=30,n=hist.length,m=tmax(t);if(!n)return'';
+ const x=i=>n===1?W/2:P+i*(W-2*P)/(n-1),y=v=>H-P-v/m*(H-2*P);
+ let g=[0,m/2,m].map(v=>`<line x1="${P}" x2="${W-P}" y1="${y(v)}" y2="${y(v)}" stroke="currentColor" opacity=".15"/><text x="2" y="${y(v)+4}" font-size="11" fill="currentColor" opacity=".7">${Math.round(v)}</text>`).join('');
+ keys.forEach((k,j)=>{const pts=hist.map((h,i)=>[x(i),y(h.scores[k]==null?0:h.scores[k])]);
+  g+=`<polyline fill="none" stroke="${COL[j%6]}" stroke-width="2.5" points="${pts.map(p=>p.join(',')).join(' ')}"/>`+pts.map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="4" fill="${COL[j%6]}"/>`).join('')});
+ g+=hist.map((h,i)=>`<text x="${x(i)}" y="${H-8}" font-size="11" text-anchor="middle" fill="currentColor" opacity=".75">${new Date(h.ts).getMonth()+1}/${new Date(h.ts).getDate()}</text>`).join('');
+ return `<p class="mute" style="margin:8px 0 0">歷次變化</p><svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="成長趨勢圖">${g}</svg><div class="legend">${keys.map((k,j)=>`<span><i style="background:${COL[j%6]}"></i>${esc(nameOf(t,k))}</span>`).join('')}</div>`;
+}
 function radar(t,hist,keys){
  const n=keys.length;if(n<3||!hist.length)return'';
  const cx=140,cy=122,R=78;
  const pt=(i,v)=>{const a=-Math.PI/2+2*Math.PI*i/n;return[cx+Math.cos(a)*R*v/100,cy+Math.sin(a)*R*v/100]};
- const poly=(f)=>keys.map((k,i)=>pt(i,f(k)).map(x=>x.toFixed(1)).join(',')).join(' ');
+ const poly=f=>keys.map((k,i)=>pt(i,f(k)).map(x=>x.toFixed(1)).join(',')).join(' ');
  let g=[25,50,75,100].map(v=>`<polygon points="${keys.map((k,i)=>pt(i,v).join(',')).join(' ')}" fill="none" stroke="currentColor" opacity=".15"/>`).join('');
- g+=keys.map((k,i)=>{const e=pt(i,100),l=pt(i,122);const an=l[0]<cx-8?'end':l[0]>cx+8?'start':'middle';return `<line x1="${cx}" y1="${cy}" x2="${e[0]}" y2="${e[1]}" stroke="currentColor" opacity=".15"/><text x="${l[0]}" y="${l[1]+4}" font-size="12" text-anchor="${an}" fill="currentColor">${esc(nameOf(t,k))}</text>`}).join('');
- const last=hist[hist.length-1],first=hist[0];
- if(hist.length>1)g+=`<polygon points="${poly(k=>first.scores[k]||0)}" fill="none" stroke="var(--acc2)" stroke-width="2" stroke-dasharray="5 4"/>`;
+ g+=keys.map((k,i)=>{const e=pt(i,100),l=pt(i,124);const an=l[0]<cx-8?'end':l[0]>cx+8?'start':'middle';return `<line x1="${cx}" y1="${cy}" x2="${e[0]}" y2="${e[1]}" stroke="currentColor" opacity=".15"/><text x="${l[0]}" y="${l[1]+4}" font-size="12" text-anchor="${an}" fill="currentColor">${esc(nameOf(t,k))}</text>`}).join('');
+ const last=hist[hist.length-1],f0=hist[0];
+ if(hist.length>1)g+=`<polygon points="${poly(k=>f0.scores[k]||0)}" fill="none" stroke="var(--acc2)" stroke-width="2" stroke-dasharray="5 4"/>`;
  g+=`<polygon points="${poly(k=>last.scores[k]||0)}" fill="var(--acc)" fill-opacity=".28" stroke="var(--acc)" stroke-width="2.5"/>`;
  return `<svg viewBox="0 0 280 244" width="100%" style="max-width:380px;display:block;margin:auto" role="img" aria-label="雷達圖">${g}</svg><div class="legend" style="justify-content:center"><span><i style="background:var(--acc)"></i>最近一次</span>${hist.length>1?'<span><i style="background:var(--acc2)"></i>第一次</span>':''}</div>`;
 }
-function spark(vals){
+function scatter(t,hist){
+ const [kx,ky]=t.xy;if(!hist.length)return'';
+ const X=v=>44+v/100*236,Y=v=>272-v/100*236;
+ const pts=hist.map(h=>[X(h.scores[kx]),Y(h.scores[ky])]);
+ let g=`<rect x="44" y="36" width="236" height="236" fill="none" stroke="currentColor" opacity=".25"/><line x1="162" x2="162" y1="36" y2="272" stroke="currentColor" opacity=".25" stroke-dasharray="4 4"/><line x1="44" x2="280" y1="154" y2="154" stroke="currentColor" opacity=".25" stroke-dasharray="4 4"/>`;
+ g+=`<text x="50" y="266" font-size="11" fill="currentColor" opacity=".8">穩定自在</text><text x="50" y="50" font-size="11" fill="currentColor" opacity=".8">重視距離</text><text x="274" y="266" font-size="11" text-anchor="end" fill="currentColor" opacity=".8">渴望靠近</text><text x="274" y="50" font-size="11" text-anchor="end" fill="currentColor" opacity=".8">想靠近又怕受傷</text>`;
+ g+=`<text x="162" y="298" font-size="12" text-anchor="middle" fill="currentColor">${esc(t.dims[kx].n)} →</text><text transform="translate(14 154) rotate(-90)" font-size="12" text-anchor="middle" fill="currentColor">${esc(t.dims[ky].n)} →</text>`;
+ if(pts.length>1)g+=`<polyline points="${pts.map(p=>p.join(',')).join(' ')}" fill="none" stroke="var(--acc2)" stroke-width="1.5" stroke-dasharray="4 3"/>`+pts.slice(0,-1).map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="5" fill="var(--acc2)" opacity=".6"/>`).join('');
+ const l=pts[pts.length-1];g+=`<circle cx="${l[0]}" cy="${l[1]}" r="8" fill="var(--acc)" stroke="var(--card)" stroke-width="2"/><text x="${l[0]}" y="${l[1]-12}" font-size="11" text-anchor="middle" fill="currentColor">現在</text>`;
+ return `<p class="mute" style="margin:0">依附座標圖（連續座標，不是類型）</p><svg viewBox="0 0 300 304" width="100%" style="max-width:420px;display:block;margin:auto" role="img" aria-label="依附二維座標圖">${g}</svg>`;
+}
+function spark(vals,m){
  if(vals.length<2)return'<span class="mute">—</span>';
- const W=90,H=26,x=i=>3+i*(W-6)/(vals.length-1),y=v=>H-3-v/100*(H-6);
+ const W=90,H=26,x=i=>3+i*(W-6)/(vals.length-1),y=v=>H-3-v/m*(H-6);
  return `<svg viewBox="0 0 ${W} ${H}" width="90" height="26"><polyline fill="none" stroke="var(--acc)" stroke-width="2" points="${vals.map((v,i)=>x(i)+','+y(v)).join(' ')}"/><circle cx="${x(vals.length-1)}" cy="${y(vals[vals.length-1])}" r="3" fill="var(--acc2)"/></svg>`;
 }
 function moodChart(m){
  const d=m.slice(-14);if(!d.length)return'';
  const W=640,H=150,P=24,bw=Math.min(34,(W-2*P)/d.length-6);
  const x=i=>P+(i+.5)*(W-2*P)/d.length,y=v=>H-P-v/10*(H-2*P);
- return `<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="心情強度圖">`+[0,5,10].map(v=>`<line x1="${P}" x2="${W-P}" y1="${y(v)}" y2="${y(v)}" stroke="currentColor" opacity=".15"/><text x="2" y="${y(v)+4}" font-size="11" fill="currentColor" opacity=".6">${v}</text>`).join('')+d.map((e,i)=>`<rect x="${x(i)-bw/2}" y="${y(e.i)}" width="${bw}" height="${H-P-y(e.i)}" rx="4" fill="var(--acc)" opacity=".8"/><text x="${x(i)}" y="${H-8}" font-size="10" text-anchor="middle" fill="currentColor" opacity=".7">${esc(e.e)}</text>`).join('')+`</svg>`;
+ return `<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="心情強度圖">`+[0,5,10].map(v=>`<line x1="${P}" x2="${W-P}" y1="${y(v)}" y2="${y(v)}" stroke="currentColor" opacity=".15"/><text x="2" y="${y(v)+4}" font-size="11" fill="currentColor" opacity=".7">${v}</text>`).join('')+d.map((e,i)=>`<rect x="${x(i)-bw/2}" y="${y(e.i)}" width="${bw}" height="${H-P-y(e.i)}" rx="4" fill="var(--acc)" opacity=".8"/><text x="${x(i)}" y="${H-8}" font-size="10" text-anchor="middle" fill="currentColor" opacity=".75">${esc(e.e)}</text>`).join('')+`</svg>`;
 }
 const COL=['#5d6e59','#bb933f','#6d7bd6','#ad7366','#7aa84a','#8a6f9e'];
-function chart(t,hist,keys){
- const W=640,H=220,P=30,n=hist.length;if(!n)return'';
- const x=i=>n===1?W/2:P+i*(W-2*P)/(n-1),y=v=>H-P-v/100*(H-2*P);
- let g=[0,50,100].map(v=>`<line x1="${P}" x2="${W-P}" y1="${y(v)}" y2="${y(v)}" stroke="currentColor" opacity=".15"/><text x="2" y="${y(v)+4}" font-size="11" fill="currentColor" opacity=".6">${v}</text>`).join('');
- keys.forEach((k,j)=>{const pts=hist.map((h,i)=>[x(i),y(h.scores[k]==null?0:h.scores[k])]);
-  g+=`<polyline fill="none" stroke="${COL[j%6]}" stroke-width="2.5" points="${pts.map(p=>p.join(',')).join(' ')}"/>`+pts.map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="4" fill="${COL[j%6]}"/>`).join('')});
- g+=hist.map((h,i)=>`<text x="${x(i)}" y="${H-8}" font-size="11" text-anchor="middle" fill="currentColor" opacity=".7">${new Date(h.ts).getMonth()+1}/${new Date(h.ts).getDate()}</text>`).join('');
- return `<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="成長趨勢圖">${g}</svg><div class="legend">${keys.map((k,j)=>`<span><i style="background:${COL[j%6]}"></i>${esc(nameOf(t,k))}</span>`).join('')}</div>`;
-}
+
 function vGrowth(){
  const ids=[...new Set(mem.history.map(x=>x.id))];
  if(!ids.length)return `<h2 style="margin-top:0">成長追蹤</h2><div class="card">還沒有紀錄。同一個測驗隔一段時間再做一次，就能在這裡比較變化。<br><br><button class="btn" data-a="tab" data-v="lobby">去做測驗</button></div>`;
@@ -401,9 +578,9 @@ function vGrowth(){
  if(hist.length>1){const a=hist[0],b=hist[hist.length-1];diff=`<h2>第一次 → 最近一次</h2><table>${keys.map(k=>{const d=(b.scores[k]||0)-(a.scores[k]||0);return `<tr><td>${esc(nameOf(t,k))}</td><td>${a.scores[k]}</td><td>→ ${b.scores[k]}</td><td><b>${d>0?'+':''}${d}</b></td></tr>`}).join('')}</table>`}
  else diff='<p class="mute">再做一次同一個測驗，就能看到變化。</p>';
  return `<h2 style="margin-top:0">成長追蹤</h2>
- <h3>總覽</h3><div class="card"><table>${ids.map(i=>{const tt=byId(i),hh=mem.history.filter(x=>x.id===i);const sp=(tt.dims||tt.kind!=='likert')?'':spark(hh.map(x=>x.scores.total));return `<tr><td>${tt.em} ${tt.title}</td><td>${hh.length} 次</td><td>${esc(hh[hh.length-1].label)}</td><td>${sp}</td></tr>`}).join('')}</table></div>
- <h3 style="margin-top:18px">詳細圖表</h3><div class="chips">${ids.map(i=>`<button class="chip ${i===id?'on':''}" data-a="growth" data-v="${i}">${byId(i).title}</button>`).join('')}</div>
- <div class="card">${radar(t,hist,keys)}${chart(t,hist,keys)}</div>${diff}
+ <h3>總覽</h3><div class="card"><table>${ids.map(i=>{const tt=byId(i),hh=mem.history.filter(x=>x.id===i);const sp=(!tt.dims&&(tt.kind==='likert'||tt.kind==='sum'))?spark(hh.map(x=>x.scores.total),tmax(tt)):'';return `<tr><td>${icon(tt,22)} ${esc(tt.title.replace(/（正式量表）/,''))}</td><td>${hh.length} 次</td><td>${esc(hh[hh.length-1].label)}</td><td>${sp}</td></tr>`}).join('')}</table></div>
+ <h3 style="margin-top:18px">詳細圖表</h3><div class="chips">${ids.map(i=>`<button class="chip ${i===id?'on':''}" data-a="growth" data-v="${i}">${esc(byId(i).title.replace(/（正式量表）/,''))}</button>`).join('')}</div>
+ <div class="card">${t.xy?scatter(t,hist):''}${radar(t,hist,keys)}${chart(t,hist,keys)}</div>${diff}
  <h2>歷次紀錄</h2><table>${hist.map(h=>`<tr><td>${fmt(h.ts)}</td><td>${esc(h.label)}</td><td style="text-align:right"><button class="btn ghost sm" data-a="del" data-v="${h.ts}">刪除</button></td></tr>`).join('')}</table>
  <p class="row" style="margin-top:20px"><button class="btn ghost sm" data-a="wipe">清除所有紀錄</button></p>`;
 }
@@ -488,8 +665,8 @@ document.addEventListener('input',e=>{
  if(['fact','feel','ask','alt'].includes(k)){const f=S.f;$('#sent').textContent=`當${f.fact||'（事實）'}，我覺得${f.feel||'（感受）'}。我希望${f.ask||'（請求）'}。${f.alt?'如果不行，我可以'+f.alt+'。':''}`}
 });
 function finish(){
- const r=S.run,t=byId(r.id),s=score(t,r.a),x=interpret(t,s);
- mem.history.push({id:t.id,ts:Date.now(),scores:s,label:x.title});persist();
+ const r=S.run,t=byId(r.id),s=score(t,r.a),x=interpret(t,s,r.a);
+ mem.history.push({id:t.id,ts:Date.now(),scores:s,label:x.title,care:!!x.care});persist();
  S.run=null;S.res={t,s,r:x};render();window.scrollTo(0,0);
 }
 const h0=(location.hash||'').slice(1);if(TABS.some(t=>t[0]===h0))S.tab=h0;
