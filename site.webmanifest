@@ -1,7 +1,7 @@
 {
   "name": "MOOD LAB — 私人手札",
   "short_name": "MOOD LAB",
-  "description": "A quiet place for your thoughts.",
+  "description": "心理測驗、情緒紀錄與成長追蹤的私人研究室。",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
